@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page - Semangat Belajar!</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Link to external CSS -->
+    <link rel="stylesheet" href="style_login.css">
+</head>
+<body>
+    <div class="overlay"></div> <!-- Blur overlay -->
+    <div class="container">
+        <div class="left-panel">
+            <img src="images/logo.png" alt="Education Illustration">
+            <h1>Belajar Menjadi Menyenangkan!</h1>
+            <p>Temukan cara baru untuk mengatur jadwal, absen, dan nilai Anda. Bersama Sistem Akademik Universitas Arits, setiap detik belajar lebih berharga!</p>
+        </div>
+        <div class="right-panel">
+            <h2>Login</h2>
+            <p>Masuk dan mulai petualangan belajar Anda.</p>
+            <form action="login.php" method="POST">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="login-btn">LOGIN</button>
+                <div class="extra-links">
+                    <a href="register.html">New User? Signup</a> | 
+                    <a href="#">Forgot your password?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
