@@ -37,13 +37,13 @@ if ($stmt) {
             // Arahkan berdasarkan peran pengguna
             switch ($row['role']) {
                 case 'admin':
-                    header("Location: views/admin_dashboard.php");
+                    header("Location: views/admin/home.php");
                     break;
                 case 'dosen':
-                    header("Location: views/lecturer_dashboard.php");
+                    header("Location: views/dosen/lecturer_dashboard.php");
                     break;
                 case 'mahasiswa':
-                    header("Location: views/student_dashboard.php");
+                    header("Location: views/mahasiswa/student_dashboard.php");
                     break;
                 default:
                     // Jika role tidak dikenali, kembalikan ke login.html
