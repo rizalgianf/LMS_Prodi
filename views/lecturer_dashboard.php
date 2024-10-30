@@ -2,7 +2,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'dosen') {
-    header("Location: ../index.php");
+    header("Location: ../login.php");
     exit();
 }
 ?>
