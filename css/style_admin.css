@@ -136,13 +136,12 @@ body {
 .card a:hover {
     background-color: #369583; /* Warna hijau gelap saat hover tombol */
 }
-
 .main-footer {
     background-color: #43cea2; /* Warna utama untuk footer */
     color: #ffffff; /* Warna teks footer */
     text-align: center; /* Menjaga teks footer berada di tengah */
     padding: 15px 0; /* Padding atas dan bawah untuk footer */
-    position: relative;
+    position: fixed; /* Mengunci footer di bawah */
     bottom: 0; /* Menjaga footer di bawah */
     width: 100%; /* Lebar penuh */
 }
