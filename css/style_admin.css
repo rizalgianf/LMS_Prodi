@@ -1,147 +1,147 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4; /* Warna latar belakang yang lembut */
 }
 
 .main-header {
-    background-color: #43cea2; /* Warna utama untuk header */
-    color: #ffffff; /* Warna teks putih untuk kontras */
-    padding: 10px 0; /* Padding atas dan bawah */
+    background-color: #93C572; /* Warna utama untuk header (Hijau Pistachio) */
+    color: #333333; /* Warna teks putih untuk kontras */
+    padding: 10px 1; /* Padding atas dan bawah */
 }
 
 .header-container {
     display: flex;
-    align-items: center; /* Pastikan logo dan judul berada dalam satu baris */
-    width: 90%; /* Mengatur lebar maksimum */
-    margin: 0 auto; /* Mengatur agar berada di tengah */
-    padding: 0; /* Menghapus padding horizontal untuk memaksimalkan penggunaan ruang */
+    align-items: center;
+    width: 98%;
+    margin: 0 auto;
+    padding: 0;
 }
 
 .site-title {
-    margin: 0; /* Menghilangkan margin agar lebih mepet */
-    font-size: 24px; /* Ukuran font judul */
+    margin: 0;
+    font-size: 24px;
 }
 
 .logo {
-    width: 80px; /* Sesuaikan ukuran logo sesuai kebutuhan */
-    height: auto; /* Mempertahankan aspek rasio */
-    margin-right: 10px; /* Jarak antara logo dan judul */
-    vertical-align: middle; /* Vertikal align logo */
+    width: 80px;
+    height: auto;
+    margin-right: 10px;
+    vertical-align: middle;
 }
 
 .main-nav ul {
-    list-style-type: none; /* Menghilangkan bullet pada list */
-    margin: 0; /* Menghilangkan margin */
-    padding: 0; /* Menghilangkan padding */
-    display: flex; /* Menyusun link dalam baris */
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
 }
 
 .main-nav ul li {
-    margin-left: 15px; /* Jarak antar item menu */
+    margin-left: 15px;
 }
 
 .main-nav ul li a {
-    color: #ffffff; /* Warna link putih */
-    text-decoration: none; /* Menghilangkan garis bawah */
-    padding: 8px 15px; /* Padding untuk link */
-    border-radius: 5px; /* Rounded corners */
-    transition: background-color 0.3s; /* Transisi halus saat hover */
+    color: #333333;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
 }
 
 .main-nav ul li a:hover {
-    background-color: #369583; /* Warna hijau gelap saat hover */
+    background-color: #7BA860; /* Warna hijau gelap saat hover */
 }
 
 .main-container {
-    display: flex; /* Menggunakan flexbox untuk layout */
+    display: flex;
 }
 
-/* Navbar Samping */
 .sidebar {
-    width: 250px; /* Lebar navbar */
-    background-color: #43cea2; /* Warna utama untuk navbar */
-    height: 100vh; /* Tinggi penuh */
-    padding: 20px; /* Padding di navbar */
-    position: fixed; /* Mengunci navbar di sisi */
-    top: 0; /* Menjaga navbar tetap di atas */
-    left: 0; /* Menjaga navbar tetap di sisi kiri */
+    width: 250px;
+    background-color: #93C572; /* Warna utama untuk sidebar */
+    height: 100vh;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 
 .sidebar ul {
-    list-style-type: none; /* Menghilangkan bullet pada list */
-    padding: 0; /* Menghilangkan padding */
+    list-style-type: none;
+    padding: 0;
 }
 
 .sidebar ul li {
-    margin: 15px 0; /* Jarak antar item */
+    margin: 15px 0;
 }
 
 .sidebar ul li a {
-    color: #ffffff; /* Warna link putih */
-    text-decoration: none; /* Menghilangkan garis bawah */
-    padding: 10px; /* Padding untuk link */
-    display: block; /* Membuat link menjadi block */
-    border-radius: 5px; /* Rounded corners */
-    transition: background-color 0.3s; /* Transisi halus saat hover */
+    color: #ffffff;
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+    border-radius: 5px;
+    transition: background-color 0.3s;
 }
 
 .sidebar ul li a:hover {
-    background-color: #369583; /* Warna hijau gelap saat hover */
+    background-color: #7BA860; /* Warna hijau gelap saat hover */
 }
 
 .content-container {
-    margin-left: 270px; /* Memberikan ruang untuk navbar */
-    padding: 20px; /* Padding untuk konten */
-    width: calc(100% - 270px); /* Menyesuaikan lebar konten */
+    margin-left: 270px;
+    padding: 20px;
+    width: calc(100% - 270px);
 }
 
 .page-title {
-    font-size: 28px; /* Ukuran font untuk judul halaman */
-    color: #333333; /* Warna teks untuk judul halaman */
-    margin-bottom: 20px; /* Jarak bawah judul */
+    font-size: 28px;
+    color: #333333;
+    margin-bottom: 20px;
 }
 
 .dashboard-cards {
-    display: flex; /* Menggunakan flexbox untuk kartu */
-    flex-wrap: wrap; /* Membungkus kartu jika melebihi lebar */
-    gap: 20px; /* Jarak antar kartu */
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .card {
-    background-color: #ffffff; /* Warna latar belakang kartu */
-    border: 1px solid #ddd; /* Garis border abu-abu */
-    padding: 20px; /* Padding untuk kartu */
-    width: calc(25% - 20px); /* Lebar kartu, 4 kartu per baris */
-    border-radius: 8px; /* Rounded corners */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Bayangan untuk efek 3D */
-    text-align: center; /* Centered text */
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    width: calc(25% - 20px);
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 .card h3 {
-    font-size: 20px; /* Ukuran font untuk judul kartu */
-    margin-bottom: 10px; /* Jarak bawah judul kartu */
+    font-size: 20px;
+    margin-bottom: 10px;
 }
 
 .card a {
-    display: inline-block; /* Menyusun link sebagai block */
-    padding: 10px 15px; /* Padding untuk tombol */
-    background-color: #43cea2; /* Warna utama untuk tombol */
-    color: #ffffff; /* Warna teks tombol */
-    border-radius: 5px; /* Rounded corners */
-    text-decoration: none; /* Menghilangkan garis bawah */
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #93C572; /* Warna utama untuk tombol */
+    color: #ffffff;
+    border-radius: 5px;
+    text-decoration: none;
 }
 
 .card a:hover {
-    background-color: #369583; /* Warna hijau gelap saat hover tombol */
+    background-color: #7BA860; /* Warna hijau gelap saat hover tombol */
 }
+
 .main-footer {
-    background-color: #43cea2; /* Warna utama untuk footer */
-    color: #ffffff; /* Warna teks footer */
-    text-align: center; /* Menjaga teks footer berada di tengah */
-    padding: 15px 0; /* Padding atas dan bawah untuk footer */
-    position: fixed; /* Mengunci footer di bawah */
-    bottom: 0; /* Menjaga footer di bawah */
-    width: 100%; /* Lebar penuh */
+    background-color: #93C572; /* Warna utama untuk footer */
+    color: #333333;
+    text-align: center;
+    padding: 0px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
