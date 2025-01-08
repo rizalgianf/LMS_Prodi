@@ -10,7 +10,7 @@
     <header class="main-header">
         <div class="header-container">
             <img src="../../images/logo.png" alt="Logo SIAKAD" class="logo"> <!-- Menambahkan logo -->
-            <h1 class="site-title">CLASS++ Admin Dashboard</h1>
+            <h1 class="site-title">Learning Management System Admin Dashboard</h1>
             <nav class="main-nav">
                 <ul>
                     <li><a href="home.php">Home</a></li>
