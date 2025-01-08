@@ -122,6 +122,12 @@ function editJadwal(jadwal) {
     document.getElementById('waktu_mulai').value = jadwal.waktu_mulai;
     document.getElementById('waktu_selesai').value = jadwal.waktu_selesai;
 }
+
+// Set minimum date to today
+document.addEventListener('DOMContentLoaded', function() {
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementById('tanggal').setAttribute('min', today);
+});
 </script>
 
 <?php include '../../includes/footer.php'; ?>

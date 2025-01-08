@@ -91,7 +91,7 @@ body {
 }
 
 .content-container {
-    margin-left: 270px;
+    margin: 0 auto;
     padding: 20px;
     width: calc(100% - 270px);
 }
