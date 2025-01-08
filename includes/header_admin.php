@@ -17,7 +17,7 @@
                     <li><a href="daftar_mahasiswa.php">Daftar Mahasiswa</a></li>
                     <li><a href="daftar_dosen.php">Daftar Dosen</a></li>
                     <li><a href="jadwal_kuliah.php">Jadwal Kuliah</a></li>
-                    <li><a href="monitor_absen.php">Monitor Absen</a></li>
+                    <li><a href="kbm.php">KBM</a></li>
                     <li><a href="../../logout.php">Logout</a></li>
                 </ul>
             </nav>

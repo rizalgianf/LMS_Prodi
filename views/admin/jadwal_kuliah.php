@@ -71,7 +71,6 @@ if ($result_dosen->num_rows > 0) {
             <option value="Rabu">Rabu</option>
             <option value="Kamis">Kamis</option>
             <option value="Jumat">Jumat</option>
-            <option value="Sabtu">Sabtu</option>
         </select>
         <label for="tanggal">Tanggal:</label>
         <input type="date" name="tanggal" id="tanggal" required>

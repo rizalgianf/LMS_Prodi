@@ -33,6 +33,7 @@ if ($stmt) {
             // Set session berdasarkan data user
             $_SESSION['username'] = $user;
             $_SESSION['role'] = $row['role'];
+            $_SESSION['user_id'] = $row['id']; // Simpan user_id dalam sesi
 
             // Arahkan berdasarkan peran pengguna
             switch ($row['role']) {

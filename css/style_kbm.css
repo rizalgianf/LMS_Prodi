@@ -1,0 +1,121 @@
+/* Reset default browser styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f0f8ff;
+    color: #333;
+    line-height: 1.6;
+}
+
+.main-content {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.page-title {
+    text-align: center;
+    color: #1e90ff;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+form label {
+    font-weight: bold;
+    color: #1e90ff;
+}
+
+form input,
+form select,
+form button,
+form textarea {
+    padding: 10px;
+    border: 1px solid #1e90ff;
+    border-radius: 4px;
+}
+
+form button {
+    background-color: #1e90ff;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #1c86ee;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.data-table th,
+.data-table td {
+    padding: 10px;
+    border: 1px solid #1e90ff;
+    text-align: left;
+}
+
+.data-table th {
+    background-color: #1e90ff;
+    color: #fff;
+}
+
+.data-table tr:nth-child(even) {
+    background-color: #f0f8ff;
+}
+
+.data-table tr:hover {
+    background-color: #e0f7ff;
+}
+
+.data-table a {
+    padding: 5px 10px;
+    border: none;
+    background-color: #ff4500;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.data-table a:hover {
+    background-color: #ff6347;
+}
+
+.forum-diskusi {
+    margin-top: 20px;
+}
+
+.pesan {
+    padding: 10px;
+    border: 1px solid #1e90ff;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    background-color: #f0f8ff;
+}
+
+.pesan p {
+    margin: 5px 0;
+}
+
+.pesan small {
+    color: #666;
+}
