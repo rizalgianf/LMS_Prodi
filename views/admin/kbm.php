@@ -111,8 +111,8 @@ $conn->close();
                     <td><?php echo $kelas['mata_kuliah']; ?></td>
                     <td><?php echo $kelas['dosen']; ?></td>
                     <td>
-                        <a href="kelola_kelas.php?id=<?php echo $kelas['id']; ?>">Kelola</a>
-                        <a href="hapus_kelas.php?id=<?php echo $kelas['id']; ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus kelas ini?')">Hapus</a>
+                        <a href="kelola_kelas.php?id=<?php echo $kelas['id']; ?>" class="kelola">Kelola</a>
+                        <a href="hapus_kelas.php?id=<?php echo $kelas['id']; ?>" class="hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus kelas ini?')">Hapus</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

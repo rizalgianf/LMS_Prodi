@@ -82,8 +82,10 @@ $conn->close();
                     <td><?php echo $dosen['nama']; ?></td>
                     <td><?php echo $dosen['username']; ?></td>
                     <td>
-                        <a href="edit_dosen.php?id=<?php echo $dosen['id']; ?>" class="edit">Edit</a>
-                        <a href="hapus_dosen.php?id=<?php echo $dosen['id']; ?>" class="delete" onclick="return confirm('Apakah Anda yakin ingin menghapus dosen ini?')">Delete</a>
+                        <div class="action-buttons">
+                            <a href="edit_dosen.php?id=<?php echo $dosen['id']; ?>" class="edit">Edit</a>
+                            <a href="hapus_dosen.php?id=<?php echo $dosen['id']; ?>" class="delete" onclick="return confirm('Apakah Anda yakin ingin menghapus dosen ini?')">Delete</a>
+                        </div>
                     </td>
                 </tr>
             <?php endforeach; ?>

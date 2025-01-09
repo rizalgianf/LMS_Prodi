@@ -82,8 +82,8 @@ $conn->close();
                     <td><?php echo $mahasiswa['nama']; ?></td>
                     <td><?php echo $mahasiswa['username']; ?></td>
                     <td>
-                        <a href="edit_mahasiswa.php?id=<?php echo $mahasiswa['id']; ?>">Edit</a>
-                        <a href="hapus_mahasiswa.php?id=<?php echo $mahasiswa['id']; ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus mahasiswa ini?')">Delete</a>
+                        <a class="edit" href="edit_mahasiswa.php?id=<?php echo $mahasiswa['id']; ?>">Edit</a>
+                        <a class="delete" href="hapus_mahasiswa.php?id=<?php echo $mahasiswa['id']; ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus mahasiswa ini?')">Delete</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

@@ -89,15 +89,26 @@ form button:hover {
 .data-table a {
     padding: 5px 10px;
     border: none;
-    background-color: #ff4500;
     color: #fff;
     text-decoration: none;
     border-radius: 4px;
     transition: background-color 0.3s ease;
 }
 
-.data-table a:hover {
-    background-color: #ff6347;
+.data-table a.kelola {
+    background-color: #4CAF50; /* Warna hijau untuk tombol Kelola */
+}
+
+.data-table a.kelola:hover {
+    background-color: #45a049;
+}
+
+.data-table a.hapus {
+    background-color: #f44336; /* Warna merah untuk tombol Hapus */
+}
+
+.data-table a.hapus:hover {
+    background-color: #e53935;
 }
 
 .forum-diskusi {

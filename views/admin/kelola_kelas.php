@@ -103,7 +103,7 @@ $conn->close();
                     <td><?php echo $pertemuan['tanggal']; ?></td>
                     <td><?php echo $pertemuan['topik']; ?></td>
                     <td>
-                        <a href="kelola_pertemuan.php?id=<?php echo $pertemuan['id']; ?>">Kelola</a>
+                        <a class="kelola" href="kelola_pertemuan.php?id=<?php echo $pertemuan['id']; ?>">Kelola</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

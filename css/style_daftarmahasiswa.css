@@ -13,7 +13,6 @@ body {
 }
 
 .main-content {
-    
     max-width: 1200px;
     margin: 20px auto;
     padding: 20px;
@@ -102,14 +101,29 @@ form button:hover {
 .data-table a {
     padding: 5px 10px;
     border: none;
-    background-color: #ff4500;
     color: #fff;
     text-decoration: none;
     border-radius: 4px;
     transition: background-color 0.3s ease;
 }
 
-.data-table a:hover {
-    background-color: #ff6347;
+.data-table a.edit {
+    background-color: #4CAF50; /* Warna hijau untuk tombol Edit */
 }
 
+.data-table a.edit:hover {
+    background-color: #45a049;
+}
+
+.data-table a.delete {
+    background-color: #f44336; /* Warna merah untuk tombol Delete */
+}
+
+.data-table a.delete:hover {
+    background-color: #e53935;
+}
+
+.data-table td .action-buttons {
+    display: flex;
+    gap: 10px;
+}
