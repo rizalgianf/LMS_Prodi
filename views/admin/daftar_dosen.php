@@ -82,6 +82,7 @@ $conn->close();
                     <td><?php echo $dosen['nama']; ?></td>
                     <td><?php echo $dosen['username']; ?></td>
                     <td>
+                        <a href="edit_dosen.php?id=<?php echo $dosen['id']; ?>">Edit</a>
                         <a href="hapus_dosen.php?id=<?php echo $dosen['id']; ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus dosen ini?')">Delete</a>
                     </td>
                 </tr>

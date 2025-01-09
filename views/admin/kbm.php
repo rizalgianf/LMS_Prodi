@@ -11,7 +11,7 @@ include '../../config/database.php'; // Koneksi database
 $page_title = "Kegiatan Belajar Mengajar";
 include '../../includes/header_admin.php';
 
-// Ambil data mata kuliah dan dosen dari database
+// Ambil data mata kuliah dari database
 $sql_mk = "SELECT * FROM mata_kuliah";
 $result_mk = $conn->query($sql_mk);
 $mata_kuliah_list = [];
@@ -21,6 +21,7 @@ if ($result_mk->num_rows > 0) {
     }
 }
 
+// Ambil data dosen dari tabel users dengan role dosen
 $sql_dosen = "SELECT * FROM dosen";
 $result_dosen = $conn->query($sql_dosen);
 $dosen_list = [];
@@ -92,6 +93,7 @@ $conn->close();
         </select>
         <button type="submit" name="buat_kelas">Buat Kelas</button>
     </form>
+    <h3>Daftar Kelas</h3>
     <table class="data-table">
         <thead>
             <tr>
@@ -109,6 +111,7 @@ $conn->close();
                     <td><?php echo $kelas['dosen']; ?></td>
                     <td>
                         <a href="kelola_kelas.php?id=<?php echo $kelas['id']; ?>">Kelola</a>
+                        <a href="hapus_kelas.php?id=<?php echo $kelas['id']; ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus kelas ini?')">Hapus</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
