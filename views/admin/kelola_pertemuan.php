@@ -21,11 +21,11 @@ if (empty($pertemuan_id)) {
 }
 
 // Ambil data pertemuan
-$sql_pertemuan = "SELECT pertemuan.id, pertemuan.tanggal, pertemuan.topik, kelas.nama_kelas, mata_kuliah.nama AS mata_kuliah, dosen.nama AS dosen
+$sql_pertemuan = "SELECT pertemuan.id, pertemuan.tanggal, pertemuan.topik, kelas.nama_kelas, mata_kuliah.nama AS mata_kuliah, users.nama AS dosen
                   FROM pertemuan
                   JOIN kelas ON pertemuan.kelas_id = kelas.id
                   JOIN mata_kuliah ON kelas.mata_kuliah_id = mata_kuliah.id
-                  JOIN dosen ON kelas.dosen_id = dosen.id
+                  JOIN users ON kelas.dosen_id = users.id
                   WHERE pertemuan.id = ?";
 $stmt_pertemuan = $conn->prepare($sql_pertemuan);
 $stmt_pertemuan->bind_param("i", $pertemuan_id);
@@ -33,6 +33,11 @@ $stmt_pertemuan->execute();
 $result_pertemuan = $stmt_pertemuan->get_result();
 $pertemuan = $result_pertemuan->fetch_assoc();
 $stmt_pertemuan->close();
+
+if (!$pertemuan) {
+    echo "Pertemuan tidak ditemukan.";
+    exit();
+}
 
 // Proses form untuk upload file
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['upload_file'])) {

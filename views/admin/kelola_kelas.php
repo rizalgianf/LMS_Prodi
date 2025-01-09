@@ -18,10 +18,10 @@ if (empty($kelas_id)) {
 }
 
 // Ambil data kelas
-$sql_kelas = "SELECT kelas.id, kelas.nama_kelas, mata_kuliah.nama AS mata_kuliah, dosen.nama AS dosen
+$sql_kelas = "SELECT kelas.id, kelas.nama_kelas, mata_kuliah.nama AS mata_kuliah, users.nama AS dosen
               FROM kelas
               JOIN mata_kuliah ON kelas.mata_kuliah_id = mata_kuliah.id
-              JOIN dosen ON kelas.dosen_id = dosen.id
+              JOIN users ON kelas.dosen_id = users.id
               WHERE kelas.id = ?";
 $stmt_kelas = $conn->prepare($sql_kelas);
 $stmt_kelas->bind_param("i", $kelas_id);
@@ -29,6 +29,11 @@ $stmt_kelas->execute();
 $result_kelas = $stmt_kelas->get_result();
 $kelas = $result_kelas->fetch_assoc();
 $stmt_kelas->close();
+
+if (!$kelas) {
+    echo "Kelas tidak ditemukan.";
+    exit();
+}
 
 // Proses form untuk membuat pertemuan baru
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['buat_pertemuan'])) {
@@ -105,6 +110,8 @@ $conn->close();
         </tbody>
     </table>
 </main>
+
+<script src="../../js/batas_tanggal.js"></script>
 
 <?php include '../../includes/footer.php'; ?>
 </body>

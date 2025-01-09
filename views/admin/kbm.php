@@ -22,7 +22,7 @@ if ($result_mk->num_rows > 0) {
 }
 
 // Ambil data dosen dari tabel users dengan role dosen
-$sql_dosen = "SELECT * FROM dosen";
+$sql_dosen = "SELECT id, nama FROM users WHERE role = 'dosen'";
 $result_dosen = $conn->query($sql_dosen);
 $dosen_list = [];
 if ($result_dosen->num_rows > 0) {
@@ -51,10 +51,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['buat_kelas'])) {
 }
 
 // Ambil data kelas dari database
-$sql_kelas = "SELECT kelas.id, kelas.nama_kelas, mata_kuliah.nama AS mata_kuliah, dosen.nama AS dosen
+$sql_kelas = "SELECT kelas.id, kelas.nama_kelas, mata_kuliah.nama AS mata_kuliah, users.nama AS dosen
               FROM kelas
               JOIN mata_kuliah ON kelas.mata_kuliah_id = mata_kuliah.id
-              JOIN dosen ON kelas.dosen_id = dosen.id";
+              JOIN users ON kelas.dosen_id = users.id
+              WHERE users.role = 'dosen'";
 $result_kelas = $conn->query($sql_kelas);
 $kelas_list = [];
 if ($result_kelas->num_rows > 0) {
