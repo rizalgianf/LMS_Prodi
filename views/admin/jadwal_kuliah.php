@@ -11,7 +11,11 @@ $page_title = "Jadwal Kuliah";
 include '../../includes/header_admin.php';
 
 // Ambil data jadwal dari database
-$sql = "SELECT * FROM jadwal_kuliah";
+$sql = "SELECT jadwal_kuliah.*, mata_kuliah.nama AS mata_kuliah_nama, users.nama AS dosen_nama
+        FROM jadwal_kuliah
+        JOIN mata_kuliah ON jadwal_kuliah.mata_kuliah = mata_kuliah.id
+        JOIN users ON jadwal_kuliah.dosen_id = users.id
+        WHERE users.role = 'dosen'";
 $result = $conn->query($sql);
 $jadwal = [];
 if ($result->num_rows > 0) {
@@ -20,7 +24,7 @@ if ($result->num_rows > 0) {
     }
 }
 
-// Ambil data mata kuliah dan dosen dari database
+// Ambil data mata kuliah dari database
 $sql_mk = "SELECT * FROM mata_kuliah";
 $result_mk = $conn->query($sql_mk);
 $mata_kuliah_list = [];
@@ -30,7 +34,8 @@ if ($result_mk->num_rows > 0) {
     }
 }
 
-$sql_dosen = "SELECT * FROM dosen";
+// Ambil data dosen dari tabel users dengan role dosen
+$sql_dosen = "SELECT id, nama FROM users WHERE role = 'dosen'";
 $result_dosen = $conn->query($sql_dosen);
 $dosen_list = [];
 if ($result_dosen->num_rows > 0) {
@@ -55,13 +60,13 @@ if ($result_dosen->num_rows > 0) {
         <label for="mata_kuliah">Mata Kuliah:</label>
         <select name="mata_kuliah" id="mata_kuliah" required>
             <?php foreach ($mata_kuliah_list as $mk): ?>
-                <option value="<?php echo $mk['nama']; ?>"><?php echo $mk['nama']; ?></option>
+                <option value="<?php echo $mk['id']; ?>"><?php echo $mk['nama']; ?></option>
             <?php endforeach; ?>
         </select>
         <label for="dosen">Dosen:</label>
         <select name="dosen" id="dosen" required>
             <?php foreach ($dosen_list as $dosen): ?>
-                <option value="<?php echo $dosen['nama']; ?>"><?php echo $dosen['nama']; ?></option>
+                <option value="<?php echo $dosen['id']; ?>"><?php echo $dosen['nama']; ?></option>
             <?php endforeach; ?>
         </select>
         <label for="hari">Hari:</label>
@@ -95,8 +100,8 @@ if ($result_dosen->num_rows > 0) {
         <tbody>
             <?php foreach ($jadwal as $jdwl): ?>
                 <tr>
-                    <td><?php echo $jdwl['mata_kuliah']; ?></td>
-                    <td><?php echo $jdwl['dosen']; ?></td>
+                    <td><?php echo $jdwl['mata_kuliah_nama']; ?></td>
+                    <td><?php echo $jdwl['dosen_nama']; ?></td>
                     <td><?php echo $jdwl['hari']; ?></td>
                     <td><?php echo $jdwl['tanggal']; ?></td>
                     <td><?php echo $jdwl['waktu_mulai']; ?></td>
@@ -115,7 +120,7 @@ if ($result_dosen->num_rows > 0) {
 function editJadwal(jadwal) {
     document.getElementById('id').value = jadwal.id;
     document.getElementById('mata_kuliah').value = jadwal.mata_kuliah;
-    document.getElementById('dosen').value = jadwal.dosen;
+    document.getElementById('dosen').value = jadwal.dosen_id;
     document.getElementById('hari').value = jadwal.hari;
     document.getElementById('tanggal').value = jadwal.tanggal;
     document.getElementById('waktu_mulai').value = jadwal.waktu_mulai;

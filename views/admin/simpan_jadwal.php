@@ -9,7 +9,7 @@ include '../../config/database.php'; // Koneksi database
 
 $id = $_POST['id'] ?? '';
 $mata_kuliah = $_POST['mata_kuliah'];
-$dosen = $_POST['dosen'];
+$dosen_id = $_POST['dosen'];
 $hari = $_POST['hari'];
 $tanggal = $_POST['tanggal'];
 $waktu_mulai = $_POST['waktu_mulai'];
@@ -17,14 +17,14 @@ $waktu_selesai = $_POST['waktu_selesai'];
 
 if (empty($id)) {
     // Insert data baru
-    $sql = "INSERT INTO jadwal_kuliah (mata_kuliah, dosen, hari, tanggal, waktu_mulai, waktu_selesai) VALUES (?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO jadwal_kuliah (mata_kuliah, dosen_id, hari, tanggal, waktu_mulai, waktu_selesai) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssss", $mata_kuliah, $dosen, $hari, $tanggal, $waktu_mulai, $waktu_selesai);
+    $stmt->bind_param("isssss", $mata_kuliah, $dosen_id, $hari, $tanggal, $waktu_mulai, $waktu_selesai);
 } else {
     // Update data yang sudah ada
-    $sql = "UPDATE jadwal_kuliah SET mata_kuliah=?, dosen=?, hari=?, tanggal=?, waktu_mulai=?, waktu_selesai=? WHERE id=?";
+    $sql = "UPDATE jadwal_kuliah SET mata_kuliah=?, dosen_id=?, hari=?, tanggal=?, waktu_mulai=?, waktu_selesai=? WHERE id=?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssssi", $mata_kuliah, $dosen, $hari, $tanggal, $waktu_mulai, $waktu_selesai, $id);
+    $stmt->bind_param("isssssi", $mata_kuliah, $dosen_id, $hari, $tanggal, $waktu_mulai, $waktu_selesai, $id);
 }
 
 if ($stmt->execute()) {
