@@ -13,7 +13,8 @@ body {
 }
 
 .main-content {
-    max-width: 1200px;
+    
+    max-width: 800px;
     margin: 20px auto;
     padding: 20px;
     background-color: #fff;
@@ -111,3 +112,4 @@ form button:hover {
 .data-table a:hover {
     background-color: #ff6347;
 }
+

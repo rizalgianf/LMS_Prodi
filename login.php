@@ -41,7 +41,7 @@ if ($stmt) {
                     header("Location: views/admin/home.php");
                     break;
                 case 'dosen':
-                    header("Location: views/dosen/lecturer_dashboard.php");
+                    header("Location: views/dosen/home_dosen.php");
                     break;
                 case 'mahasiswa':
                     header("Location: views/mahasiswa/student_dashboard.php");

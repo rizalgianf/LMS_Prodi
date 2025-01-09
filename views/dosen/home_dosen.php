@@ -1,14 +1,14 @@
 <?php
 // Mulai session dan pastikan pengguna telah login sebagai admin
 session_start();
-if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
+if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'dosen') {
     header("Location: ../../login.php");
     exit();
 }
 
 // Mengatur judul halaman
 $page_title = "Admin Dashboard";
-include '../../includes/header_admin.php'; // Menggunakan header khusus untuk admin
+include '../../includes/header_dosen.php'; // Menggunakan header khusus untuk admin
 ?>
 
 <!DOCTYPE html>
@@ -23,20 +23,12 @@ include '../../includes/header_admin.php'; // Menggunakan header khusus untuk ad
     <h2 class="page-title">Admin Dashboard Overview</h2>
     <div class="dashboard-cards">
         <div class="card">
-            <h3>Kelola Mahasiswa</h3>
-            <a href="daftar_mahasiswa.php">Lihat Daftar Mahasiswa</a>
+            <h3>Kelola Kelas</h3>
+            <a href="kelola_kelas_dosen.php">Kelola Kelas</a>
         </div>
         <div class="card">
-            <h3>Kelola Dosen</h3>
-            <a href="daftar_dosen.php">Lihat Daftar Dosen</a>
-        </div>
-        <div class="card">
-            <h3>Jadwal Kuliah</h3>
-            <a href="jadwal_kuliah.php">Kelola Jadwal Kuliah</a>
-        </div>
-        <div class="card">
-            <h3>Monitor Absensi</h3>
-            <a href="kbm.php">Mengelola Perkuliahan</a>
+            <h3>Lihat Jadwal</h3>
+            <a href="lihat_jadwal_dosen.php">Lihat Jadwal</a>
         </div>
     </div>
 </main>

@@ -6,7 +6,7 @@ body {
 }
 
 .main-header {
-    background-color: #0855A0; /* Premium blue for header */
+    background-color: #0163e2; /* Premium blue for header */
     color: #ffffff; /* White text for contrast */
     padding: 10px 1; /* Padding top and bottom */
 }
@@ -60,7 +60,7 @@ body {
 
 .sidebar {
     width: 250px;
-    background-color: #0855A0; /* Premium blue for sidebar */
+    background-color: #0163e2; /* Premium blue for sidebar */
     height: 100vh;
     padding: 20px;
     position: fixed;
@@ -98,7 +98,7 @@ body {
 
 .page-title {
     font-size: 28px;
-    color: #0855A0; /* Premium blue for text */
+    color: #0163e2; /* Premium blue for text */
     margin-bottom: 20px;
 }
 
@@ -126,7 +126,7 @@ body {
 .card a {
     display: inline-block;
     padding: 10px 15px;
-    background-color: #0855A0; /* Premium blue for button */
+    background-color: #0163e2; /* Premium blue for button */
     color: #ffffff;
     border-radius: 5px;
     text-decoration: none;
@@ -137,7 +137,7 @@ body {
 }
 
 .main-footer {
-    background-color: #0855A0; /* Premium blue for footer */
+    background-color: #0163e2; /* Premium blue for footer */
     color: #ffffff;
     text-align: center;
     padding: 0.5px 0;
