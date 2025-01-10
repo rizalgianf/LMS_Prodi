@@ -35,7 +35,7 @@ include '../../includes/header_admin.php'; // Menggunakan header khusus untuk ad
             <a href="jadwal_kuliah.php">Kelola Jadwal Kuliah</a>
         </div>
         <div class="card">
-            <h3>Monitor Absensi</h3>
+            <h3>KBM</h3>
             <a href="kbm.php">Mengelola Perkuliahan</a>
         </div>
     </div>

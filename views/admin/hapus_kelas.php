@@ -31,6 +31,15 @@ $stmt_forum->bind_param("i", $id);
 $stmt_forum->execute();
 $stmt_forum->close();
 
+// Hapus entri terkait di tabel absensi
+$sql_absensi = "DELETE absensi FROM absensi 
+                JOIN pertemuan ON absensi.pertemuan_id = pertemuan.id 
+                WHERE pertemuan.kelas_id = ?";
+$stmt_absensi = $conn->prepare($sql_absensi);
+$stmt_absensi->bind_param("i", $id);
+$stmt_absensi->execute();
+$stmt_absensi->close();
+
 // Hapus entri terkait di tabel pertemuan
 $sql_pertemuan = "DELETE FROM pertemuan WHERE kelas_id = ?";
 $stmt_pertemuan = $conn->prepare($sql_pertemuan);

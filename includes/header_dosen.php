@@ -9,7 +9,8 @@
 <body>
     <header class="main-header">
         <div class="header-container">
-            <h1 class="site-title">SIAKAD Dosen Dashboard</h1>
+        <img src="../../images/logo.png" alt="Logo SIAKAD" class="logo">
+            <h1 class="site-title">LMS Dosen Dashboard</h1>
             <nav class="main-nav">
                 <ul>
                     <li><a href="home_dosen.php">Home</a></li>
