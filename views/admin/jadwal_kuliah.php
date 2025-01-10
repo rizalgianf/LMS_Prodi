@@ -8,7 +8,7 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
 include '../../config/database.php'; // Koneksi database
 
 $page_title = "Jadwal Kuliah";
-include '../../includes/header_admin.php';
+include '../../includes/header.php';
 
 // Ambil data jadwal dari database
 $sql = "SELECT jadwal_kuliah.*, mata_kuliah.nama AS mata_kuliah_nama, users.nama AS dosen_nama

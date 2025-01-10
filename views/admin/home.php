@@ -8,7 +8,7 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
 
 // Mengatur judul halaman
 $page_title = "Admin Dashboard";
-include '../../includes/header_admin.php'; // Menggunakan header khusus untuk admin
+include '../../includes/header.php'; // Menggunakan header khusus untuk admin
 ?>
 
 <!DOCTYPE html>

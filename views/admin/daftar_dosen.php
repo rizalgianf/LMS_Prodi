@@ -10,7 +10,7 @@ include '../../config/database.php'; // Koneksi database
 
 // Mengatur judul halaman
 $page_title = "Daftar Dosen";
-include '../../includes/header_admin.php'; // Menggunakan header khusus untuk admin
+include '../../includes/header.php'; // Menggunakan header khusus untuk admin
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Mengambil data dari form

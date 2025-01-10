@@ -12,7 +12,7 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
 include '../../config/database.php'; // Koneksi database
 
 $page_title = "Kelola Pertemuan";
-include '../../includes/header_admin.php';
+include '../../includes/header.php';
 
 $pertemuan_id = $_GET['id'] ?? '';
 if (empty($pertemuan_id)) {

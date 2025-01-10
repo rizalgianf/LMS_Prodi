@@ -1,4 +1,4 @@
-<!-- includes/header_admin.php -->
+<!-- includes/header.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>

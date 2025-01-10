@@ -9,7 +9,7 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
 include '../../config/database.php'; // Koneksi database
 
 $page_title = "Kelola Kelas";
-include '../../includes/header_admin.php';
+include '../../includes/header.php';
 
 $kelas_id = $_GET['id'] ?? '';
 if (empty($kelas_id)) {
