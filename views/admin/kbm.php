@@ -11,8 +11,10 @@ include '../../config/database.php'; // Koneksi database
 $page_title = "Kegiatan Belajar Mengajar";
 include '../../includes/header.php';
 
-// Ambil data mata kuliah dari database
-$sql_mk = "SELECT * FROM mata_kuliah";
+// Ambil data mata kuliah dan semester dari database
+$sql_mk = "SELECT mata_kuliah.*, semester.nama_semester 
+           FROM mata_kuliah 
+           JOIN semester ON mata_kuliah.semester_id = semester.id";
 $result_mk = $conn->query($sql_mk);
 $mata_kuliah_list = [];
 if ($result_mk->num_rows > 0) {
@@ -51,10 +53,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['buat_kelas'])) {
 }
 
 // Ambil data kelas dari database
-$sql_kelas = "SELECT kelas.id, kelas.nama_kelas, mata_kuliah.nama AS mata_kuliah, users.nama AS dosen
+$sql_kelas = "SELECT kelas.id, kelas.nama_kelas, mata_kuliah.nama AS mata_kuliah, users.nama AS dosen, semester.nama_semester
               FROM kelas
               JOIN mata_kuliah ON kelas.mata_kuliah_id = mata_kuliah.id
               JOIN users ON kelas.dosen_id = users.id
+              JOIN semester ON mata_kuliah.semester_id = semester.id
               WHERE users.role = 'dosen'";
 $result_kelas = $conn->query($sql_kelas);
 $kelas_list = [];
@@ -83,7 +86,7 @@ $conn->close();
         <label for="mata_kuliah">Mata Kuliah:</label>
         <select name="mata_kuliah" id="mata_kuliah" required>
             <?php foreach ($mata_kuliah_list as $mk): ?>
-                <option value="<?php echo $mk['id']; ?>"><?php echo $mk['nama']; ?></option>
+                <option value="<?php echo $mk['id']; ?>"><?php echo $mk['nama']; ?> - <?php echo $mk['nama_semester']; ?></option>
             <?php endforeach; ?>
         </select>
         <label for="dosen">Dosen:</label>
@@ -100,6 +103,7 @@ $conn->close();
             <tr>
                 <th>Nama Kelas</th>
                 <th>Mata Kuliah</th>
+                <th>Semester</th>
                 <th>Dosen</th>
                 <th>Aksi</th>
             </tr>
@@ -109,6 +113,7 @@ $conn->close();
                 <tr>
                     <td><?php echo $kelas['nama_kelas']; ?></td>
                     <td><?php echo $kelas['mata_kuliah']; ?></td>
+                    <td><?php echo $kelas['nama_semester']; ?></td>
                     <td><?php echo $kelas['dosen']; ?></td>
                     <td>
                         <a href="kelola_kelas.php?id=<?php echo $kelas['id']; ?>" class="kelola">Kelola</a>
