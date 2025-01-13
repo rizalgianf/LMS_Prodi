@@ -24,7 +24,7 @@ include '../../includes/header_dosen.php'; // Menggunakan header khusus untuk ad
     <div class="dashboard-cards">
         <div class="card">
             <h3>Kelola Kelas</h3>
-            <a href="kelola_kelas_dosen.php">Kelola Kelas</a>
+            <a href="kbm_dosen.php">Kelola Kelas</a>
         </div>
         <div class="card">
             <h3>Lihat Jadwal</h3>

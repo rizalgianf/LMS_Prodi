@@ -2,13 +2,18 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #ff0f8ff; /* Soft blue background color */
+    background-color: #f0f8ff; /* Soft blue background color */
+    padding-top: 60px; /* Tambahkan padding-top untuk menghindari konten tertutup oleh header */
 }
 
 .main-header {
     background-color: #0163e2; /* Premium blue for header */
     color: #ffffff; /* White text for contrast */
-    padding: 10px 1; /* Padding top and bottom */
+    padding: 2px 0; /* Padding top and bottom */
+    position: fixed; /* Membuat header tetap di atas */
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Pastikan header berada di atas elemen lain */
 }
 
 .header-container {
@@ -25,7 +30,7 @@ body {
 }
 
 .logo {
-    width: 80px;
+    width: 70px;
     height: auto;
     margin-right: 10px;
     vertical-align: middle;

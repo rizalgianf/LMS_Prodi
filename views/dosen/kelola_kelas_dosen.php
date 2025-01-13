@@ -13,7 +13,7 @@ include '../../includes/header_dosen.php';
 
 $kelas_id = $_GET['id'] ?? '';
 if (empty($kelas_id)) {
-    header("Location: kbm.php");
+    header("Location: kbm_dosen.php");
     exit();
 }
 
@@ -22,9 +22,9 @@ $sql_kelas = "SELECT kelas.id, kelas.nama_kelas, mata_kuliah.nama AS mata_kuliah
               FROM kelas
               JOIN mata_kuliah ON kelas.mata_kuliah_id = mata_kuliah.id
               JOIN users ON kelas.dosen_id = users.id
-              WHERE kelas.id = ?";
+              WHERE kelas.id = ? AND kelas.dosen_id = ?";
 $stmt_kelas = $conn->prepare($sql_kelas);
-$stmt_kelas->bind_param("i", $kelas_id);
+$stmt_kelas->bind_param("ii", $kelas_id, $_SESSION['user_id']);
 $stmt_kelas->execute();
 $result_kelas = $stmt_kelas->get_result();
 $kelas = $result_kelas->fetch_assoc();
@@ -33,24 +33,6 @@ $stmt_kelas->close();
 if (!$kelas) {
     echo "Kelas tidak ditemukan.";
     exit();
-}
-
-// Proses form untuk membuat pertemuan baru
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['buat_pertemuan'])) {
-    $tanggal = $_POST['tanggal'];
-    $topik = $_POST['topik'];
-
-    $sql = "INSERT INTO pertemuan (kelas_id, tanggal, topik) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("iss", $kelas_id, $tanggal, $topik);
-
-    if ($stmt->execute()) {
-        echo "Pertemuan berhasil dibuat!";
-    } else {
-        echo "Error: " . $stmt->error;
-    }
-
-    $stmt->close();
 }
 
 // Ambil data pertemuan dari database
@@ -82,13 +64,7 @@ $conn->close();
     <h2 class="page-title">Kelola Kelas: <?php echo $kelas['nama_kelas']; ?></h2>
     <p>Mata Kuliah: <?php echo $kelas['mata_kuliah']; ?></p>
     <p>Dosen: <?php echo $kelas['dosen']; ?></p>
-    <form action="kelola_kelas.php?id=<?php echo $kelas_id; ?>" method="POST">
-        <label for="tanggal">Tanggal:</label>
-        <input type="date" name="tanggal" id="tanggal" required>
-        <label for="topik">Topik:</label>
-        <input type="text" name="topik" id="topik" required>
-        <button type="submit" name="buat_pertemuan">Buat Pertemuan</button>
-    </form>
+    <h3>Daftar Pertemuan</h3>
     <table class="data-table">
         <thead>
             <tr>
@@ -103,7 +79,7 @@ $conn->close();
                     <td><?php echo $pertemuan['tanggal']; ?></td>
                     <td><?php echo $pertemuan['topik']; ?></td>
                     <td>
-                        <a href="kelola_pertemuan.php?id=<?php echo $pertemuan['id']; ?>">Kelola</a>
+                        <a class="kelola" href="kelola_pertemuan_dosen.php?id=<?php echo $pertemuan['id']; ?>">Kelola</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

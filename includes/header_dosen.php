@@ -10,11 +10,11 @@
     <header class="main-header">
         <div class="header-container">
         <img src="../../images/logo.png" alt="Logo SIAKAD" class="logo">
-            <h1 class="site-title">LMS Dosen Dashboard</h1>
+            <h1 class="site-title">Learning Management System Dosen Dashboard</h1>
             <nav class="main-nav">
                 <ul>
                     <li><a href="home_dosen.php">Home</a></li>
-                    <li><a href="kelola_kelas_dosen.php">Kelola Kelas</a></li>
+                    <li><a href="kbm_dosen.php">KBM</a></li>
                     <li><a href="lihat_jadwal_dosen.php">Jadwal Kuliah</a></li>
                     <li><a href="../../logout.php">Logout</a></li>
                 </ul>

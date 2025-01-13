@@ -11,10 +11,11 @@ $page_title = "Jadwal Kuliah";
 include '../../includes/header.php';
 
 // Ambil data jadwal dari database
-$sql = "SELECT jadwal_kuliah.*, mata_kuliah.nama AS mata_kuliah_nama, users.nama AS dosen_nama
+$sql = "SELECT jadwal_kuliah.*, mata_kuliah.nama AS mata_kuliah_nama, users.nama AS dosen_nama, semester.nama_semester
         FROM jadwal_kuliah
         JOIN mata_kuliah ON jadwal_kuliah.mata_kuliah = mata_kuliah.id
         JOIN users ON jadwal_kuliah.dosen_id = users.id
+        JOIN semester ON mata_kuliah.semester_id = semester.id
         WHERE users.role = 'dosen'";
 $result = $conn->query($sql);
 $jadwal = [];
@@ -25,7 +26,9 @@ if ($result->num_rows > 0) {
 }
 
 // Ambil data mata kuliah dari database
-$sql_mk = "SELECT * FROM mata_kuliah";
+$sql_mk = "SELECT mata_kuliah.*, semester.nama_semester 
+           FROM mata_kuliah 
+           JOIN semester ON mata_kuliah.semester_id = semester.id";
 $result_mk = $conn->query($sql_mk);
 $mata_kuliah_list = [];
 if ($result_mk->num_rows > 0) {
@@ -60,7 +63,7 @@ if ($result_dosen->num_rows > 0) {
         <label for="mata_kuliah">Mata Kuliah:</label>
         <select name="mata_kuliah" id="mata_kuliah" required>
             <?php foreach ($mata_kuliah_list as $mk): ?>
-                <option value="<?php echo $mk['id']; ?>"><?php echo $mk['nama']; ?></option>
+                <option value="<?php echo $mk['id']; ?>"><?php echo $mk['nama']; ?> - <?php echo $mk['nama_semester']; ?></option>
             <?php endforeach; ?>
         </select>
         <label for="dosen">Dosen:</label>
@@ -90,6 +93,7 @@ if ($result_dosen->num_rows > 0) {
             <tr>
                 <th>Mata Kuliah</th>
                 <th>Dosen</th>
+                <th>Semester</th>
                 <th>Hari</th>
                 <th>Tanggal</th>
                 <th>Waktu Mulai</th>
@@ -102,6 +106,7 @@ if ($result_dosen->num_rows > 0) {
                 <tr>
                     <td><?php echo $jdwl['mata_kuliah_nama']; ?></td>
                     <td><?php echo $jdwl['dosen_nama']; ?></td>
+                    <td><?php echo $jdwl['nama_semester']; ?></td>
                     <td><?php echo $jdwl['hari']; ?></td>
                     <td><?php echo $jdwl['tanggal']; ?></td>
                     <td><?php echo $jdwl['waktu_mulai']; ?></td>
