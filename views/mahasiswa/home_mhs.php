@@ -8,7 +8,7 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'mahasiswa') {
 
 // Mengatur judul halaman
 $page_title = "Mahasiswa Dashboard";
-include '../../includes/header_dosen.php'; // Menggunakan header khusus untuk admin
+include '../../includes/header_mahasiswa.php'; // Menggunakan header khusus untuk admin
 ?>
 
 <!DOCTYPE html>
@@ -24,11 +24,11 @@ include '../../includes/header_dosen.php'; // Menggunakan header khusus untuk ad
     <div class="dashboard-cards">
         <div class="card">
             <h3>Kegiatan Belajar Mengajar</h3>
-            <a href="kbm_dosen.php">KBM</a>
+            <a href="kbm_mhs.php">KBM</a>
         </div>
         <div class="card">
             <h3>Lihat Jadwal</h3>
-            <a href="lihat_jadwal_dosen.php">Lihat Jadwal</a>
+            <a href="lihat_jadwal_mhs.php">Lihat Jadwal</a>
         </div>
     </div>
 </main>

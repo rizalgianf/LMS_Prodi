@@ -254,7 +254,7 @@ $conn->close();
                         <form action="kelola_pertemuan.php?id=<?php echo $pertemuan_id; ?>" method="POST" style="display:inline;">
                             <input type="hidden" name="file_id" value="<?php echo $file['id']; ?>">
                             <input type="hidden" name="path_file" value="<?php echo $file['path_file']; ?>">
-                            <button type="submit" name="hapus_file">Hapus</button>
+                            <button type="submit" name="hapus_file" class="hapus" > Hapus</button>
                         </form>
                     </td>
                 </tr>
@@ -295,7 +295,7 @@ $conn->close();
                     <td>
                         <form action="kelola_pertemuan.php?id=<?php echo $pertemuan_id; ?>" method="POST" style="display:inline;">
                             <input type="hidden" name="absensi_id" value="<?php echo $absensi['id']; ?>">
-                            <button type="submit" name="hapus_absensi">Hapus</button>
+                            <button type="submit" name="hapus_absensi" class="hapus" >Hapus</button>
                         </form>
                     </td>
                 </tr>

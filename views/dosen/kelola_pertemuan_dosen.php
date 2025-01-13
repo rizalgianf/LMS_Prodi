@@ -250,7 +250,7 @@ $conn->close();
                 <tr>
                     <td><?php echo $file['nama_file']; ?></td>
                     <td>
-                        <a href="<?php echo $file['path_file']; ?>" download>Download</a>
+                        <a href="<?php echo $file['path_file']; ?>" class="download" download>Download</a>
                         <form action="kelola_pertemuan_dosen.php?id=<?php echo $pertemuan_id; ?>" method="POST" style="display:inline;">
                             <input type="hidden" name="file_id" value="<?php echo $file['id']; ?>">
                             <input type="hidden" name="path_file" value="<?php echo $file['path_file']; ?>">

@@ -1,7 +1,7 @@
 <?php
-// Mulai session dan pastikan pengguna telah login sebagai dosen
+// Mulai session dan pastikan pengguna telah login sebagai mahasiswa
 session_start();
-if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'dosen') {
+if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'mahasiswa') {
     header("Location: ../../login.php");
     exit();
 }
@@ -9,22 +9,37 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'dosen') {
 include '../../config/database.php'; // Koneksi database
 
 $page_title = "Kelola Mata Kuliah";
-include '../../includes/header_dosen.php';
+include '../../includes/header_mahasiswa.php';
 
 $kelas_id = $_GET['id'] ?? '';
 if (empty($kelas_id)) {
-    header("Location: kbm_dosen.php");
+    header("Location: kbm_mahasiswa.php");
     exit();
 }
 
-// Ambil data kelas
+// Ambil data semester mahasiswa
+$mahasiswa_id = $_SESSION['user_id'];
+$sql_semester = "SELECT semester_id FROM users WHERE id = ? AND role = 'mahasiswa'";
+$stmt_semester = $conn->prepare($sql_semester);
+$stmt_semester->bind_param("i", $mahasiswa_id);
+$stmt_semester->execute();
+$result_semester = $stmt_semester->get_result();
+$semester = $result_semester->fetch_assoc();
+$stmt_semester->close();
+
+if (!$semester) {
+    echo "Semester tidak ditemukan.";
+    exit();
+}
+
+// Ambil data kelas berdasarkan semester mahasiswa
 $sql_kelas = "SELECT kelas.id, kelas.nama_kelas, mata_kuliah.nama AS mata_kuliah, users.nama AS dosen
               FROM kelas
               JOIN mata_kuliah ON kelas.mata_kuliah_id = mata_kuliah.id
               JOIN users ON kelas.dosen_id = users.id
-              WHERE kelas.id = ? AND kelas.dosen_id = ?";
+              WHERE kelas.id = ? AND mata_kuliah.semester_id = ?";
 $stmt_kelas = $conn->prepare($sql_kelas);
-$stmt_kelas->bind_param("ii", $kelas_id, $_SESSION['user_id']);
+$stmt_kelas->bind_param("ii", $kelas_id, $semester['semester_id']);
 $stmt_kelas->execute();
 $result_kelas = $stmt_kelas->get_result();
 $kelas = $result_kelas->fetch_assoc();
@@ -61,7 +76,7 @@ $conn->close();
 </head>
 <body>
 <main class="main-content">
-    <h2 class="page-title">Kelola Mata Kuliah: <?php echo $kelas['mata_kuliah']; ?></h2>
+    <h2 class="page-title">Mata Kuliah: <?php echo $kelas['mata_kuliah']; ?></h2>
     <p>Nama Kelas: <?php echo $kelas['nama_kelas']; ?></p>
     <p>Dosen: <?php echo $kelas['dosen']; ?></p>
     <h3>Daftar Pertemuan</h3>
@@ -79,7 +94,7 @@ $conn->close();
                     <td><?php echo $pertemuan['tanggal']; ?></td>
                     <td><?php echo $pertemuan['topik']; ?></td>
                     <td>
-                        <a class="kelola" href="kelola_pertemuan_dosen.php?id=<?php echo $pertemuan['id']; ?>">Kelola</a>
+                        <a class="kelola" href="pertemuan_mhs.php?id=<?php echo $pertemuan['id']; ?>">Masuk</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

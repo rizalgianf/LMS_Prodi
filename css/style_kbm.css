@@ -111,6 +111,14 @@ form button:hover {
     background-color: #e53935;
 }
 
+.data-table a.download {
+    background-color: #4CAF50; /* Warna hijau untuk tombol Download */
+}
+
+.data-table a.download:hover {
+    background-color: #45a049;
+}
+
 .forum-diskusi {
     margin-top: 20px;
 }

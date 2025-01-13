@@ -13,9 +13,9 @@
             <h1 class="site-title">Learning Management System Mahasiswa Dashboard</h1>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="home_dosen.php">Home</a></li>
-                    <li><a href="kbm_dosen.php">KBM</a></li>
-                    <li><a href="lihat_jadwal_dosen.php">Jadwal Kuliah</a></li>
+                    <li><a href="home_mhs.php">Home</a></li>
+                    <li><a href="kbm_mhs.php">KBM</a></li>
+                    <li><a href="lihat_jadwal_mhs.php">Jadwal Kuliah</a></li>
                     <li><a href="../../logout.php">Logout</a></li>
                 </ul>
             </nav>
