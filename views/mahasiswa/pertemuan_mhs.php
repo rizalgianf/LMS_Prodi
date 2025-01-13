@@ -146,7 +146,7 @@ $conn->close();
                 <tr>
                     <td><?php echo $file['nama_file']; ?></td>
                     <td>
-                        <a href="<?php echo $file['path_file']; ?>" download>Download</a>
+                        <a href="<?php echo $file['path_file']; ?>" class="download" download>Download</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

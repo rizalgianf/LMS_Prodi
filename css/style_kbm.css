@@ -86,7 +86,8 @@ form button:hover {
     background-color: #e0f7ff;
 }
 
-.data-table a {
+.data-table a,
+.data-table button {
     padding: 5px 10px;
     border: none;
     color: #fff;
@@ -95,27 +96,33 @@ form button:hover {
     transition: background-color 0.3s ease;
 }
 
-.data-table a.kelola {
+.data-table a.kelola,
+.data-table button.kelola {
     background-color: #4CAF50; /* Warna hijau untuk tombol Kelola */
 }
 
-.data-table a.kelola:hover {
+.data-table a.kelola:hover,
+.data-table button.kelola:hover {
     background-color: #45a049;
 }
 
-.data-table a.hapus {
+.data-table a.hapus,
+.data-table button.hapus {
     background-color: #f44336; /* Warna merah untuk tombol Hapus */
 }
 
-.data-table a.hapus:hover {
+.data-table a.hapus:hover,
+.data-table button.hapus:hover {
     background-color: #e53935;
 }
 
-.data-table a.download {
+.data-table a.download,
+.data-table button.download {
     background-color: #4CAF50; /* Warna hijau untuk tombol Download */
 }
 
-.data-table a.download:hover {
+.data-table a.download:hover,
+.data-table button.download:hover {
     background-color: #45a049;
 }
 
