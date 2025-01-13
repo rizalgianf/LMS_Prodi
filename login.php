@@ -44,7 +44,7 @@ if ($stmt) {
                     header("Location: views/dosen/home_dosen.php");
                     break;
                 case 'mahasiswa':
-                    header("Location: views/mahasiswa/student_dashboard.php");
+                    header("Location: views/mahasiswa/home_mhs.php");
                     break;
                 default:
                     // Jika role tidak dikenali, kembalikan ke login.html

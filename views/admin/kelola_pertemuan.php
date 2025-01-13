@@ -21,7 +21,7 @@ if (empty($pertemuan_id)) {
 }
 
 // Ambil data pertemuan
-$sql_pertemuan = "SELECT pertemuan.id, pertemuan.tanggal, pertemuan.topik, kelas.nama_kelas, mata_kuliah.nama AS mata_kuliah, users.nama AS dosen
+$sql_pertemuan = "SELECT pertemuan.id, pertemuan.tanggal, pertemuan.topik, kelas.nama_kelas, mata_kuliah.nama AS mata_kuliah, users.nama AS dosen, mata_kuliah.semester_id
                   FROM pertemuan
                   JOIN kelas ON pertemuan.kelas_id = kelas.id
                   JOIN mata_kuliah ON kelas.mata_kuliah_id = mata_kuliah.id
@@ -139,15 +139,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['hapus_absensi'])) {
     $stmt->close();
 }
 
-// Ambil data mahasiswa untuk absensi
-$sql_mahasiswa = "SELECT id, nama FROM users WHERE role = 'mahasiswa'";
-$result_mahasiswa = $conn->query($sql_mahasiswa);
+// Ambil data mahasiswa untuk absensi berdasarkan semester mata kuliah
+$sql_mahasiswa = "SELECT users.id, users.nama 
+                  FROM users 
+                  JOIN semester ON users.semester_id = semester.id 
+                  WHERE users.role = 'mahasiswa' AND semester.id = ?";
+$stmt_mahasiswa = $conn->prepare($sql_mahasiswa);
+$stmt_mahasiswa->bind_param("i", $pertemuan['semester_id']);
+$stmt_mahasiswa->execute();
+$result_mahasiswa = $stmt_mahasiswa->get_result();
 $mahasiswa_list = [];
 if ($result_mahasiswa->num_rows > 0) {
     while ($row_mahasiswa = $result_mahasiswa->fetch_assoc()) {
         $mahasiswa_list[] = $row_mahasiswa;
     }
 }
+$stmt_mahasiswa->close();
 
 // Ambil data absensi dari database
 $sql_absensi = "SELECT absensi.id, users.nama, absensi.status

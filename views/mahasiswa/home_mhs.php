@@ -1,13 +1,13 @@
 <?php
 // Mulai session dan pastikan pengguna telah login sebagai admin
 session_start();
-if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'dosen') {
+if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'mahasiswa') {
     header("Location: ../../login.php");
     exit();
 }
 
 // Mengatur judul halaman
-$page_title = "Dosen Dashboard";
+$page_title = "Mahasiswa Dashboard";
 include '../../includes/header_dosen.php'; // Menggunakan header khusus untuk admin
 ?>
 
@@ -20,11 +20,11 @@ include '../../includes/header_dosen.php'; // Menggunakan header khusus untuk ad
 </head>
 <body>
 <main class="main-content">
-    <h2 class="page-title">Admin Dashboard Overview</h2>
+    <h2 class="page-title">Mahasiswa Dashboard Overview</h2>
     <div class="dashboard-cards">
         <div class="card">
-            <h3>Kelola Kelas</h3>
-            <a href="kbm_dosen.php">Kelola Kelas</a>
+            <h3>Kegiatan Belajar Mengajar</h3>
+            <a href="kbm_dosen.php">KBM</a>
         </div>
         <div class="card">
             <h3>Lihat Jadwal</h3>
