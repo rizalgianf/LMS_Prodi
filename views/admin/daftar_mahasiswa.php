@@ -65,8 +65,6 @@ $conn->close();
 
 <!DOCTYPE html>
 <html lang="en">
-
-
 <head>
     <meta charset="UTF-8">
     <title><?php echo $page_title; ?></title>
@@ -105,9 +103,9 @@ $conn->close();
                     <td><?php echo $mahasiswa['nama']; ?></td>
                     <td><?php echo $mahasiswa['username']; ?></td>
                     <td><?php echo $mahasiswa['nama_semester']; ?></td>
-                    <td>
-                        <a class="edit" href="edit_mahasiswa.php?id=<?php echo $mahasiswa['id']; ?>">Edit</a>
-                        <a class="delete" href="hapus_mahasiswa.php?id=<?php echo $mahasiswa['id']; ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus mahasiswa ini?')">Delete</a>
+                    <td class="action-buttons">
+                        <a href="edit_mahasiswa.php?id=<?php echo $mahasiswa['id']; ?>" class="edit">Edit</a>
+                        <a href="hapus_mahasiswa.php?id=<?php echo $mahasiswa['id']; ?>" class="delete" onclick="return confirm('Apakah Anda yakin ingin menghapus mahasiswa ini?')">Delete</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

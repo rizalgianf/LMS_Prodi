@@ -74,7 +74,10 @@ $conn->close();
                 </option>
             <?php endforeach; ?>
         </select>
-        <button type="submit">Update</button>
+        <div class="button-container">
+            <button type="submit" name="update_matkul" class="button update">Update</button>
+            <a href="daftar_matkul.php" class="button kembali">Kembali</a>
+        </div>
     </form>
     <?php include '../../includes/footer.php'; ?>
 </main>

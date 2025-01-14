@@ -113,7 +113,7 @@ if ($result_dosen->num_rows > 0) {
                     <td><?php echo $jdwl['waktu_selesai']; ?></td>
                     <td>
                         <button onclick="editJadwal(<?php echo htmlspecialchars(json_encode($jdwl)); ?>)">Edit</button>
-                        <a href="hapus_jadwal.php?id=<?php echo $jdwl['id']; ?>">Hapus</a>
+                        <a href="hapus_jadwal.php?id=<?php echo $jdwl['id']; ?>">Delete</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
