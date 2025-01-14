@@ -7,7 +7,7 @@ body {
 }
 
 .main-header {
-    background-color: #0163e2; /* Premium blue for header */
+    background-color: #2c8ae4; /* Premium blue for header */
     color: #ffffff; /* White text for contrast */
     padding: 2px 0; /* Padding top and bottom */
     position: fixed; /* Membuat header tetap di atas */
@@ -65,7 +65,7 @@ body {
 
 .sidebar {
     width: 250px;
-    background-color: #0163e2; /* Premium blue for sidebar */
+    background-color: #2c8ae4; /* Premium blue for sidebar */
     height: 100vh;
     padding: 20px;
     position: fixed;
@@ -103,7 +103,7 @@ body {
 
 .page-title {
     font-size: 28px;
-    color: #0163e2; /* Premium blue for text */
+    color: #2c8ae4; /* Premium blue for text */
     margin-bottom: 20px;
 }
 
@@ -131,7 +131,7 @@ body {
 .card a {
     display: inline-block;
     padding: 10px 15px;
-    background-color: #0163e2; /* Premium blue for button */
+    background-color: #2c8ae4; /* Premium blue for button */
     color: #ffffff;
     border-radius: 5px;
     text-decoration: none;
@@ -142,7 +142,7 @@ body {
 }
 
 .main-footer {
-    background-color: #0163e2; /* Premium blue for footer */
+    background-color: #2c8ae4; /* Premium blue for footer */
     color: #ffffff;
     text-align: center;
     padding: 1px 0; /* Tambahkan padding untuk footer */

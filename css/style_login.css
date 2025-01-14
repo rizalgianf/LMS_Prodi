@@ -1,6 +1,6 @@
 body {
     font-family: 'Poppins', sans-serif;
-    background: url('../images/rektorat.JPG') no-repeat center center fixed;
+    background: url('../images/login.jpg') no-repeat center center fixed;
     background-size: cover;
     margin: 0;
     padding: 0;
@@ -11,15 +11,6 @@ body {
     overflow: hidden;
 }
 
-.overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Optional: Add a dark overlay */
-    z-index: 1;
-}
 
 .container {
     position: relative;
@@ -28,9 +19,11 @@ body {
     max-width: 900px;
     width: 100%;
     background: rgba(255, 255, 255, 0.9);
-    border-radius: 10px;
+    border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
+    animation: fadeIn 1.5s ease, float 6s ease-in-out infinite;
 }
 
 .left-panel {
@@ -41,24 +34,27 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    background: #f7f7f7;
+    background: linear-gradient(135deg, #1e90ff, #4682b4);
+    color: #ffffff;
+    animation: slideInLeft 1.5s ease;
 }
 
 .left-panel img {
-    max-width: 50%;
+    max-width: 60%;
     height: auto;
     margin-bottom: 20px;
+    filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.5));
 }
 
 .left-panel h1 {
-    font-size: 24px;
-    margin-bottom: 10px;
-    color: #333;
+    font-size: 28px;
+    margin-bottom: 15px;
+    font-weight: 600;
 }
 
 .left-panel p {
     font-size: 16px;
-    color: #666;
+    line-height: 1.5;
 }
 
 .right-panel {
@@ -69,18 +65,22 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
+    background: rgba(255, 255, 255, 0.95);
+    animation: slideInRight 1.5s ease;
 }
 
 .right-panel h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
-    color: #333;
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #1e90ff;
+    font-weight: 700;
 }
 
 .right-panel p {
     font-size: 16px;
-    color: #666;
+    color: #555;
     margin-bottom: 20px;
+    line-height: 1.6;
 }
 
 .form-group {
@@ -97,26 +97,36 @@ body {
 
 .form-group input {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.form-group input:focus {
+    border-color: #1e90ff;
+    box-shadow: 0 0 8px rgba(30, 144, 255, 0.5);
 }
 
 .login-btn {
     width: 100%;
-    padding: 10px;
-    background: #1e90ff;
+    padding: 12px;
+    background: linear-gradient(90deg, #1e90ff, #4682b4);
     border: none;
-    border-radius: 5px;
-    color: #fff;
-    font-size: 16px;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: transform 0.3s ease, background 0.3s ease;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
 .login-btn:hover {
-    background: #1c86ee;
+    background: linear-gradient(90deg, #4682b4, #1e90ff);
+    transform: translateY(-2px);
 }
 
 .extra-links {
@@ -127,8 +137,50 @@ body {
     color: #1e90ff;
     text-decoration: none;
     font-size: 14px;
+    transition: color 0.3s ease;
 }
 
 .extra-links a:hover {
+    color: #4682b4;
     text-decoration: underline;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
 }

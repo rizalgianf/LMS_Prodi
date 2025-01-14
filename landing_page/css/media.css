@@ -304,7 +304,7 @@ http://www.templatemo.com/tm-473-november
 	#mobile_sec .menumobile .Navigation ul { float: none;}
 	#mobile_sec .menumobile .Navigation li { float: none; width: 100%; border-bottom: solid 1px #365374; }
 	#mobile_sec .menumobile .Navigation li a { padding: 10px; background: none; border-bottom: none; }
-	#mobile_sec .menumobile .Navigation li a:hover, #mobile_sec .menumobile .Navigation li a.active { background: #0163e2; border-bottom: none; }
+	#mobile_sec .menumobile .Navigation li a:hover, #mobile_sec .menumobile .Navigation li a.active { background: #2c8ae4; border-bottom: none; }
 	#mobile_sec .menumobile .Navigation li:last-child { border-bottom: none; }
 
 	
@@ -427,7 +427,7 @@ http://www.templatemo.com/tm-473-november
 	}
 	#mobile_sec .menumobile .Navigation li:hover, 
 	#mobile_sec .menumobile .Navigation li.active {
-		background: #0163e2 none repeat scroll 0% 0%;
+		background: #2c8ae4 none repeat scroll 0% 0%;
 		border-bottom: medium none;
 	}
 	header.smaller .Navigation li {

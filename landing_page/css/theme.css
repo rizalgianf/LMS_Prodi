@@ -59,7 +59,7 @@ header .Center { max-width: 1100px; margin: auto; }
 header .site-logo { padding: 30px 0px 0px 0px; width: 220px; float: left; transition: all 0.3s;  }
 header .site-logo h1 { margin: 0px; }
 header .site-logo h1 a { font-size: 36px; color: #fff; font-family: 'Open Sans', sans-serif; font-weight: 800; text-decoration: none; text-transform: uppercase; text-shadow: rgb(3, 3, 3) 0px 2px 5px; transition: all 0.7s ease;  }
-header .site-logo h1 a span { color: #0163e2; }
+header .site-logo h1 a span { color: #2c8ae4; }
 header.smaller { padding: 0px 0px 0px 0px; height: 60px; transition: all 0.3s; background: rgba(0, 0, 0, 0.75); }
 header.smaller .site-logo {padding: 13px 0px 0px 0px; }
 header.smaller .site-logo h1 { line-height: 30px; }
@@ -71,7 +71,7 @@ header.smaller .site-logo h1 a { font-size: 30px;  } */
 .Navigation li { float: left; padding: 0px;  margin: 0px; height: 105px; position: relative; transition: all 0.3s ease; }
 .Navigation li a { padding: 42px 41px 36px 41px; font-size: 16px; color: #fff; font-family: 'Open Sans', sans-serif; font-weight: 400; text-decoration: none; display: block; -webkit-transition: all 0.3s ease; transition: all 0.3s ease; }
 .Navigation li span { 
-	border-bottom: solid 5px #0163e2;
+	border-bottom: solid 5px #2c8ae4;
 	background: rgba(56,87,122,1);
 	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(56,87,122,1)), color-stop(0%, rgba(56,87,122,1)), color-stop(0%, rgba(56,87,122,1)), color-stop(100%, rgba(44,68,94,1)));
 	background: linear-gradient(to bottom, rgba(56,87,122,1) 0%, rgba(56,87,122,1) 0%, rgba(56,87,122,1) 0%, rgba(44,68,94,1) 100%);
@@ -106,10 +106,10 @@ header.smaller .Navigation li { height: 60px; }
 .Banner_sec .Center { max-width: 1100px; margin: auto; }
 .Banner_sec .leftside { padding: 92px 0px 0px 0px; width: 28.90%; float: left; }
 .Banner_sec .leftside h3 { font-size: 36px; color: #fff; font-family: 'Open Sans', sans-serif; font-weight: 800; text-transform: uppercase; margin: 0px; line-height: 34px;}
-.Banner_sec .leftside h3 span { color: #0163e2; font-family: 'Open Sans', sans-serif; font-weight: 600; display: block; }
+.Banner_sec .leftside h3 span { color: #2c8ae4; font-family: 'Open Sans', sans-serif; font-weight: 600; display: block; }
 .Banner_sec .leftside p { padding: 16px 0px 26px 0px; font-size: 16px; color: #fff; font-family: 'Open Sans', sans-serif; font-weight: 600; font-style: italic; margin: 0px; word-spacing: 2px; line-height: 22px; }
 .Banner_sec .leftside a { padding: 11px 16px; font-size: 14px; color: #fff; font-family: 'Open Sans', sans-serif; font-weight: 600; text-transform: uppercase; text-decoration: none; display: inline-block; border: solid 1px #b0bdc8; background: rgba(64, 93, 118, 0.8); transition: all 0.3s ease; }
-.Banner_sec .leftside a:hover { background: #0163e2; color: #fff; border: solid 1px #0163e2; }
+.Banner_sec .leftside a:hover { background: #2c8ae4; color: #fff; border: solid 1px #2c8ae4; }
 .Banner_sec .rightside { width: 68.36%; float: right; position: relative; }
 .Banner_sec .rightside .bx-wrapper { position: relative; z-index: 1; }
 .Banner_sec .rightside ul { list-style: none; margin: 0px; }
@@ -121,13 +121,13 @@ header.smaller .Navigation li { height: 60px; }
 .Banner_sec .rightside .Slider .text li { float: left!important; padding: 0px 30px 0px 10px; margin: 0px; }
 .Banner_sec .rightside .Slider .text li a { display: block; font-size: 14px; color: #fff; text-decoration: none; font-family: 'Open Sans', sans-serif; font-weight: 400; transition: all 0.3s ease;}
 .Banner_sec .rightside .Slider .text li:last-child { padding: 0px; }
-.Banner_sec .rightside .Slider .text li:hover a { color: #0163e2!important;}
+.Banner_sec .rightside .Slider .text li:hover a { color: #2c8ae4!important;}
 .Banner_sec .rightside .Slider .text li a .fa { padding: 13px; margin-right: 10px; color: #fff; border-radius: 50px; border: solid 2px #fff; transition: all 0.3s ease; }
-.Banner_sec .rightside .Slider .text li:hover a .fa { background: #0163e2; color: #fff; border: solid 2px #0163e2; }
+.Banner_sec .rightside .Slider .text li:hover a .fa { background: #2c8ae4; color: #fff; border: solid 2px #2c8ae4; }
 .Banner_sec .rightside .Slider .text li:last-child { padding-right: 0px; padding-left: 0px;}
 .Banner_sec .rightside .Slider .text .Lorem { float: right; width: 31%; }
 .Banner_sec .rightside .Slider .text .Lorem p { padding-top: 5px; font-size: 18px; color: #fff; margin: 0px; font-family: 'Open Sans', sans-serif; font-weight: 400; text-transform: uppercase; text-align: right; line-height: 19px; }
-.Banner_sec .rightside .Slider .text .Lorem p span { font-size: 14px; text-align: right; color: #0163e2; display: block; text-transform: capitalize;}
+.Banner_sec .rightside .Slider .text .Lorem p span { font-size: 14px; text-align: right; color: #2c8ae4; display: block; text-transform: capitalize;}
 .Banner_sec .rightside .prevBtn { width: 42px; height: 42px; display: block; text-indent: -9999px; background: url(../img/prev-arrow.png) no-repeat; position: absolute; top: 213px; left: 49px;  z-index: 1; opacity: 0.5; transition: opacity 0.3s ease; }
 .Banner_sec .rightside .prevBtn:hover {  opacity: 1; }	
 .Banner_sec .rightside .nextBtn { width: 42px; height: 42px; display: block; text-indent: -9999px; background: url(../img/next-arrow.png) no-repeat; position: absolute; top: 213px; right: 47px;  z-index: 1; opacity: 0.5; transition: opacity 0.3s ease; }
@@ -161,7 +161,7 @@ header.smaller .Navigation li { height: 60px; }
 	.About_sec .Tabside .TabImage .img2 img { padding: 5px; border: solid 1px #ececec; background: #fff;  }
 	.About_sec .Tabside .Description { width: 54.3%; float: right; text-align: left; margin-top: -6px;}
 	.About_sec .Tabside .Description h3 { font-size: 24px; color: #000; margin: 0px; text-transform: uppercase; font-family:'Open Sans'; line-height: 29px; }
-	.About_sec .Tabside .Description h3 span { padding-left: 3px; font-size: 14px; color: #0163e2; display: block; }
+	.About_sec .Tabside .Description h3 span { padding-left: 3px; font-size: 14px; color: #2c8ae4; display: block; }
 	.About_sec .Tabside .Description p { padding: 21px 0px 4px 0px; font-size: 14px; color: #979797; margin: 0px; font-family:'Open Sans'; line-height: 25px; }
 	.About_sec .Tabside .Description p .cyan { font-size: 16px; color: #08c2ff; }
 
