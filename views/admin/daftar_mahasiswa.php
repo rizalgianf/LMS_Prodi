@@ -12,7 +12,7 @@ include '../../config/database.php'; // Koneksi database
 $page_title = "Daftar Mahasiswa";
 include '../../includes/header.php'; // Menggunakan header khusus untuk admin
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['daftar_mahasiswa'])) {
     // Mengambil data dari form
     $nama = $_POST['nama'];
     $username = $_POST['username'];
@@ -38,17 +38,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // Ambil data mahasiswa dari database
+$search = $_GET['search'] ?? '';
 $sql_mahasiswa = "SELECT users.id, users.nama, users.username, semester.nama_semester 
                   FROM users 
                   LEFT JOIN semester ON users.semester_id = semester.id 
-                  WHERE users.role='mahasiswa'";
-$result_mahasiswa = $conn->query($sql_mahasiswa);
+                  WHERE users.role='mahasiswa' AND users.nama LIKE ?";
+$stmt = $conn->prepare($sql_mahasiswa);
+$search_param = "%$search%";
+$stmt->bind_param("s", $search_param);
+$stmt->execute();
+$result_mahasiswa = $stmt->get_result();
 $mahasiswa_list = [];
 if ($result_mahasiswa->num_rows > 0) {
     while ($row_mahasiswa = $result_mahasiswa->fetch_assoc()) {
         $mahasiswa_list[] = $row_mahasiswa;
     }
 }
+$stmt->close();
 
 // Ambil data semester dari database
 $sql_semester = "SELECT id, nama_semester FROM semester";
@@ -86,8 +92,15 @@ $conn->close();
                 <option value="<?php echo $semester['id']; ?>"><?php echo $semester['nama_semester']; ?></option>
             <?php endforeach; ?>
         </select>
-        <button type="submit">Daftar</button>
+        <button type="submit" name="daftar_mahasiswa">Daftar</button>
     </form>
+
+    <form action="daftar_mahasiswa.php" method="GET" class="search-form">
+        <label for="search">Cari Nama Mahasiswa:</label>
+        <input type="text" name="search" id="search" value="<?php echo htmlspecialchars($search); ?>">
+        <button type="submit">Cari</button>
+    </form>
+
     <table class="data-table">
         <thead>
             <tr>
