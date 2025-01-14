@@ -54,7 +54,7 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <title><?php echo $page_title; ?></title>
-    <link rel="stylesheet" href="../../css/style_daftarmahasiswa.css">
+    <link rel="stylesheet" href="../../css/style_daftar.css">
 </head>
 <body>
 <main class="main-content">

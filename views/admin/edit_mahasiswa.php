@@ -67,7 +67,7 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <title>Edit Mahasiswa</title>
-    <link rel="stylesheet" href="../../css/style_daftarmahasiswa.css">
+    <link rel="stylesheet" href="../../css/style_daftar.css">
 </head>
 <body>
 <main class="main-content">
