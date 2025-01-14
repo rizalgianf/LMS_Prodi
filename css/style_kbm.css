@@ -1,5 +1,4 @@
 /* Reset default browser styles */
-
 * {
     margin: 0;
     padding: 0;
@@ -64,6 +63,7 @@ form button:hover {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    overflow-x: auto; /* Membolehkan scroll horizontal pada tabel */
 }
 
 .data-table th,
@@ -130,12 +130,14 @@ form button:hover {
     margin-top: 20px;
 }
 
+/* Responsif untuk .pesan */
 .pesan {
     padding: 10px;
     border: 1px solid #1e90ff;
     border-radius: 4px;
     margin-bottom: 10px;
     background-color: #f0f8ff;
+    font-size: 12px; /* Menurunkan ukuran font default untuk teks yang lebih kecil */
 }
 
 .pesan p {
@@ -144,4 +146,177 @@ form button:hover {
 
 .pesan small {
     color: #666;
+}
+
+/* Media Queries untuk Responsif */
+@media (max-width: 1200px) {
+    .main-content {
+        padding: 25px;
+    }
+
+    .page-title {
+        font-size: 24px;
+    }
+
+    form input,
+    form select,
+    form button,
+    form textarea {
+        font-size: 16px;
+    }
+
+    .pesan {
+        padding: 12px;
+        font-size: 14px; /* Lebih kecil untuk layar lebih besar */
+    }
+}
+
+@media (max-width: 992px) {
+    .main-content {
+        padding: 20px;
+    }
+
+    .page-title {
+        font-size: 22px;
+    }
+
+    form input,
+    form select,
+    form button,
+    form textarea {
+        font-size: 15px;
+    }
+
+    .data-table th,
+    .data-table td {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .data-table button {
+        font-size: 14px;
+    }
+
+    .forum-diskusi {
+        margin-top: 15px;
+    }
+
+    .pesan {
+        padding: 10px;
+        font-size: 13px; /* Sedikit lebih kecil pada layar lebih kecil */
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        padding: 15px;
+    }
+
+    .page-title {
+        font-size: 20px;
+    }
+
+    form input,
+    form select,
+    form button,
+    form textarea {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .data-table th,
+    .data-table td {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .data-table button {
+        font-size: 12px;
+        padding: 6px 8px;
+    }
+
+    .forum-diskusi {
+        margin-top: 15px;
+    }
+
+    .pesan {
+        padding: 8px;
+        font-size: 12px; /* Ukuran font lebih kecil */
+    }
+}
+
+@media (max-width: 576px) {
+    .main-content {
+        padding: 10px;
+    }
+
+    .page-title {
+        font-size: 18px;
+    }
+
+    form input,
+    form select,
+    form button,
+    form textarea {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .data-table th,
+    .data-table td {
+        font-size: 10px;
+        padding: 6px;
+    }
+
+    .data-table button {
+        font-size: 10px;
+        padding: 4px 6px;
+    }
+
+    .forum-diskusi {
+        margin-top: 10px;
+    }
+
+    .pesan {
+        padding: 6px;
+        font-size: 11px; /* Ukuran font lebih kecil pada layar lebih kecil */
+    }
+}
+
+@media (max-width: 360px) {
+    .main-content {
+        padding: 5px;
+    }
+
+    .page-title {
+        font-size: 16px;
+    }
+
+    form input,
+    form select,
+    form button,
+    form textarea {
+        font-size: 12px;
+        padding: 5px;
+    }
+
+    .data-table th,
+    .data-table td {
+        font-size: 10px;
+        padding: 5px;
+    }
+
+    .data-table button {
+        font-size: 10px;
+        padding: 4px 5px;
+    }
+
+    .forum-diskusi {
+        margin-top: 10px;
+    }
+
+    .pesan {
+        padding: 5px;
+        font-size: 10px; /* Ukuran font lebih kecil untuk layar lebih kecil */
+    }
 }
