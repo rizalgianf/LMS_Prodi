@@ -67,7 +67,7 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <title>Edit Mahasiswa</title>
-    <link rel="stylesheet" href="../../css/style_daftar.css">
+    <link rel="stylesheet" href="../../css/style_edit.css">
 </head>
 <body>
 <main class="main-content">
@@ -87,10 +87,12 @@ $conn->close();
                 </option>
             <?php endforeach; ?>
         </select>
-        <button type="submit" name="update_mahasiswa">Update</button>
+        <div class="button-container">
+            <button type="submit" name="update_mahasiswa" class="button update">Update</button>
+            <a href="daftar_mahasiswa.php" class="button kembali">Kembali</a>
+        </div>
     </form>
+    <?php include '../../includes/footer.php'; ?>
 </main>
-
-<?php include '../../includes/footer.php'; ?>
 </body>
 </html>

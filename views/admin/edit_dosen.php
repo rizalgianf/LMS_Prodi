@@ -68,10 +68,12 @@ $conn->close();
         <input type="text" name="username" id="username" value="<?php echo $dosen['username']; ?>" required>
         <label for="password">Password (kosongkan jika tidak ingin mengubah):</label>
         <input type="password" name="password" id="password">
-        <button type="submit" name="update_dosen">Update</button>
+        <div class="button-container">
+            <button type="submit" name="update_dosen" class="button update">Update</button>
+            <a href="daftar_dosen.php" class="button kembali">Kembali</a>
+        </div>
     </form>
+    <?php include '../../includes/footer.php'; ?>
 </main>
-
-<?php include '../../includes/footer.php'; ?>
 </body>
 </html>

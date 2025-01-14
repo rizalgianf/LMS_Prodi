@@ -76,8 +76,7 @@ $conn->close();
         </select>
         <button type="submit">Update</button>
     </form>
+    <?php include '../../includes/footer.php'; ?>
 </main>
-
-<?php include '../../includes/footer.php'; ?>
 </body>
 </html>
