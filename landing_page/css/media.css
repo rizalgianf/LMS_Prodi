@@ -12,14 +12,14 @@ http://www.templatemo.com/tm-473-november
 
 @media only screen and (min-width: 1025px) and (max-width: 1200px) {
 
-	header { width: 100%; }
+	/*header { width: 100%; }
 	header .Center { width: 100%; padding: 0px 2%;  }
 	header .site-logo { padding: 18px 0 0 1px; }
 	header.smaller .site-logo { padding: 11px 0 0; }
 	
 	.Navigation { margin-right: 0px; }
 	.Navigation li a { padding: 30px 36px; }
-	header.smaller .Navigation li a { padding: 16px 36px; }
+	header.smaller .Navigation li a { padding: 16px 36px; }*/
 
 	
 	.Banner_sec { width: 100%; height: 524px; }
@@ -78,11 +78,11 @@ http://www.templatemo.com/tm-473-november
 /* Tablet Portrait size to standard 960 (devices and browsers) */
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
 
-	header { width: 100%; height: 87px; }
+	/*header { width: 100%; height: 87px; }
 	header .Center { width: 100%; padding: 0px 2%; }
 	header .site-logo { padding: 27px 0 0 1px;  position: relative; z-index: 1; }
 	header .site-logo h1 { line-height: 33px; }	
-	header.smaller .Navigation li a { padding: 16px 20px; }
+	header.smaller .Navigation li a { padding: 16px 20px; } */
 
 	.Navigation {  margin-right: 0px; }
 	.Navigation li a { padding: 30px 20px; }
@@ -185,13 +185,13 @@ http://www.templatemo.com/tm-473-november
 /* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
 @media only screen and (min-width: 480px) and (max-width: 767px) {
 
-	header { width: 100%; position: absolute; height: 57px;}
+	/*header { width: 100%; position: absolute; height: 57px;}
 	header .Center { width: 100%;  }
 	header .site-logo { padding: 10px 0% 0px 3%; position: relative; z-index: 1; }
 	header .site-logo h1 { margin: 0px; line-height: 36px; }
 	header.smaller { height: 55px;}
 	header.smaller .site-logo { padding: 10px 0% 0px 3%; }
-	header.smaller .site-logo h1 a { font-size: 36px; }
+	header.smaller .site-logo h1 a { font-size: 36px; }*/
 	
 	#mobile_sec { position: fixed; width: 100%; }
 	#mobile_sec .mobile { display: block; position: relative; float: right;}
@@ -289,13 +289,13 @@ http://www.templatemo.com/tm-473-november
 @media only screen and (max-width: 479px) {
 
 
-	header { width: 100%; position: absolute; height: 57px; }
+	/*header { width: 100%; position: absolute; height: 57px; }
 	header .Center { width: 100%;}
 	header .site-logo { padding: 10px 0% 0px 3%; position: relative; z-index: 1; }
 	header .site-logo h1 { margin: 0px; line-height: 36px; }
 	header.smaller { height: 55px;}
 	header.smaller .site-logo { padding: 10px 0% 0px 3%; }
-	header.smaller .site-logo h1 a { font-size: 36px; }
+	header.smaller .site-logo h1 a { font-size: 36px; }*/
 	
 	#mobile_sec { position: fixed; width: 100%;}
 	#mobile_sec .mobile { display: block; position: relative; float: right; }
@@ -304,7 +304,7 @@ http://www.templatemo.com/tm-473-november
 	#mobile_sec .menumobile .Navigation ul { float: none;}
 	#mobile_sec .menumobile .Navigation li { float: none; width: 100%; border-bottom: solid 1px #365374; }
 	#mobile_sec .menumobile .Navigation li a { padding: 10px; background: none; border-bottom: none; }
-	#mobile_sec .menumobile .Navigation li a:hover, #mobile_sec .menumobile .Navigation li a.active { background: #0163E2; border-bottom: none; }
+	#mobile_sec .menumobile .Navigation li a:hover, #mobile_sec .menumobile .Navigation li a.active { background: #0163e2; border-bottom: none; }
 	#mobile_sec .menumobile .Navigation li:last-child { border-bottom: none; }
 
 	
@@ -397,7 +397,7 @@ http://www.templatemo.com/tm-473-november
 
 @media only screen and (max-width: 1199px) {
 	
-	header,
+	/*header,
 	.Navigation li,
 	.Navigation li:hover span, 
 	.Navigation li.active span { 
@@ -405,7 +405,7 @@ http://www.templatemo.com/tm-473-november
 	header.smaller .Navigation li:hover span,
 	header.smaller .Navigation li.active span {
 		height: 60px;
-	}
+	}*/
 }
 @media only screen and (max-width: 767px) {
 	header { 
@@ -427,7 +427,7 @@ http://www.templatemo.com/tm-473-november
 	}
 	#mobile_sec .menumobile .Navigation li:hover, 
 	#mobile_sec .menumobile .Navigation li.active {
-		background: #0163E2 none repeat scroll 0% 0%;
+		background: #0163e2 none repeat scroll 0% 0%;
 		border-bottom: medium none;
 	}
 	header.smaller .Navigation li {

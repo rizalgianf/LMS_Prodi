@@ -1,5 +1,5 @@
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif !important;
     margin: 0;
     padding: 0;
     background-color: #f0f8ff; /* Soft blue background color */
@@ -145,8 +145,10 @@ body {
     background-color: #0163e2; /* Premium blue for footer */
     color: #ffffff;
     text-align: center;
-    padding: 0.5px 0;
+    padding: 1px 0; /* Tambahkan padding untuk footer */
     position: fixed;
     bottom: 0;
+    left: 0;
     width: 100%;
+    z-index: 1000; /* Pastikan footer berada di atas elemen lain */
 }

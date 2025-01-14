@@ -10,7 +10,7 @@
     <header class="main-header">
         <div class="header-container">
         <img src="../../images/logo.png" alt="Logo SIAKAD" class="logo">
-            <h1 class="site-title">Learning Management System Dosen Dashboard</h1>
+            <h1 class="site-title">Learning Management System Dosen </h1>
             <nav class="main-nav">
                 <ul>
                     <li><a href="home_dosen.php">Home</a></li>

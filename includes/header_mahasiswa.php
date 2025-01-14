@@ -10,7 +10,7 @@
     <header class="main-header">
         <div class="header-container">
         <img src="../../images/logo.png" alt="Logo SIAKAD" class="logo">
-            <h1 class="site-title">Learning Management System Mahasiswa Dashboard</h1>
+            <h1 class="site-title">Learning Management System Mahasiswa </h1>
             <nav class="main-nav">
                 <ul>
                     <li><a href="home_mhs.php">Home</a></li>
