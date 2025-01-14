@@ -57,7 +57,7 @@ $conn->close();
 <head>
     <meta charset="UTF-8">
     <title>Edit Mata Kuliah</title>
-    <link rel="stylesheet" href="../../css/style_daftar.css">
+    <link rel="stylesheet" href="../../css/style_edit.css">
 </head>
 <body>
 <main class="main-content">
