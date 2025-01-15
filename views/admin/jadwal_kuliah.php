@@ -11,7 +11,7 @@ $page_title = "Jadwal Kuliah";
 include '../../includes/header.php';
 
 // Ambil data jadwal dari tabel pertemuan
-$sort_semester = $_GET['sort_semester'] ?? '';
+$sort_cohort = $_GET['sort_cohort'] ?? '';
 $sort_time = $_GET['sort_time'] ?? '7 days';
 
 $sql = "SELECT pertemuan.*, mata_kuliah.nama AS mata_kuliah_nama, users.nama AS dosen_nama, semester.nama_semester, cohort.nama_cohort
@@ -23,8 +23,8 @@ $sql = "SELECT pertemuan.*, mata_kuliah.nama AS mata_kuliah_nama, users.nama AS 
         JOIN cohort ON kelas.id_cohort = cohort.id
         WHERE users.role = 'dosen'";
 
-if ($sort_semester) {
-    $sql .= " AND semester.nama_semester = ?";
+if ($sort_cohort) {
+    $sql .= " AND cohort.nama_cohort = ?";
 }
 
 switch ($sort_time) {
@@ -41,8 +41,8 @@ switch ($sort_time) {
 
 $sql .= " ORDER BY pertemuan.tanggal ASC";
 $stmt = $conn->prepare($sql);
-if ($sort_semester) {
-    $stmt->bind_param("s", $sort_semester);
+if ($sort_cohort) {
+    $stmt->bind_param("s", $sort_cohort);
 }
 $stmt->execute();
 $result = $stmt->get_result();
@@ -54,13 +54,13 @@ if ($result->num_rows > 0) {
 }
 $stmt->close();
 
-// Ambil data semester dari database
-$sql_semester = "SELECT id, nama_semester FROM semester";
-$result_semester = $conn->query($sql_semester);
-$semester_list = [];
-if ($result_semester->num_rows > 0) {
-    while ($row_semester = $result_semester->fetch_assoc()) {
-        $semester_list[] = $row_semester;
+// Ambil data cohort dari database
+$sql_cohort = "SELECT id, nama_cohort FROM cohort";
+$result_cohort = $conn->query($sql_cohort);
+$cohort_list = [];
+if ($result_cohort->num_rows > 0) {
+    while ($row_cohort = $result_cohort->fetch_assoc()) {
+        $cohort_list[] = $row_cohort;
     }
 }
 ?>
@@ -77,13 +77,13 @@ if ($result_semester->num_rows > 0) {
 <main class="main-content">
     <h2 class="page-title">Daftar Jadwal Kuliah</h2>
     <form action="jadwal_kuliah.php" method="GET" class="search-form">
-        <label for="sort_semester" class="sr-only">Urutkan berdasarkan Semester:</label>
+        <label for="sort_cohort" class="sr-only">Urutkan berdasarkan Cohort:</label>
         <div class="search-container">
-            <select name="sort_semester" id="sort_semester" onchange="this.form.submit()">
-                <option value="">Pilih Semester</option>
-                <?php foreach ($semester_list as $semester): ?>
-                    <option value="<?php echo $semester['nama_semester']; ?>" <?php if ($sort_semester == $semester['nama_semester']) echo 'selected'; ?>>
-                        <?php echo $semester['nama_semester']; ?>
+            <select name="sort_cohort" id="sort_cohort" onchange="this.form.submit()">
+                <option value="">Pilih Cohort</option>
+                <?php foreach ($cohort_list as $cohort): ?>
+                    <option value="<?php echo $cohort['nama_cohort']; ?>" <?php if ($sort_cohort == $cohort['nama_cohort']) echo 'selected'; ?>>
+                        <?php echo $cohort['nama_cohort']; ?>
                     </option>
                 <?php endforeach; ?>
             </select>
