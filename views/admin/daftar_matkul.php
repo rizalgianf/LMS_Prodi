@@ -82,7 +82,7 @@ $conn->close();
 </head>
 <body>
 <main class="main-content">
-    <h2 class="page-title">Input Mata Kuliah</h2>
+    <h2 class="page-title">Daftar Mata Kuliah</h2>
     <form action="daftar_matkul.php" method="POST">
         <label for="nama_matkul">Nama Mata Kuliah:</label>
         <input type="text" name="nama_matkul" id="nama_matkul" required>
@@ -95,7 +95,6 @@ $conn->close();
         <button type="submit">Tambah</button>
     </form>
 
-    <h2 class="page-title">Daftar Mata Kuliah</h2>
     <form action="daftar_matkul.php" method="GET" class="search-form">
         <label for="search" class="sr-only">Cari Nama Mata Kuliah:</label>
         <div class="search-container">

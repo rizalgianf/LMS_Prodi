@@ -35,19 +35,20 @@ if ($result_semester->num_rows > 0) {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_mahasiswa'])) {
     $nama = $_POST['nama'];
     $username = $_POST['username'];
+    $nim = $_POST['nim'];
     $password = $_POST['password'];
     $semester_id = $_POST['semester'];
 
     if (!empty($password)) {
         // Hash password jika diubah
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "UPDATE users SET nama = ?, username = ?, password = ?, semester_id = ? WHERE id = ? AND role = 'mahasiswa'";
+        $sql = "UPDATE users SET nama = ?, username = ?, nim = ?, password = ?, semester_id = ? WHERE id = ? AND role = 'mahasiswa'";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssii", $nama, $username, $hashed_password, $semester_id, $id);
+        $stmt->bind_param("ssssii", $nama, $username, $nim, $hashed_password, $semester_id, $id);
     } else {
-        $sql = "UPDATE users SET nama = ?, username = ?, semester_id = ? WHERE id = ? AND role = 'mahasiswa'";
+        $sql = "UPDATE users SET nama = ?, username = ?, nim = ?, semester_id = ? WHERE id = ? AND role = 'mahasiswa'";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssii", $nama, $username, $semester_id, $id);
+        $stmt->bind_param("sssii", $nama, $username, $nim, $semester_id, $id);
     }
 
     if ($stmt->execute()) {
@@ -77,6 +78,8 @@ $conn->close();
         <input type="text" name="nama" id="nama" value="<?php echo $mahasiswa['nama']; ?>" required>
         <label for="username">Username:</label>
         <input type="text" name="username" id="username" value="<?php echo $mahasiswa['username']; ?>" required>
+        <label for="nim">NIM:</label>
+        <input type="text" name="nim" id="nim" value="<?php echo $mahasiswa['nim']; ?>" required>
         <label for="password">Password (kosongkan jika tidak ingin mengubah):</label>
         <input type="password" name="password" id="password">
         <label for="semester">Semester:</label>

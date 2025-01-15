@@ -13,20 +13,19 @@ $page_title = "Daftar Mahasiswa";
 include '../../includes/header.php'; // Menggunakan header khusus untuk admin
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['daftar_mahasiswa'])) {
-    // Mengambil data dari form
     $nama = $_POST['nama'];
     $username = $_POST['username'];
+    $nim = $_POST['nim'];
     $password = $_POST['password'];
     $semester_id = $_POST['semester'];
-    $role = 'mahasiswa'; // Set role sebagai mahasiswa
+    $role = 'mahasiswa';
 
-    // Hash password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    // Menyimpan nama, username, hashed password, semester_id, dan role ke database
-    $sql = "INSERT INTO users (nama, username, password, semester_id, role) VALUES (?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO users (nama, username, nim, password, semester_id, role) 
+            VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssis", $nama, $username, $hashed_password, $semester_id, $role);
+    $stmt->bind_param("ssssis", $nama, $username, $nim, $hashed_password, $semester_id, $role);
 
     if ($stmt->execute()) {
         echo "Pendaftaran berhasil!";
@@ -40,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['daftar_mahasiswa'])) {
 // Ambil data mahasiswa dari database
 $search = $_GET['search'] ?? '';
 $sort_semester = $_GET['sort_semester'] ?? '';
-$sql_mahasiswa = "SELECT users.id, users.nama, users.username, semester.nama_semester 
+$sql_mahasiswa = "SELECT users.id, users.nama, users.username, users.nim, semester.nama_semester 
                   FROM users 
                   LEFT JOIN semester ON users.semester_id = semester.id 
                   WHERE users.role='mahasiswa' AND users.nama LIKE ?";
@@ -90,20 +89,22 @@ $conn->close();
 <main class="main-content">
     <h2 class="page-title">Daftar Mahasiswa</h2>
     <form action="daftar_mahasiswa.php" method="POST">
-        <label for="nama">Nama:</label>
-        <input type="text" name="nama" id="nama" required>
-        <label for="username">Username:</label>
-        <input type="text" name="username" id="username" required>
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" required>
-        <label for="semester">Semester:</label>
-        <select name="semester" id="semester" required>
-            <?php foreach ($semester_list as $semester): ?>
-                <option value="<?php echo $semester['id']; ?>"><?php echo $semester['nama_semester']; ?></option>
-            <?php endforeach; ?>
-        </select>
-        <button type="submit" name="daftar_mahasiswa">Daftar</button>
-    </form>
+    <label for="nama">Nama:</label>
+    <input type="text" name="nama" id="nama" required>
+    <label for="username">Username:</label>
+    <input type="text" name="username" id="username" required>
+    <label for="nim">NIM:</label>
+    <input type="text" name="nim" id="nim" required>
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password" required>
+    <label for="semester">Semester:</label>
+    <select name="semester" id="semester" required>
+        <?php foreach ($semester_list as $semester): ?>
+            <option value="<?php echo $semester['id']; ?>"><?php echo $semester['nama_semester']; ?></option>
+        <?php endforeach; ?>
+    </select>
+    <button type="submit" name="daftar_mahasiswa">Daftar</button>
+</form>
 
     <form action="daftar_mahasiswa.php" method="GET" class="search-form">
         <label for="search" class="sr-only">Cari Nama Mahasiswa:</label>
@@ -126,28 +127,30 @@ $conn->close();
     </form>
 
     <table class="data-table">
-        <thead>
+    <thead>
+        <tr>
+            <th>Nama</th>
+            <th>Username</th>
+            <th>NIM</th>
+            <th>Semester</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($mahasiswa_list as $mahasiswa): ?>
             <tr>
-                <th>Nama</th>
-                <th>Username</th>
-                <th>Semester</th>
-                <th>Aksi</th>
+                <td><?php echo $mahasiswa['nama']; ?></td>
+                <td><?php echo $mahasiswa['username']; ?></td>
+                <td><?php echo $mahasiswa['nim']; ?></td>
+                <td><?php echo $mahasiswa['nama_semester']; ?></td>
+                <td class="action-buttons">
+                    <a href="edit_mahasiswa.php?id=<?php echo $mahasiswa['id']; ?>" class="edit">Edit</a>
+                    <a href="hapus_mahasiswa.php?id=<?php echo $mahasiswa['id']; ?>" class="delete" onclick="return confirm('Apakah Anda yakin ingin menghapus mahasiswa ini?')">Delete</a>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($mahasiswa_list as $mahasiswa): ?>
-                <tr>
-                    <td><?php echo $mahasiswa['nama']; ?></td>
-                    <td><?php echo $mahasiswa['username']; ?></td>
-                    <td><?php echo $mahasiswa['nama_semester']; ?></td>
-                    <td class="action-buttons">
-                        <a href="edit_mahasiswa.php?id=<?php echo $mahasiswa['id']; ?>" class="edit">Edit</a>
-                        <a href="hapus_mahasiswa.php?id=<?php echo $mahasiswa['id']; ?>" class="delete" onclick="return confirm('Apakah Anda yakin ingin menghapus mahasiswa ini?')">Delete</a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+        <?php endforeach; ?>
+    </tbody>
+</table>
 </main>
 
 <?php include '../../includes/footer.php'; ?>

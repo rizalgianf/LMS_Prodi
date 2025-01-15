@@ -79,6 +79,36 @@ html, body {
     transform: scale(1.05); /* Slight zoom effect on hover */
 }
 
+/* Dropdown menu */
+.dropdown {
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #0374f4;
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #3b82f6;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
 /* Layout kontainer utama */
 .main-container {
     display: flex;
