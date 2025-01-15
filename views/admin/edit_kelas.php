@@ -60,13 +60,13 @@ if ($result_cohort->num_rows > 0) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_kelas'])) {
-    $nama_kelas = $_POST['nama_kelas'];
+    $id_cohort = $_POST['id_cohort'];
     $mata_kuliah_id = $_POST['mata_kuliah'];
     $dosen_id = $_POST['dosen'];
 
-    $sql = "UPDATE kelas SET nama_kelas = ?, mata_kuliah_id = ?, dosen_id = ? WHERE id = ?";
+    $sql = "UPDATE kelas SET id_cohort = ?, mata_kuliah_id = ?, dosen_id = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("siii", $nama_kelas, $mata_kuliah_id, $dosen_id, $id);
+    $stmt->bind_param("iiii", $id_cohort, $mata_kuliah_id, $dosen_id, $id);
 
     if ($stmt->execute()) {
         header("Location: kbm.php");
@@ -91,10 +91,10 @@ $conn->close();
 <main class="main-content">
     <h2 class="page-title">Edit Kelas</h2>
     <form action="edit_kelas.php?id=<?php echo $id; ?>" method="POST">
-        <label for="nama_kelas">Nama Kelas:</label>
-        <select name="nama_kelas" id="nama_kelas" required>
+        <label for="id_cohort">Nama Kelas:</label>
+        <select name="id_cohort" id="id_cohort" required>
             <?php foreach ($cohort_list as $cohort): ?>
-                <option value="<?php echo $cohort['nama_cohort']; ?>" <?php echo ($cohort['nama_cohort'] == $kelas['nama_kelas']) ? 'selected' : ''; ?>>
+                <option value="<?php echo $cohort['id']; ?>" <?php echo ($cohort['id'] == $kelas['id_cohort']) ? 'selected' : ''; ?>>
                     <?php echo $cohort['nama_cohort']; ?>
                 </option>
             <?php endforeach; ?>

@@ -69,33 +69,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['buat_kelas'])) {
     $mata_kuliah_id = $_POST['mata_kuliah'];
     $dosen_id = $_POST['dosen'];
 
-    $sql = "INSERT INTO kelas (id_cohort, mata_kuliah_id, dosen_id) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("iii", $id_cohort, $mata_kuliah_id, $dosen_id);
-
-    if ($stmt->execute()) {
-        echo "Kelas berhasil dibuat!";
+    // Check if the mata kuliah is already selected for the cohort
+    if (isset($existing_classes[$id_cohort]) && in_array($mata_kuliah_id, $existing_classes[$id_cohort])) {
+        echo "Mata kuliah ini sudah dipilih untuk cohort ini.";
     } else {
-        echo "Error: " . $stmt->error;
-    }
+        $sql = "INSERT INTO kelas (id_cohort, mata_kuliah_id, dosen_id) VALUES (?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("iii", $id_cohort, $mata_kuliah_id, $dosen_id);
 
-    $stmt->close();
+        if ($stmt->execute()) {
+            echo "Kelas berhasil dibuat!";
+        } else {
+            echo "Error: " . $stmt->error;
+        }
+
+        $stmt->close();
+    }
 }
 
 // Ambil data kelas dari database
 $sort_semester = $_GET['sort_semester'] ?? '';
-$sql_kelas = "SELECT kelas.id, mata_kuliah.nama AS mata_kuliah, users.nama AS dosen, semester.nama_semester
+$sort_cohort = $_GET['sort_cohort'] ?? '';
+$sql_kelas = "SELECT kelas.id, cohort.nama_cohort, mata_kuliah.nama AS mata_kuliah, users.nama AS dosen, semester.nama_semester
               FROM kelas
+              JOIN cohort ON kelas.id_cohort = cohort.id
               JOIN mata_kuliah ON kelas.mata_kuliah_id = mata_kuliah.id
               JOIN users ON kelas.dosen_id = users.id
               JOIN semester ON mata_kuliah.semester_id = semester.id
               WHERE users.role = 'dosen'";
+if ($sort_cohort) {
+    $sql_kelas .= " AND cohort.nama_cohort = ?";
+}
 if ($sort_semester) {
     $sql_kelas .= " AND semester.nama_semester = ?";
 }
-$sql_kelas .= " ORDER BY semester.nama_semester ASC";
+$sql_kelas .= " ORDER BY cohort.nama_cohort ASC, semester.nama_semester ASC";
 $stmt = $conn->prepare($sql_kelas);
-if ($sort_semester) {
+if ($sort_cohort && $sort_semester) {
+    $stmt->bind_param("ss", $sort_cohort, $sort_semester);
+} elseif ($sort_cohort) {
+    $stmt->bind_param("s", $sort_cohort);
+} elseif ($sort_semester) {
     $stmt->bind_param("s", $sort_semester);
 }
 $stmt->execute();
@@ -150,6 +164,14 @@ $conn->close();
     <form action="kbm.php" method="GET" class="search-form">
         <label for="sort_semester" class="sr-only">Urutkan berdasarkan Semester:</label>
         <div class="search-container">
+            <select name="sort_cohort" id="sort_cohort" onchange="this.form.submit()">
+                <option value="">Pilih Cohort</option>
+                <?php foreach ($cohort_list as $cohort): ?>
+                    <option value="<?php echo $cohort['nama_cohort']; ?>" <?php if ($sort_cohort == $cohort['nama_cohort']) echo 'selected'; ?>>
+                        <?php echo $cohort['nama_cohort']; ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
             <select name="sort_semester" id="sort_semester" onchange="this.form.submit()">
                 <option value="">Pilih Semester</option>
                 <?php foreach ($semester_list as $semester): ?>
@@ -165,6 +187,7 @@ $conn->close();
     <table class="data-table">
         <thead>
             <tr>
+                <th>Cohort</th>
                 <th>Mata Kuliah</th>
                 <th>Semester</th>
                 <th>Dosen</th>
@@ -174,6 +197,7 @@ $conn->close();
         <tbody>
             <?php foreach ($kelas_list as $kelas): ?>
                 <tr>
+                    <td><?php echo $kelas['nama_cohort']; ?></td>
                     <td><?php echo $kelas['mata_kuliah']; ?></td>
                     <td><?php echo $kelas['nama_semester']; ?></td>
                     <td><?php echo $kelas['dosen']; ?></td>

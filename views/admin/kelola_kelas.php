@@ -18,8 +18,9 @@ if (empty($kelas_id)) {
 }
 
 // Ambil data kelas
-$sql_kelas = "SELECT kelas.id, kelas.nama_kelas, mata_kuliah.nama AS mata_kuliah, mata_kuliah.jumlah_sks, users.nama AS dosen
+$sql_kelas = "SELECT kelas.id, cohort.nama_cohort, mata_kuliah.nama AS mata_kuliah, mata_kuliah.jumlah_sks, users.nama AS dosen
               FROM kelas
+              JOIN cohort ON kelas.id_cohort = cohort.id
               JOIN mata_kuliah ON kelas.mata_kuliah_id = mata_kuliah.id
               JOIN users ON kelas.dosen_id = users.id
               WHERE kelas.id = ?";
@@ -82,8 +83,9 @@ $conn->close();
 </head>
 <body>
 <main class="main-content">
-    <h2 class="page-title">Kelola Kelas: <?php echo $kelas['nama_kelas']; ?></h2>
-    <p>Mata Kuliah: <?php echo $kelas['mata_kuliah']; ?></p>
+    <h2 class="page-title">Kelola Kelas: <?php echo $kelas['nama_cohort']; ?></h2>
+    <h2>Mata Kuliah: <?php echo $kelas['mata_kuliah']; ?></h2>
+    <p>SKS: <?php echo $kelas['jumlah_sks']; ?></p>
     <p>Dosen: <?php echo $kelas['dosen']; ?></p>
     <form action="kelola_kelas.php?id=<?php echo $kelas_id; ?>" method="POST">
         <label for="tanggal">Tanggal:</label>
@@ -131,17 +133,18 @@ $conn->close();
 <script>
 function updateHari() {
     const tanggal = document.getElementById('tanggal').value;
+    if (!tanggal) return;
     const hari = new Date(tanggal).toLocaleDateString('id-ID', { weekday: 'long' });
     const hariIndo = {
-        'Sunday': 'Minggu',
-        'Monday': 'Senin',
-        'Tuesday': 'Selasa',
-        'Wednesday': 'Rabu',
-        'Thursday': 'Kamis',
-        'Friday': 'Jumat',
-        'Saturday': 'Sabtu'
+        'Minggu': 'Minggu',
+        'Senin': 'Senin',
+        'Selasa': 'Selasa',
+        'Rabu': 'Rabu',
+        'Kamis': 'Kamis',
+        'Jumat': 'Jumat',
+        'Sabtu': 'Sabtu'
     };
-    document.getElementById('hari').value = hariIndo[hari];
+    document.getElementById('hari').value = hariIndo[hari] || 'Tidak diketahui';
 }
 
 function updateWaktuSelesai() {
