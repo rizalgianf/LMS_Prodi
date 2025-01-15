@@ -53,15 +53,25 @@ if ($result_cohort->num_rows > 0) {
     }
 }
 
+// Ambil data kelas yang sudah ada
+$sql_existing_classes = "SELECT id_cohort, mata_kuliah_id FROM kelas";
+$result_existing_classes = $conn->query($sql_existing_classes);
+$existing_classes = [];
+if ($result_existing_classes->num_rows > 0) {
+    while ($row_existing_class = $result_existing_classes->fetch_assoc()) {
+        $existing_classes[$row_existing_class['id_cohort']][] = $row_existing_class['mata_kuliah_id'];
+    }
+}
+
 // Proses form untuk membuat kelas baru
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['buat_kelas'])) {
-    $nama_kelas = $_POST['nama_kelas'];
+    $id_cohort = $_POST['id_cohort'];
     $mata_kuliah_id = $_POST['mata_kuliah'];
     $dosen_id = $_POST['dosen'];
 
-    $sql = "INSERT INTO kelas (nama_kelas, mata_kuliah_id, dosen_id) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO kelas (id_cohort, mata_kuliah_id, dosen_id) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sii", $nama_kelas, $mata_kuliah_id, $dosen_id);
+    $stmt->bind_param("iii", $id_cohort, $mata_kuliah_id, $dosen_id);
 
     if ($stmt->execute()) {
         echo "Kelas berhasil dibuat!";
@@ -74,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['buat_kelas'])) {
 
 // Ambil data kelas dari database
 $sort_semester = $_GET['sort_semester'] ?? '';
-$sql_kelas = "SELECT kelas.id, kelas.nama_kelas, mata_kuliah.nama AS mata_kuliah, users.nama AS dosen, semester.nama_semester
+$sql_kelas = "SELECT kelas.id, mata_kuliah.nama AS mata_kuliah, users.nama AS dosen, semester.nama_semester
               FROM kelas
               JOIN mata_kuliah ON kelas.mata_kuliah_id = mata_kuliah.id
               JOIN users ON kelas.dosen_id = users.id
@@ -113,16 +123,18 @@ $conn->close();
 <main class="main-content">
     <h2 class="page-title">Pengaturan Kegiatan Belajar Mengajar</h2>
     <form action="kbm.php" method="POST">
-        <label for="nama_kelas">Nama Kelas:</label>
-        <select name="nama_kelas" id="nama_kelas" required>
+        <label for="id_cohort">Nama Kelas:</label>
+        <select name="id_cohort" id="id_cohort" required>
             <?php foreach ($cohort_list as $cohort): ?>
-                <option value="<?php echo $cohort['nama_cohort']; ?>"><?php echo $cohort['nama_cohort']; ?></option>
+                <option value="<?php echo $cohort['id']; ?>"><?php echo $cohort['nama_cohort']; ?></option>
             <?php endforeach; ?>
         </select>
         <label for="mata_kuliah">Mata Kuliah:</label>
         <select name="mata_kuliah" id="mata_kuliah" required>
             <?php foreach ($mata_kuliah_list as $mk): ?>
-                <option value="<?php echo $mk['id']; ?>"><?php echo $mk['nama']; ?> - <?php echo $mk['nama_semester']; ?></option>
+                <?php if (!isset($existing_classes[$_POST['id_cohort']]) || !in_array($mk['id'], $existing_classes[$_POST['id_cohort']])): ?>
+                    <option value="<?php echo $mk['id']; ?>"><?php echo $mk['nama']; ?> - <?php echo $mk['nama_semester']; ?></option>
+                <?php endif; ?>
             <?php endforeach; ?>
         </select>
         <label for="dosen">Dosen:</label>
@@ -153,7 +165,6 @@ $conn->close();
     <table class="data-table">
         <thead>
             <tr>
-                <th>Nama Kelas</th>
                 <th>Mata Kuliah</th>
                 <th>Semester</th>
                 <th>Dosen</th>
@@ -163,7 +174,6 @@ $conn->close();
         <tbody>
             <?php foreach ($kelas_list as $kelas): ?>
                 <tr>
-                    <td><?php echo $kelas['nama_kelas']; ?></td>
                     <td><?php echo $kelas['mata_kuliah']; ?></td>
                     <td><?php echo $kelas['nama_semester']; ?></td>
                     <td><?php echo $kelas['dosen']; ?></td>

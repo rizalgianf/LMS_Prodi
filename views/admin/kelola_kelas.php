@@ -18,7 +18,7 @@ if (empty($kelas_id)) {
 }
 
 // Ambil data kelas
-$sql_kelas = "SELECT kelas.id, kelas.nama_kelas, mata_kuliah.nama AS mata_kuliah, users.nama AS dosen
+$sql_kelas = "SELECT kelas.id, kelas.nama_kelas, mata_kuliah.nama AS mata_kuliah, mata_kuliah.jumlah_sks, users.nama AS dosen
               FROM kelas
               JOIN mata_kuliah ON kelas.mata_kuliah_id = mata_kuliah.id
               JOIN users ON kelas.dosen_id = users.id
@@ -38,11 +38,14 @@ if (!$kelas) {
 // Proses form untuk membuat pertemuan baru
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['buat_pertemuan'])) {
     $tanggal = $_POST['tanggal'];
+    $hari = $_POST['hari'];
+    $waktu_mulai = $_POST['waktu_mulai'];
+    $waktu_selesai = $_POST['waktu_selesai'];
     $topik = $_POST['topik'];
 
-    $sql = "INSERT INTO pertemuan (kelas_id, tanggal, topik) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO pertemuan (kelas_id, tanggal, hari, waktu_mulai, waktu_selesai, topik) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("iss", $kelas_id, $tanggal, $topik);
+    $stmt->bind_param("isssss", $kelas_id, $tanggal, $hari, $waktu_mulai, $waktu_selesai, $topik);
 
     if ($stmt->execute()) {
         echo "Pertemuan berhasil dibuat!";
@@ -84,7 +87,13 @@ $conn->close();
     <p>Dosen: <?php echo $kelas['dosen']; ?></p>
     <form action="kelola_kelas.php?id=<?php echo $kelas_id; ?>" method="POST">
         <label for="tanggal">Tanggal:</label>
-        <input type="date" name="tanggal" id="tanggal" required>
+        <input type="date" name="tanggal" id="tanggal" required onchange="updateHari()">
+        <label for="hari">Hari:</label>
+        <input type="text" name="hari" id="hari" readonly>
+        <label for="waktu_mulai">Waktu Mulai:</label>
+        <input type="time" name="waktu_mulai" id="waktu_mulai" required onchange="updateWaktuSelesai()">
+        <label for="waktu_selesai">Waktu Selesai:</label>
+        <input type="time" name="waktu_selesai" id="waktu_selesai" readonly>
         <label for="topik">Topik:</label>
         <input type="text" name="topik" id="topik" required>
         <button type="submit" name="buat_pertemuan">Buat Pertemuan</button>
@@ -93,6 +102,9 @@ $conn->close();
         <thead>
             <tr>
                 <th>Tanggal</th>
+                <th>Hari</th>
+                <th>Waktu Mulai</th>
+                <th>Waktu Selesai</th>
                 <th>Topik</th>
                 <th>Aksi</th>
             </tr>
@@ -101,9 +113,14 @@ $conn->close();
             <?php foreach ($pertemuan_list as $pertemuan): ?>
                 <tr>
                     <td><?php echo $pertemuan['tanggal']; ?></td>
+                    <td><?php echo $pertemuan['hari']; ?></td>
+                    <td><?php echo $pertemuan['waktu_mulai']; ?></td>
+                    <td><?php echo $pertemuan['waktu_selesai']; ?></td>
                     <td><?php echo $pertemuan['topik']; ?></td>
                     <td>
                         <a class="kelola" href="kelola_pertemuan.php?id=<?php echo $pertemuan['id']; ?>">Kelola</a>
+                        <a class="edit" href="edit_pertemuan.php?id=<?php echo $pertemuan['id']; ?>">Edit</a>
+                        <a class="hapus" href="hapus_pertemuan.php?id=<?php echo $pertemuan['id']; ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus pertemuan ini?')">Hapus</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -111,7 +128,32 @@ $conn->close();
     </table>
 </main>
 
-<script src="../../js/batas_tanggal.js"></script>
+<script>
+function updateHari() {
+    const tanggal = document.getElementById('tanggal').value;
+    const hari = new Date(tanggal).toLocaleDateString('id-ID', { weekday: 'long' });
+    const hariIndo = {
+        'Sunday': 'Minggu',
+        'Monday': 'Senin',
+        'Tuesday': 'Selasa',
+        'Wednesday': 'Rabu',
+        'Thursday': 'Kamis',
+        'Friday': 'Jumat',
+        'Saturday': 'Sabtu'
+    };
+    document.getElementById('hari').value = hariIndo[hari];
+}
+
+function updateWaktuSelesai() {
+    const waktuMulai = document.getElementById('waktu_mulai').value;
+    if (!waktuMulai) return; // Ensure waktuMulai is not empty
+    const sks = <?php echo $kelas['jumlah_sks']; ?>;
+    const waktuMulaiDate = new Date(`1970-01-01T${waktuMulai}:00`);
+    const waktuSelesaiDate = new Date(waktuMulaiDate.getTime() + sks * 50 * 60000);
+    const waktuSelesai = waktuSelesaiDate.toTimeString().split(' ')[0].substring(0, 5);
+    document.getElementById('waktu_selesai').value = waktuSelesai;
+}
+</script>
 
 <?php include '../../includes/footer.php'; ?>
 </body>
