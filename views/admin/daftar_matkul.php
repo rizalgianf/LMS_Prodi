@@ -15,12 +15,14 @@ include '../../includes/header.php'; // Menggunakan header khusus untuk admin
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Mengambil data dari form
     $nama_matkul = $_POST['nama_matkul'];
+    $kode_matkul = $_POST['kode_matkul'];
+    $jumlah_sks = $_POST['jumlah_sks'];
     $semester_id = $_POST['semester'];
 
-    // Menyimpan nama mata kuliah dan semester_id ke database
-    $sql = "INSERT INTO mata_kuliah (nama, semester_id) VALUES (?, ?)";
+    // Menyimpan data ke database
+    $sql = "INSERT INTO mata_kuliah (nama, kode_matkul, jumlah_sks, semester_id) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("si", $nama_matkul, $semester_id);
+    $stmt->bind_param("ssii", $nama_matkul, $kode_matkul, $jumlah_sks, $semester_id);
 
     if ($stmt->execute()) {
         echo "Mata kuliah berhasil ditambahkan!";
@@ -44,7 +46,7 @@ if ($result_semester->num_rows > 0) {
 // Ambil data mata kuliah dari database
 $search = $_GET['search'] ?? '';
 $sort_semester = $_GET['sort_semester'] ?? '';
-$sql_matkul = "SELECT mk.id, mk.nama, s.nama_semester 
+$sql_matkul = "SELECT mk.id, mk.nama, mk.kode_matkul, mk.jumlah_sks, s.nama_semester 
                FROM mata_kuliah mk 
                JOIN semester s ON mk.semester_id = s.id 
                WHERE mk.nama LIKE ?";
@@ -84,16 +86,20 @@ $conn->close();
 <main class="main-content">
     <h2 class="page-title">Daftar Mata Kuliah</h2>
     <form action="daftar_matkul.php" method="POST">
-        <label for="nama_matkul">Nama Mata Kuliah:</label>
-        <input type="text" name="nama_matkul" id="nama_matkul" required>
-        <label for="semester">Semester:</label>
-        <select name="semester" id="semester" required>
-            <?php foreach ($semester_list as $semester): ?>
-                <option value="<?php echo $semester['id']; ?>"><?php echo $semester['nama_semester']; ?></option>
-            <?php endforeach; ?>
-        </select>
-        <button type="submit">Tambah</button>
-    </form>
+    <label for="nama_matkul">Nama Mata Kuliah:</label>
+    <input type="text" name="nama_matkul" id="nama_matkul" required>
+    <label for="kode_matkul">Kode Mata Kuliah:</label>
+    <input type="text" name="kode_matkul" id="kode_matkul" required>
+    <label for="jumlah_sks">Jumlah SKS:</label>
+    <input type="number" name="jumlah_sks" id="jumlah_sks" required>
+    <label for="semester">Semester:</label>
+    <select name="semester" id="semester" required>
+        <?php foreach ($semester_list as $semester): ?>
+            <option value="<?php echo $semester['id']; ?>"><?php echo $semester['nama_semester']; ?></option>
+        <?php endforeach; ?>
+    </select>
+    <button type="submit">Tambah</button>
+</form>
 
     <form action="daftar_matkul.php" method="GET" class="search-form">
         <label for="search" class="sr-only">Cari Nama Mata Kuliah:</label>
@@ -116,26 +122,30 @@ $conn->close();
     </form>
 
     <table class="data-table">
-        <thead>
+    <thead>
+        <tr>
+            <th>Nama Mata Kuliah</th>
+            <th>Kode Mata Kuliah</th>
+            <th>Jumlah SKS</th>
+            <th>Semester</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($matkul_list as $matkul): ?>
             <tr>
-                <th>Nama Mata Kuliah</th>
-                <th>Semester</th>
-                <th>Aksi</th>
+                <td><?php echo $matkul['nama']; ?></td>
+                <td><?php echo $matkul['kode_matkul']; ?></td>
+                <td><?php echo $matkul['jumlah_sks']; ?></td>
+                <td><?php echo $matkul['nama_semester']; ?></td>
+                <td>
+                    <a class="edit" href="edit_matkul.php?id=<?php echo $matkul['id']; ?>">Edit</a>
+                    <a class="delete" href="hapus_matkul.php?id=<?php echo $matkul['id']; ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus mata kuliah ini?')">Delete</a>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($matkul_list as $matkul): ?>
-                <tr>
-                    <td><?php echo $matkul['nama']; ?></td>
-                    <td><?php echo $matkul['nama_semester']; ?></td>
-                    <td>
-                        <a class="edit" href="edit_matkul.php?id=<?php echo $matkul['id']; ?>">Edit</a>
-                        <a class="delete" href="hapus_matkul.php?id=<?php echo $matkul['id']; ?>" onclick="return confirm('Apakah Anda yakin ingin menghapus mata kuliah ini?')">Delete</a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+        <?php endforeach; ?>
+    </tbody>
+</table>
 </main>
 
 <?php include '../../includes/footer.php'; ?>
