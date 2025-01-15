@@ -43,6 +43,16 @@ if ($result_semester->num_rows > 0) {
     }
 }
 
+// Ambil data cohort dari database
+$sql_cohort = "SELECT id, nama_cohort FROM cohort";
+$result_cohort = $conn->query($sql_cohort);
+$cohort_list = [];
+if ($result_cohort->num_rows > 0) {
+    while ($row_cohort = $result_cohort->fetch_assoc()) {
+        $cohort_list[] = $row_cohort;
+    }
+}
+
 // Proses form untuk membuat kelas baru
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['buat_kelas'])) {
     $nama_kelas = $_POST['nama_kelas'];
@@ -105,9 +115,9 @@ $conn->close();
     <form action="kbm.php" method="POST">
         <label for="nama_kelas">Nama Kelas:</label>
         <select name="nama_kelas" id="nama_kelas" required>
-            <?php for ($i = 1; $i <= 10; $i++): ?>
-                <option value="Cohort <?php echo $i; ?>">Cohort <?php echo $i; ?></option>
-            <?php endfor; ?>
+            <?php foreach ($cohort_list as $cohort): ?>
+                <option value="<?php echo $cohort['nama_cohort']; ?>"><?php echo $cohort['nama_cohort']; ?></option>
+            <?php endforeach; ?>
         </select>
         <label for="mata_kuliah">Mata Kuliah:</label>
         <select name="mata_kuliah" id="mata_kuliah" required>
@@ -159,6 +169,7 @@ $conn->close();
                     <td><?php echo $kelas['dosen']; ?></td>
                     <td>
                         <a href="kelola_kelas.php?id=<?php echo $kelas['id']; ?>" class="kelola">Kelola</a>
+                        <a href="edit_kelas.php?id=<?php echo $kelas['id']; ?>" class="edit">Edit</a>
                         <a href="hapus_kelas.php?id=<?php echo $kelas['id']; ?>" class="hapus" onclick="return confirm('Apakah Anda yakin ingin menghapus kelas ini?')">Hapus</a>
                     </td>
                 </tr>

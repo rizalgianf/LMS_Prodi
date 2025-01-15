@@ -22,6 +22,11 @@ $result = $stmt->get_result();
 $mahasiswa = $result->fetch_assoc();
 $stmt->close();
 
+if (!$mahasiswa) {
+    echo "Mahasiswa tidak ditemukan.";
+    exit();
+}
+
 // Ambil data semester dari database
 $sql_semester = "SELECT id, nama_semester FROM semester";
 $result_semester = $conn->query($sql_semester);
@@ -32,23 +37,34 @@ if ($result_semester->num_rows > 0) {
     }
 }
 
+// Ambil data cohort dari database
+$sql_cohort = "SELECT id, nama_cohort FROM cohort";
+$result_cohort = $conn->query($sql_cohort);
+$cohort_list = [];
+if ($result_cohort->num_rows > 0) {
+    while ($row_cohort = $result_cohort->fetch_assoc()) {
+        $cohort_list[] = $row_cohort;
+    }
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_mahasiswa'])) {
     $nama = $_POST['nama'];
     $username = $_POST['username'];
     $nim = $_POST['nim'];
     $password = $_POST['password'];
     $semester_id = $_POST['semester'];
+    $cohort_id = $_POST['cohort'];
 
     if (!empty($password)) {
         // Hash password jika diubah
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "UPDATE users SET nama = ?, username = ?, nim = ?, password = ?, semester_id = ? WHERE id = ? AND role = 'mahasiswa'";
+        $sql = "UPDATE users SET nama = ?, username = ?, nim = ?, password = ?, semester_id = ?, cohort_id = ? WHERE id = ? AND role = 'mahasiswa'";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssssii", $nama, $username, $nim, $hashed_password, $semester_id, $id);
+        $stmt->bind_param("ssssiii", $nama, $username, $nim, $hashed_password, $semester_id, $cohort_id, $id);
     } else {
-        $sql = "UPDATE users SET nama = ?, username = ?, nim = ?, semester_id = ? WHERE id = ? AND role = 'mahasiswa'";
+        $sql = "UPDATE users SET nama = ?, username = ?, nim = ?, semester_id = ?, cohort_id = ? WHERE id = ? AND role = 'mahasiswa'";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssii", $nama, $username, $nim, $semester_id, $id);
+        $stmt->bind_param("sssiii", $nama, $username, $nim, $semester_id, $cohort_id, $id);
     }
 
     if ($stmt->execute()) {
@@ -87,6 +103,14 @@ $conn->close();
             <?php foreach ($semester_list as $semester): ?>
                 <option value="<?php echo $semester['id']; ?>" <?php echo ($semester['id'] == $mahasiswa['semester_id']) ? 'selected' : ''; ?>>
                     <?php echo $semester['nama_semester']; ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+        <label for="cohort">Cohort:</label>
+        <select name="cohort" id="cohort" required>
+            <?php foreach ($cohort_list as $cohort): ?>
+                <option value="<?php echo $cohort['id']; ?>" <?php echo ($cohort['id'] == $mahasiswa['cohort_id']) ? 'selected' : ''; ?>>
+                    <?php echo $cohort['nama_cohort']; ?>
                 </option>
             <?php endforeach; ?>
         </select>

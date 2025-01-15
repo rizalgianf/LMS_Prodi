@@ -10,7 +10,7 @@ include '../../config/database.php'; // Koneksi database
 $id = $_GET['id'] ?? '';
 
 if (!empty($id)) {
-    $sql = "DELETE FROM users WHERE id=?";
+    $sql = "DELETE FROM users WHERE id=? AND role='mahasiswa'";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id);
 

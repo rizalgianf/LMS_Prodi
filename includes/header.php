@@ -20,6 +20,7 @@
                             <a href="daftar_mahasiswa.php">Daftar Mahasiswa</a>
                             <a href="daftar_dosen.php">Daftar Dosen</a>
                             <a href="daftar_matkul.php">Daftar Mata Kuliah</a>
+                            <a href="daftar_cohort.php">Daftar Cohort</a>
                         </div>
                     </li>
                     <li><a href="jadwal_kuliah.php">Jadwal Kuliah</a></li>
