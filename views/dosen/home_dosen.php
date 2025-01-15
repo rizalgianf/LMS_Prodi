@@ -53,7 +53,7 @@ http://www.templatemo.com/tm-473-november
 	            <div class="Center">
                     <!--  \\ Begin Left Side -->
                     <div class="leftside">
-                        <h3>Selamat Datang <span>LMS</span></h3>
+                        <h3>Selamat Datang <span>Class Plus</span></h3>
                         <p>Learning Management System Informatika Unhan RI </p>
                         <a href="#about">MORE DETAILS</a>
                     </div>                        								
