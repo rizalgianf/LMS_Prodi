@@ -112,7 +112,7 @@ $conn->close();
                     </option>
                 <?php endforeach; ?>
             </select>
-            <button type="submit"><i class="fas fa-sort"></i></button>
+            <button type="submit"><i class="fas fa-search"></i></button>
         </div>
     </form>
 

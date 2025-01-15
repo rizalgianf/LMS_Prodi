@@ -33,6 +33,16 @@ if ($result_dosen->num_rows > 0) {
     }
 }
 
+// Ambil data semester dari database
+$sql_semester = "SELECT id, nama_semester FROM semester";
+$result_semester = $conn->query($sql_semester);
+$semester_list = [];
+if ($result_semester->num_rows > 0) {
+    while ($row_semester = $result_semester->fetch_assoc()) {
+        $semester_list[] = $row_semester;
+    }
+}
+
 // Proses form untuk membuat kelas baru
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['buat_kelas'])) {
     $nama_kelas = $_POST['nama_kelas'];
@@ -53,19 +63,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['buat_kelas'])) {
 }
 
 // Ambil data kelas dari database
+$sort_semester = $_GET['sort_semester'] ?? '';
 $sql_kelas = "SELECT kelas.id, kelas.nama_kelas, mata_kuliah.nama AS mata_kuliah, users.nama AS dosen, semester.nama_semester
               FROM kelas
               JOIN mata_kuliah ON kelas.mata_kuliah_id = mata_kuliah.id
               JOIN users ON kelas.dosen_id = users.id
               JOIN semester ON mata_kuliah.semester_id = semester.id
               WHERE users.role = 'dosen'";
-$result_kelas = $conn->query($sql_kelas);
+if ($sort_semester) {
+    $sql_kelas .= " AND semester.nama_semester = ?";
+}
+$sql_kelas .= " ORDER BY semester.nama_semester ASC";
+$stmt = $conn->prepare($sql_kelas);
+if ($sort_semester) {
+    $stmt->bind_param("s", $sort_semester);
+}
+$stmt->execute();
+$result_kelas = $stmt->get_result();
 $kelas_list = [];
 if ($result_kelas->num_rows > 0) {
     while ($row_kelas = $result_kelas->fetch_assoc()) {
         $kelas_list[] = $row_kelas;
     }
 }
+$stmt->close();
 
 $conn->close();
 ?>
@@ -76,6 +97,7 @@ $conn->close();
     <meta charset="UTF-8">
     <title><?php echo $page_title; ?></title>
     <link rel="stylesheet" href="../../css/style_kbm.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
 <main class="main-content">
@@ -97,7 +119,23 @@ $conn->close();
         </select>
         <button type="submit" name="buat_kelas">Buat Kelas</button>
     </form>
+
     <h3>Daftar Kelas</h3>
+    <form action="kbm.php" method="GET" class="search-form">
+        <label for="sort_semester" class="sr-only">Urutkan berdasarkan Semester:</label>
+        <div class="search-container">
+            <select name="sort_semester" id="sort_semester" onchange="this.form.submit()">
+                <option value="">Pilih Semester</option>
+                <?php foreach ($semester_list as $semester): ?>
+                    <option value="<?php echo $semester['nama_semester']; ?>" <?php if ($sort_semester == $semester['nama_semester']) echo 'selected'; ?>>
+                        <?php echo $semester['nama_semester']; ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </div>
+    </form>
+
     <table class="data-table">
         <thead>
             <tr>
