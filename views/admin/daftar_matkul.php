@@ -42,14 +42,32 @@ if ($result_semester->num_rows > 0) {
 }
 
 // Ambil data mata kuliah dari database
-$sql_matkul = "SELECT mk.id, mk.nama, s.nama_semester FROM mata_kuliah mk JOIN semester s ON mk.semester_id = s.id";
-$result_matkul = $conn->query($sql_matkul);
+$search = $_GET['search'] ?? '';
+$sort_semester = $_GET['sort_semester'] ?? '';
+$sql_matkul = "SELECT mk.id, mk.nama, s.nama_semester 
+               FROM mata_kuliah mk 
+               JOIN semester s ON mk.semester_id = s.id 
+               WHERE mk.nama LIKE ?";
+if ($sort_semester) {
+    $sql_matkul .= " AND s.nama_semester = ?";
+}
+$sql_matkul .= " ORDER BY s.nama_semester ASC";
+$stmt = $conn->prepare($sql_matkul);
+$search_param = "%$search%";
+if ($sort_semester) {
+    $stmt->bind_param("ss", $search_param, $sort_semester);
+} else {
+    $stmt->bind_param("s", $search_param);
+}
+$stmt->execute();
+$result_matkul = $stmt->get_result();
 $matkul_list = [];
 if ($result_matkul->num_rows > 0) {
     while ($row_matkul = $result_matkul->fetch_assoc()) {
         $matkul_list[] = $row_matkul;
     }
 }
+$stmt->close();
 
 $conn->close();
 ?>
@@ -60,6 +78,7 @@ $conn->close();
     <meta charset="UTF-8">
     <title><?php echo $page_title; ?></title>
     <link rel="stylesheet" href="../../css/style_daftar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
 <main class="main-content">
@@ -77,6 +96,26 @@ $conn->close();
     </form>
 
     <h2 class="page-title">Daftar Mata Kuliah</h2>
+    <form action="daftar_matkul.php" method="GET" class="search-form">
+        <label for="search" class="sr-only">Cari Nama Mata Kuliah:</label>
+        <div class="search-container">
+            <input type="text" name="search" id="search" placeholder="Cari Nama Mata Kuliah" value="<?php echo htmlspecialchars($search); ?>">
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </div>
+        <label for="sort_semester" class="sr-only">Urutkan berdasarkan Semester:</label>
+        <div class="search-container">
+            <select name="sort_semester" id="sort_semester" onchange="this.form.submit()">
+                <option value="">Pilih Semester</option>
+                <?php foreach ($semester_list as $semester): ?>
+                    <option value="<?php echo $semester['nama_semester']; ?>" <?php if ($sort_semester == $semester['nama_semester']) echo 'selected'; ?>>
+                        <?php echo $semester['nama_semester']; ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            <button type="submit"><i class="fas fa-sort"></i></button>
+        </div>
+    </form>
+
     <table class="data-table">
         <thead>
             <tr>

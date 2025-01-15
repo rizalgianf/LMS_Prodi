@@ -60,6 +60,41 @@ form button:hover {
     background-color: #1c86ee;
 }
 
+.search-form {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-bottom: 20px;
+    justify-content: center;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #1e90ff;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.search-container input {
+    border: none;
+    padding: 10px;
+    outline: none;
+}
+
+.search-container button {
+    background-color: #1e90ff;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.search-container button:hover {
+    background-color: #1c86ee;
+}
+
 .data-table {
     width: 100%;
     border-collapse: collapse;
@@ -124,6 +159,12 @@ form button:hover {
 
 .data-table a.delete:hover {
     background-color: #e53935;
+}
+
+.data-table td .action-buttons {
+    display: flex;
+    justify-content: center; /* Center the buttons horizontally */
+    gap: 10px;
 }
 
 /* Media Queries untuk Responsif */

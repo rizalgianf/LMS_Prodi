@@ -39,13 +39,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['daftar_mahasiswa'])) {
 
 // Ambil data mahasiswa dari database
 $search = $_GET['search'] ?? '';
+$sort_semester = $_GET['sort_semester'] ?? '';
 $sql_mahasiswa = "SELECT users.id, users.nama, users.username, semester.nama_semester 
                   FROM users 
                   LEFT JOIN semester ON users.semester_id = semester.id 
                   WHERE users.role='mahasiswa' AND users.nama LIKE ?";
+if ($sort_semester) {
+    $sql_mahasiswa .= " AND semester.nama_semester = ?";
+}
+$sql_mahasiswa .= " ORDER BY semester.nama_semester ASC";
 $stmt = $conn->prepare($sql_mahasiswa);
 $search_param = "%$search%";
-$stmt->bind_param("s", $search_param);
+if ($sort_semester) {
+    $stmt->bind_param("ss", $search_param, $sort_semester);
+} else {
+    $stmt->bind_param("s", $search_param);
+}
 $stmt->execute();
 $result_mahasiswa = $stmt->get_result();
 $mahasiswa_list = [];
@@ -75,6 +84,7 @@ $conn->close();
     <meta charset="UTF-8">
     <title><?php echo $page_title; ?></title>
     <link rel="stylesheet" href="../../css/style_daftar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
 <main class="main-content">
@@ -96,9 +106,23 @@ $conn->close();
     </form>
 
     <form action="daftar_mahasiswa.php" method="GET" class="search-form">
-        <label for="search">Cari Nama Mahasiswa:</label>
-        <input type="text" name="search" id="search" value="<?php echo htmlspecialchars($search); ?>">
-        <button type="submit">Cari</button>
+        <label for="search" class="sr-only">Cari Nama Mahasiswa:</label>
+        <div class="search-container">
+            <input type="text" name="search" id="search" placeholder="Cari Nama Mahasiswa" value="<?php echo htmlspecialchars($search); ?>">
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </div>
+        <label for="sort_semester" class="sr-only">Urutkan berdasarkan Semester:</label>
+        <div class="search-container">
+            <select name="sort_semester" id="sort_semester" onchange="this.form.submit()">
+                <option value="">Pilih Semester</option>
+                <?php foreach ($semester_list as $semester): ?>
+                    <option value="<?php echo $semester['nama_semester']; ?>" <?php if ($sort_semester == $semester['nama_semester']) echo 'selected'; ?>>
+                        <?php echo $semester['nama_semester']; ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            <button type="submit"><i class="fas fa-sort"></i></button>
+        </div>
     </form>
 
     <table class="data-table">

@@ -12,7 +12,7 @@ include '../../config/database.php'; // Koneksi database
 $page_title = "Daftar Dosen";
 include '../../includes/header.php'; // Menggunakan header khusus untuk admin
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['daftar_dosen'])) {
     // Mengambil data dari form
     $nama = $_POST['nama'];
     $username = $_POST['username'];
@@ -37,14 +37,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // Ambil data dosen dari database
-$sql_dosen = "SELECT id, nama, username FROM users WHERE role='dosen'";
-$result_dosen = $conn->query($sql_dosen);
+$search = $_GET['search'] ?? '';
+$sql_dosen = "SELECT id, nama, username FROM users WHERE role='dosen' AND nama LIKE ?";
+$stmt = $conn->prepare($sql_dosen);
+$search_param = "%$search%";
+$stmt->bind_param("s", $search_param);
+$stmt->execute();
+$result_dosen = $stmt->get_result();
 $dosen_list = [];
 if ($result_dosen->num_rows > 0) {
     while ($row_dosen = $result_dosen->fetch_assoc()) {
         $dosen_list[] = $row_dosen;
     }
 }
+$stmt->close();
 
 $conn->close();
 ?>
@@ -55,6 +61,7 @@ $conn->close();
     <meta charset="UTF-8">
     <title><?php echo $page_title; ?></title>
     <link rel="stylesheet" href="../../css/style_daftar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
 <main class="main-content">
@@ -66,8 +73,17 @@ $conn->close();
         <input type="text" name="username" id="username" required>
         <label for="password">Password:</label>
         <input type="password" name="password" id="password" required>
-        <button type="submit">Daftar</button>
+        <button type="submit" name="daftar_dosen">Daftar</button>
     </form>
+
+    <form action="daftar_dosen.php" method="GET" class="search-form">
+        <label for="search" class="sr-only">Cari Nama Dosen:</label>
+        <div class="search-container">
+            <input type="text" name="search" id="search" placeholder="Cari Nama Dosen" value="<?php echo htmlspecialchars($search); ?>">
+            <button type="submit"><i class="fas fa-search"></i></button>
+        </div>
+    </form>
+
     <table class="data-table">
         <thead>
             <tr>
@@ -81,11 +97,9 @@ $conn->close();
                 <tr>
                     <td><?php echo $dosen['nama']; ?></td>
                     <td><?php echo $dosen['username']; ?></td>
-                    <td>
-                        <div class="action-buttons">
-                            <a href="edit_dosen.php?id=<?php echo $dosen['id']; ?>" class="edit">Edit</a>
-                            <a href="hapus_dosen.php?id=<?php echo $dosen['id']; ?>" class="delete" onclick="return confirm('Apakah Anda yakin ingin menghapus dosen ini?')">Delete</a>
-                        </div>
+                    <td class="action-buttons">
+                        <a href="edit_dosen.php?id=<?php echo $dosen['id']; ?>" class="edit">Edit</a>
+                        <a href="hapus_dosen.php?id=<?php echo $dosen['id']; ?>" class="delete" onclick="return confirm('Apakah Anda yakin ingin menghapus dosen ini?')">Delete</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
