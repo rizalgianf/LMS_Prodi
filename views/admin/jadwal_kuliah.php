@@ -12,6 +12,8 @@ include '../../includes/header.php';
 
 // Ambil data jadwal dari tabel pertemuan
 $sort_semester = $_GET['sort_semester'] ?? '';
+$sort_time = $_GET['sort_time'] ?? '7 days';
+
 $sql = "SELECT pertemuan.*, mata_kuliah.nama AS mata_kuliah_nama, users.nama AS dosen_nama, semester.nama_semester, cohort.nama_cohort
         FROM pertemuan
         JOIN kelas ON pertemuan.kelas_id = kelas.id
@@ -20,10 +22,24 @@ $sql = "SELECT pertemuan.*, mata_kuliah.nama AS mata_kuliah_nama, users.nama AS 
         JOIN semester ON mata_kuliah.semester_id = semester.id
         JOIN cohort ON kelas.id_cohort = cohort.id
         WHERE users.role = 'dosen'";
+
 if ($sort_semester) {
     $sql .= " AND semester.nama_semester = ?";
 }
-$sql .= " ORDER BY semester.nama_semester ASC";
+
+switch ($sort_time) {
+    case '7 days':
+        $sql .= " AND pertemuan.tanggal BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 7 DAY)";
+        break;
+    case '1 month':
+        $sql .= " AND pertemuan.tanggal BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 1 MONTH)";
+        break;
+    case '1 year':
+        $sql .= " AND pertemuan.tanggal BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 1 YEAR)";
+        break;
+}
+
+$sql .= " ORDER BY pertemuan.tanggal ASC";
 $stmt = $conn->prepare($sql);
 if ($sort_semester) {
     $stmt->bind_param("s", $sort_semester);
@@ -70,6 +86,11 @@ if ($result_semester->num_rows > 0) {
                         <?php echo $semester['nama_semester']; ?>
                     </option>
                 <?php endforeach; ?>
+            </select>
+            <select name="sort_time" id="sort_time" onchange="this.form.submit()">
+                <option value="7 days" <?php if ($sort_time == '7 days') echo 'selected'; ?>>7 Hari Kedepan</option>
+                <option value="1 month" <?php if ($sort_time == '1 month') echo 'selected'; ?>>1 Bulan Kedepan</option>
+                <option value="1 year" <?php if ($sort_time == '1 year') echo 'selected'; ?>>1 Tahun Kedepan</option>
             </select>
             <button type="submit"><i class="fas fa-search"></i></button>
         </div>

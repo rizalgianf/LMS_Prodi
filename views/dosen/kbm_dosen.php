@@ -13,8 +13,9 @@ include '../../includes/header_dosen.php';
 
 // Ambil data kelas dari database berdasarkan dosen yang login
 $dosen_id = $_SESSION['user_id'];
-$sql_kelas = "SELECT kelas.id, kelas.nama_kelas, mata_kuliah.nama AS mata_kuliah, users.nama AS dosen, semester.nama_semester
+$sql_kelas = "SELECT kelas.id, cohort.nama_cohort, mata_kuliah.nama AS mata_kuliah, users.nama AS dosen, semester.nama_semester
               FROM kelas
+              JOIN cohort ON kelas.id_cohort = cohort.id
               JOIN mata_kuliah ON kelas.mata_kuliah_id = mata_kuliah.id
               JOIN users ON kelas.dosen_id = users.id
               JOIN semester ON mata_kuliah.semester_id = semester.id
@@ -48,7 +49,7 @@ $conn->close();
     <table class="data-table">
         <thead>
             <tr>
-                <th>Nama Kelas</th>
+                <th>Nama Cohort</th>
                 <th>Mata Kuliah</th>
                 <th>Semester</th>
                 <th>Dosen</th>
@@ -58,7 +59,7 @@ $conn->close();
         <tbody>
             <?php foreach ($kelas_list as $kelas): ?>
                 <tr>
-                    <td><?php echo $kelas['nama_kelas']; ?></td>
+                    <td><?php echo $kelas['nama_cohort']; ?></td>
                     <td><?php echo $kelas['mata_kuliah']; ?></td>
                     <td><?php echo $kelas['nama_semester']; ?></td>
                     <td><?php echo $kelas['dosen']; ?></td>

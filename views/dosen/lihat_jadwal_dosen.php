@@ -9,11 +9,12 @@ include '../../config/database.php'; // Koneksi database
 
 $dosen_id = $_SESSION['user_id'];
 
-// Ambil data jadwal dari database
-$sql_jadwal = "SELECT jadwal_kuliah.*, mata_kuliah.nama AS mata_kuliah_nama
-               FROM jadwal_kuliah
-               JOIN mata_kuliah ON jadwal_kuliah.mata_kuliah = mata_kuliah.id
-               WHERE jadwal_kuliah.dosen_id = ?";
+// Ambil data jadwal dari tabel pertemuan
+$sql_jadwal = "SELECT pertemuan.*, mata_kuliah.nama AS mata_kuliah_nama
+               FROM pertemuan
+               JOIN kelas ON pertemuan.kelas_id = kelas.id
+               JOIN mata_kuliah ON kelas.mata_kuliah_id = mata_kuliah.id
+               WHERE kelas.dosen_id = ?";
 $stmt_jadwal = $conn->prepare($sql_jadwal);
 $stmt_jadwal->bind_param("i", $dosen_id);
 $stmt_jadwal->execute();
@@ -39,7 +40,7 @@ $conn->close();
 <body>
     <?php include '../../includes/header_dosen.php'; ?>
     <main class="main-content">
-        <h1>Jadwal Kuliah</h1>
+     <h2 class="page-title">Daftar Jadwal Kuliah</h2>
         <table class="data-table">
             <thead>
                 <tr>

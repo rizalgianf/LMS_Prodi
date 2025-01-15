@@ -21,9 +21,10 @@ if (empty($pertemuan_id)) {
 }
 
 // Ambil data pertemuan
-$sql_pertemuan = "SELECT pertemuan.id, pertemuan.tanggal, pertemuan.topik, kelas.nama_kelas, mata_kuliah.nama AS mata_kuliah, users.nama AS dosen, mata_kuliah.semester_id
+$sql_pertemuan = "SELECT pertemuan.id, pertemuan.tanggal, pertemuan.topik, pertemuan.metode_pembelajaran_id, cohort.nama_cohort, mata_kuliah.nama AS mata_kuliah, users.nama AS dosen, mata_kuliah.semester_id
                   FROM pertemuan
                   JOIN kelas ON pertemuan.kelas_id = kelas.id
+                  JOIN cohort ON kelas.id_cohort = cohort.id
                   JOIN mata_kuliah ON kelas.mata_kuliah_id = mata_kuliah.id
                   JOIN users ON kelas.dosen_id = users.id
                   WHERE pertemuan.id = ?";
@@ -37,6 +38,35 @@ $stmt_pertemuan->close();
 if (!$pertemuan) {
     echo "Pertemuan tidak ditemukan.";
     exit();
+}
+
+// Ambil data metode pembelajaran dari database
+$sql_metode = "SELECT id, nama_metode FROM metode_pembelajaran";
+$result_metode = $conn->query($sql_metode);
+$metode_list = [];
+if ($result_metode->num_rows > 0) {
+    while ($row_metode = $result_metode->fetch_assoc()) {
+        $metode_list[] = $row_metode;
+    }
+}
+
+// Proses form untuk update metode pembelajaran
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_metode'])) {
+    $metode_pembelajaran_id = $_POST['metode_pembelajaran'];
+
+    $sql = "UPDATE pertemuan SET metode_pembelajaran_id = ? WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $metode_pembelajaran_id, $pertemuan_id);
+
+    if ($stmt->execute()) {
+        // Refresh the page to reflect the updated method
+        header("Location: kelola_pertemuan_dosen.php?id=$pertemuan_id");
+        exit();
+    } else {
+        echo "Error: " . $stmt->error;
+    }
+
+    $stmt->close();
 }
 
 // Proses form untuk upload file
@@ -139,6 +169,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['hapus_absensi'])) {
     $stmt->close();
 }
 
+// Ambil data mahasiswa yang sudah diabsen
+$sql_absen_mahasiswa = "SELECT mahasiswa_id FROM absensi WHERE pertemuan_id = ?";
+$stmt_absen_mahasiswa = $conn->prepare($sql_absen_mahasiswa);
+$stmt_absen_mahasiswa->bind_param("i", $pertemuan_id);
+$stmt_absen_mahasiswa->execute();
+$result_absen_mahasiswa = $stmt_absen_mahasiswa->get_result();
+$absen_mahasiswa_ids = [];
+if ($result_absen_mahasiswa->num_rows > 0) {
+    while ($row_absen_mahasiswa = $result_absen_mahasiswa->fetch_assoc()) {
+        $absen_mahasiswa_ids[] = $row_absen_mahasiswa['mahasiswa_id'];
+    }
+}
+$stmt_absen_mahasiswa->close();
+
 // Ambil data mahasiswa untuk absensi berdasarkan semester mata kuliah
 $sql_mahasiswa = "SELECT users.id, users.nama 
                   FROM users 
@@ -151,7 +195,10 @@ $result_mahasiswa = $stmt_mahasiswa->get_result();
 $mahasiswa_list = [];
 if ($result_mahasiswa->num_rows > 0) {
     while ($row_mahasiswa = $result_mahasiswa->fetch_assoc()) {
-        $mahasiswa_list[] = $row_mahasiswa;
+        // Hanya tambahkan mahasiswa yang belum diabsen
+        if (!in_array($row_mahasiswa['id'], $absen_mahasiswa_ids)) {
+            $mahasiswa_list[] = $row_mahasiswa;
+        }
     }
 }
 $stmt_mahasiswa->close();
@@ -226,10 +273,23 @@ $conn->close();
 <body>
 <main class="main-content">
     <h2 class="page-title">Kelola Pertemuan: <?php echo $pertemuan['topik']; ?></h2>
-    <p>Kelas: <?php echo $pertemuan['nama_kelas']; ?></p>
+    <p>Kelas: <?php echo $pertemuan['nama_cohort']; ?></p>
     <p>Mata Kuliah: <?php echo $pertemuan['mata_kuliah']; ?></p>
     <p>Dosen: <?php echo $pertemuan['dosen']; ?></p>
     <p>Tanggal: <?php echo $pertemuan['tanggal']; ?></p>
+
+    <h3>Metode Pembelajaran</h3>
+    <form action="kelola_pertemuan_dosen.php?id=<?php echo $pertemuan_id; ?>" method="POST">
+        <label for="metode_pembelajaran">Metode Pembelajaran:</label>
+        <select name="metode_pembelajaran" id="metode_pembelajaran" required>
+            <?php foreach ($metode_list as $metode): ?>
+                <option value="<?php echo $metode['id']; ?>" <?php echo ($metode['id'] == $pertemuan['metode_pembelajaran_id']) ? 'selected' : ''; ?>>
+                    <?php echo $metode['nama_metode']; ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+        <button type="submit" name="update_metode">Update Metode</button>
+    </form>
 
     <h3>Upload File</h3>
     <form action="kelola_pertemuan_dosen.php?id=<?php echo $pertemuan_id; ?>" method="POST" enctype="multipart/form-data">
@@ -275,6 +335,7 @@ $conn->close();
             <option value="Hadir">Hadir</option>
             <option value="Izin">Izin</option>
             <option value="Tanpa Keterangan">Tanpa Keterangan</option>
+            <option value="Sakit">Sakit</option>
         </select>
         <button type="submit" name="absensi">Simpan Absensi</button>
     </form>
