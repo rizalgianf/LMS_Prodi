@@ -100,6 +100,7 @@ $conn->close();
         <input type="text" name="topik" id="topik" required>
         <button type="submit" name="buat_pertemuan">Buat Pertemuan</button>
     </form>
+    <h2>Daftar Pertemuan</h2>
     <table class="data-table">
         <thead>
             <tr>
