@@ -275,6 +275,7 @@ $conn->close();
             <option value="Hadir">Hadir</option>
             <option value="Izin">Izin</option>
             <option value="Tanpa Keterangan">Tanpa Keterangan</option>
+            <option value="Sakit">Sakit</option>
         </select>
         <button type="submit" name="absensi">Simpan Absensi</button>
     </form>
