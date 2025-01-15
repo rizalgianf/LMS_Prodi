@@ -139,6 +139,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['hapus_absensi'])) {
     $stmt->close();
 }
 
+// Ambil data mahasiswa yang sudah diabsen
+$sql_absen_mahasiswa = "SELECT mahasiswa_id FROM absensi WHERE pertemuan_id = ?";
+$stmt_absen_mahasiswa = $conn->prepare($sql_absen_mahasiswa);
+$stmt_absen_mahasiswa->bind_param("i", $pertemuan_id);
+$stmt_absen_mahasiswa->execute();
+$result_absen_mahasiswa = $stmt_absen_mahasiswa->get_result();
+$absen_mahasiswa_ids = [];
+if ($result_absen_mahasiswa->num_rows > 0) {
+    while ($row_absen_mahasiswa = $result_absen_mahasiswa->fetch_assoc()) {
+        $absen_mahasiswa_ids[] = $row_absen_mahasiswa['mahasiswa_id'];
+    }
+}
+$stmt_absen_mahasiswa->close();
+
 // Ambil data mahasiswa untuk absensi berdasarkan semester mata kuliah
 $sql_mahasiswa = "SELECT users.id, users.nama 
                   FROM users 
@@ -151,7 +165,10 @@ $result_mahasiswa = $stmt_mahasiswa->get_result();
 $mahasiswa_list = [];
 if ($result_mahasiswa->num_rows > 0) {
     while ($row_mahasiswa = $result_mahasiswa->fetch_assoc()) {
-        $mahasiswa_list[] = $row_mahasiswa;
+        // Hanya tambahkan mahasiswa yang belum diabsen
+        if (!in_array($row_mahasiswa['id'], $absen_mahasiswa_ids)) {
+            $mahasiswa_list[] = $row_mahasiswa;
+        }
     }
 }
 $stmt_mahasiswa->close();

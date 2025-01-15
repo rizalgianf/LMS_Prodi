@@ -104,7 +104,11 @@ $conn->close();
     <h2 class="page-title">Pengaturan Kegiatan Belajar Mengajar</h2>
     <form action="kbm.php" method="POST">
         <label for="nama_kelas">Nama Kelas:</label>
-        <input type="text" name="nama_kelas" id="nama_kelas" required>
+        <select name="nama_kelas" id="nama_kelas" required>
+            <?php for ($i = 1; $i <= 10; $i++): ?>
+                <option value="Cohort <?php echo $i; ?>">Cohort <?php echo $i; ?></option>
+            <?php endfor; ?>
+        </select>
         <label for="mata_kuliah">Mata Kuliah:</label>
         <select name="mata_kuliah" id="mata_kuliah" required>
             <?php foreach ($mata_kuliah_list as $mk): ?>
