@@ -167,52 +167,7 @@ html, body {
     font-weight: bold;
 }
 
-/* Kartu dashboard */
-.dashboard-cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    justify-content: space-around;
-}
 
-.card {
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    padding: 25px;
-    width: calc(25% - 30px);
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px); /* Lift effect on hover */
-    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
-}
-
-.card h3 {
-    font-size: 0.6vw; /* Ukuran lebih kecil untuk heading dalam kartu */
-    margin-bottom: 15px;
-    color: #333;
-    font-weight: 600;
-}
-
-.card a {
-    display: inline-block;
-    padding: 12px 20px;
-    background-color: #0374f4; /* Main blue color for button */
-    color: #ffffff;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: background-color 0.3s, transform 0.3s;
-}
-
-.card a:hover {
-    background-color: #3b82f6; /* Lighter blue on hover button */
-    transform: scale(1.05);
-}
 
 /* Footer utama */
 .main-footer {
