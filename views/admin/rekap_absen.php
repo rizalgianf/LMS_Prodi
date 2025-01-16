@@ -38,7 +38,7 @@ $sort_semester = $_GET['sort_semester'] ?? '';
 $sql_rekap = "SELECT pertemuan.id, pertemuan.tanggal, pertemuan.topik, cohort.nama_cohort, mata_kuliah.nama AS mata_kuliah, users.nama AS dosen, semester.nama_semester,
               COUNT(absensi.id) AS total_mahasiswa,
               COUNT(CASE WHEN absensi.status = 'Hadir' THEN 1 END) AS jumlah_hadir,
-              COUNT(CASE WHEN absensi.status = 'Tidak Hadir' THEN 1 END) AS jumlah_tidak_hadir
+              COUNT(CASE WHEN absensi.status != 'Hadir' OR absensi.status IS NULL THEN 1 END) AS jumlah_tidak_hadir
               FROM pertemuan
               LEFT JOIN absensi ON pertemuan.id = absensi.pertemuan_id
               JOIN kelas ON pertemuan.kelas_id = kelas.id
@@ -93,6 +93,61 @@ $conn->close();
     <meta charset="UTF-8">
     <title><?php echo $page_title; ?></title>
     <link rel="stylesheet" href="../../css/style_kbm.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 8px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .detail-btn {
+            background-color: #FFD700; /* Yellow color */
+            color:rgb(0, 0, 0);
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .detail-btn:hover {
+            background-color: #FFC107; /* Darker yellow on hover */
+        }
+    </style>
 </head>
 <body>
 <main class="main-content">
@@ -131,6 +186,7 @@ $conn->close();
                 <th>Jumlah Hadir</th>
                 <th>Jumlah Tidak Hadir</th>
                 <th>Persentase Kehadiran</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -146,12 +202,61 @@ $conn->close();
                     <td><?php echo $rekap['jumlah_hadir']; ?></td>
                     <td><?php echo $rekap['jumlah_tidak_hadir']; ?></td>
                     <td><?php echo $rekap['total_mahasiswa'] > 0 ? round(($rekap['jumlah_hadir'] / $rekap['total_mahasiswa']) * 100, 2) . '%' : '0%'; ?></td>
+                    <td><button class="detail-btn" data-id="<?php echo $rekap['id']; ?>">Detail</button></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
 </main>
 
+<!-- Modal -->
+<div id="detailModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Detail Absensi</h3>
+        <div id="modal-body">
+            <!-- Detail content will be loaded here -->
+        </div>
+    </div>
+</div>
+
 <?php include '../../includes/footer.php'; ?>
+
+<script>
+    // Get the modal
+    var modal = document.getElementById("detailModal");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    // Get all detail buttons
+    var detailButtons = document.getElementsByClassName("detail-btn");
+
+    // Add click event to each detail button
+    for (var i = 0; i < detailButtons.length; i++) {
+        detailButtons[i].onclick = function() {
+            var pertemuanId = this.getAttribute("data-id");
+            // Fetch detail data using AJAX
+            fetch('get_detail_absensi.php?id=' + pertemuanId)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById("modal-body").innerHTML = data;
+                    modal.style.display = "block";
+                });
+        }
+    }
+</script>
 </body>
 </html>
