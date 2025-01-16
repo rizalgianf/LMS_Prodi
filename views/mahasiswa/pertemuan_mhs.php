@@ -21,9 +21,10 @@ if (empty($pertemuan_id)) {
 }
 
 // Ambil data pertemuan
-$sql_pertemuan = "SELECT pertemuan.id, pertemuan.tanggal, pertemuan.topik, kelas.nama_kelas, mata_kuliah.nama AS mata_kuliah, users.nama AS dosen, mata_kuliah.semester_id
+$sql_pertemuan = "SELECT pertemuan.id, pertemuan.tanggal, pertemuan.topik, cohort.nama_cohort, mata_kuliah.nama AS mata_kuliah, users.nama AS dosen, mata_kuliah.semester_id
                   FROM pertemuan
                   JOIN kelas ON pertemuan.kelas_id = kelas.id
+                  JOIN cohort ON kelas.id_cohort = cohort.id
                   JOIN mata_kuliah ON kelas.mata_kuliah_id = mata_kuliah.id
                   JOIN users ON kelas.dosen_id = users.id
                   WHERE pertemuan.id = ?";
@@ -128,7 +129,7 @@ $conn->close();
 <body>
 <main class="main-content">
     <h2 class="page-title">Detail Pertemuan: <?php echo $pertemuan['topik']; ?></h2>
-    <p>Kelas: <?php echo $pertemuan['nama_kelas']; ?></p>
+    <p>Cohort: <?php echo $pertemuan['nama_cohort']; ?></p>
     <p>Mata Kuliah: <?php echo $pertemuan['mata_kuliah']; ?></p>
     <p>Dosen: <?php echo $pertemuan['dosen']; ?></p>
     <p>Tanggal: <?php echo $pertemuan['tanggal']; ?></p>

@@ -33,8 +33,9 @@ if (!$semester) {
 }
 
 // Ambil data kelas berdasarkan semester mahasiswa
-$sql_kelas = "SELECT kelas.id, kelas.nama_kelas, mata_kuliah.nama AS mata_kuliah, users.nama AS dosen
+$sql_kelas = "SELECT kelas.id, cohort.nama_cohort, mata_kuliah.nama AS mata_kuliah, users.nama AS dosen
               FROM kelas
+              JOIN cohort ON kelas.id_cohort = cohort.id
               JOIN mata_kuliah ON kelas.mata_kuliah_id = mata_kuliah.id
               JOIN users ON kelas.dosen_id = users.id
               WHERE kelas.id = ? AND mata_kuliah.semester_id = ?";
@@ -77,7 +78,7 @@ $conn->close();
 <body>
 <main class="main-content">
     <h2 class="page-title">Mata Kuliah: <?php echo $kelas['mata_kuliah']; ?></h2>
-    <p>Nama Kelas: <?php echo $kelas['nama_kelas']; ?></p>
+    <p>Nama Cohort: <?php echo $kelas['nama_cohort']; ?></p>
     <p>Dosen: <?php echo $kelas['dosen']; ?></p>
     <h3>Daftar Pertemuan</h3>
     <table class="data-table">
