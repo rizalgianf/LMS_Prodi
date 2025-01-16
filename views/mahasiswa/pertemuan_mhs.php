@@ -1,4 +1,5 @@
 <?php
+// filepath: /E:/GITHUB REPOSITORY/SIAKAD/views/mahasiswa/pertemuan_mhs.php
 // Check if a session is already started
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -129,10 +130,24 @@ $conn->close();
 <body>
 <main class="main-content">
     <h2 class="page-title">Detail Pertemuan: <?php echo $pertemuan['topik']; ?></h2>
-    <p>Cohort: <?php echo $pertemuan['nama_cohort']; ?></p>
-    <p>Mata Kuliah: <?php echo $pertemuan['mata_kuliah']; ?></p>
-    <p>Dosen: <?php echo $pertemuan['dosen']; ?></p>
-    <p>Tanggal: <?php echo $pertemuan['tanggal']; ?></p>
+    <table class="data-table">
+        <tr>
+            <th>Cohort</th>
+            <td><?php echo $pertemuan['nama_cohort']; ?></td>
+        </tr>
+        <tr>
+            <th>Mata Kuliah</th>
+            <td><?php echo $pertemuan['mata_kuliah']; ?></td>
+        </tr>
+        <tr>
+            <th>Dosen</th>
+            <td><?php echo $pertemuan['dosen']; ?></td>
+        </tr>
+        <tr>
+            <th>Tanggal</th>
+            <td><?php echo $pertemuan['tanggal']; ?></td>
+        </tr>
+    </table>
 
     <h3>Daftar File</h3>
     <table class="data-table">
