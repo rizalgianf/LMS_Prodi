@@ -117,6 +117,8 @@ http://www.templatemo.com/tm-473-november
             </div>
             <!-- // End About Section // -->
 
-<?php include '../../includes/footer.php'; ?>
+
 </body>
 </html>
+
+<?php include '../../includes/footer.php'; ?>

@@ -88,7 +88,7 @@ form button:hover {
 
 .data-table a,
 .data-table button {
-    padding: 5px 10px;
+    padding: 1.5px 10px;
     border: none;
     color: #fff;
     text-decoration: none;
@@ -151,7 +151,7 @@ form button:hover {
 a.edit {
     background-color: #FFD700; /* Yellow color */
     color: #000; /* Black text */
-    padding: 5px 10px;
+    padding: 1.5px 10px;
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.3s;
