@@ -1,4 +1,4 @@
-<?php
+<?php 
 // Check if a session is already started
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -16,7 +16,7 @@ include '../../includes/header_dosen.php';
 
 $pertemuan_id = $_GET['id'] ?? '';
 if (empty($pertemuan_id)) {
-    header("Location: kbm_dosen.php");
+    header("Location: kbm.php");
     exit();
 }
 
@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_metode'])) {
 
     if ($stmt->execute()) {
         // Refresh the page to reflect the updated method
-        header("Location: kelola_pertemuan_dosen.php?id=$pertemuan_id");
+        header("Location: kelola_pertemuan.php?id=$pertemuan_id");
         exit();
     } else {
         echo "Error: " . $stmt->error;
@@ -135,53 +135,17 @@ if ($result_file->num_rows > 0) {
 $stmt_file->close();
 
 // Proses form untuk absensi
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['absensi'])) {
-    $mahasiswa_id = $_POST['mahasiswa_id'];
-    $status = $_POST['status'];
-
-    $sql = "INSERT INTO absensi (pertemuan_id, mahasiswa_id, status) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("iis", $pertemuan_id, $mahasiswa_id, $status);
-
-    if ($stmt->execute()) {
-        echo "Absensi berhasil disimpan!";
-    } else {
-        echo "Error: " . $stmt->error;
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_absensi'])) {
+    foreach ($_POST['absensi'] as $mahasiswa_id => $status) {
+        $sql = "INSERT INTO absensi (pertemuan_id, mahasiswa_id, status) VALUES (?, ?, ?)
+                ON DUPLICATE KEY UPDATE status = VALUES(status)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("iis", $pertemuan_id, $mahasiswa_id, $status);
+        $stmt->execute();
+        $stmt->close();
     }
-
-    $stmt->close();
+    echo "Absensi berhasil disimpan!";
 }
-
-// Proses form untuk menghapus absensi
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['hapus_absensi'])) {
-    $absensi_id = $_POST['absensi_id'];
-
-    $sql = "DELETE FROM absensi WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $absensi_id);
-
-    if ($stmt->execute()) {
-        echo "Absensi berhasil dihapus!";
-    } else {
-        echo "Error: " . $stmt->error;
-    }
-
-    $stmt->close();
-}
-
-// Ambil data mahasiswa yang sudah diabsen
-$sql_absen_mahasiswa = "SELECT mahasiswa_id FROM absensi WHERE pertemuan_id = ?";
-$stmt_absen_mahasiswa = $conn->prepare($sql_absen_mahasiswa);
-$stmt_absen_mahasiswa->bind_param("i", $pertemuan_id);
-$stmt_absen_mahasiswa->execute();
-$result_absen_mahasiswa = $stmt_absen_mahasiswa->get_result();
-$absen_mahasiswa_ids = [];
-if ($result_absen_mahasiswa->num_rows > 0) {
-    while ($row_absen_mahasiswa = $result_absen_mahasiswa->fetch_assoc()) {
-        $absen_mahasiswa_ids[] = $row_absen_mahasiswa['mahasiswa_id'];
-    }
-}
-$stmt_absen_mahasiswa->close();
 
 // Ambil data mahasiswa untuk absensi berdasarkan semester mata kuliah
 $sql_mahasiswa = "SELECT users.id, users.nama 
@@ -195,16 +159,13 @@ $result_mahasiswa = $stmt_mahasiswa->get_result();
 $mahasiswa_list = [];
 if ($result_mahasiswa->num_rows > 0) {
     while ($row_mahasiswa = $result_mahasiswa->fetch_assoc()) {
-        // Hanya tambahkan mahasiswa yang belum diabsen
-        if (!in_array($row_mahasiswa['id'], $absen_mahasiswa_ids)) {
-            $mahasiswa_list[] = $row_mahasiswa;
-        }
+        $mahasiswa_list[] = $row_mahasiswa;
     }
 }
 $stmt_mahasiswa->close();
 
 // Ambil data absensi dari database
-$sql_absensi = "SELECT absensi.id, users.nama, absensi.status
+$sql_absensi = "SELECT absensi.mahasiswa_id, users.nama, absensi.status
                 FROM absensi
                 JOIN users ON absensi.mahasiswa_id = users.id
                 WHERE absensi.pertemuan_id = ?";
@@ -215,7 +176,7 @@ $result_absensi = $stmt_absensi->get_result();
 $absensi_list = [];
 if ($result_absensi->num_rows > 0) {
     while ($row_absensi = $result_absensi->fetch_assoc()) {
-        $absensi_list[] = $row_absensi;
+        $absensi_list[$row_absensi['mahasiswa_id']] = $row_absensi;
     }
 }
 $stmt_absensi->close();
@@ -273,13 +234,27 @@ $conn->close();
 <body>
 <main class="main-content">
     <h2 class="page-title">Kelola Pertemuan: <?php echo $pertemuan['topik']; ?></h2>
-    <p>Kelas: <?php echo $pertemuan['nama_cohort']; ?></p>
-    <p>Mata Kuliah: <?php echo $pertemuan['mata_kuliah']; ?></p>
-    <p>Dosen: <?php echo $pertemuan['dosen']; ?></p>
-    <p>Tanggal: <?php echo $pertemuan['tanggal']; ?></p>
+    <table class="data-table">
+        <tr>
+            <th>Kelas</th>
+            <td><?php echo $pertemuan['nama_cohort']; ?></td>
+        </tr>
+        <tr>
+            <th>Mata Kuliah</th>
+            <td><?php echo $pertemuan['mata_kuliah']; ?></td>
+        </tr>
+        <tr>
+            <th>Dosen</th>
+            <td><?php echo $pertemuan['dosen']; ?></td>
+        </tr>
+        <tr>
+            <th>Tanggal</th>
+            <td><?php echo $pertemuan['tanggal']; ?></td>
+        </tr>
+    </table>
 
     <h3>Metode Pembelajaran</h3>
-    <form action="kelola_pertemuan_dosen.php?id=<?php echo $pertemuan_id; ?>" method="POST">
+    <form action="kelola_pertemuan.php?id=<?php echo $pertemuan_id; ?>" method="POST">
         <label for="metode_pembelajaran">Metode Pembelajaran:</label>
         <select name="metode_pembelajaran" id="metode_pembelajaran" required>
             <?php foreach ($metode_list as $metode): ?>
@@ -292,7 +267,7 @@ $conn->close();
     </form>
 
     <h3>Upload File</h3>
-    <form action="kelola_pertemuan_dosen.php?id=<?php echo $pertemuan_id; ?>" method="POST" enctype="multipart/form-data">
+    <form action="kelola_pertemuan.php?id=<?php echo $pertemuan_id; ?>" method="POST" enctype="multipart/form-data">
         <label for="file">Pilih File:</label>
         <input type="file" name="file" id="file" required>
         <button type="submit" name="upload_file">Upload</button>
@@ -311,7 +286,7 @@ $conn->close();
                     <td><?php echo $file['nama_file']; ?></td>
                     <td>
                         <a href="<?php echo $file['path_file']; ?>" class="download" download>Download</a>
-                        <form action="kelola_pertemuan_dosen.php?id=<?php echo $pertemuan_id; ?>" method="POST" style="display:inline;">
+                        <form action="kelola_pertemuan.php?id=<?php echo $pertemuan_id; ?>" method="POST" style="display:inline;">
                             <input type="hidden" name="file_id" value="<?php echo $file['id']; ?>">
                             <input type="hidden" name="path_file" value="<?php echo $file['path_file']; ?>">
                             <button type="submit" name="hapus_file" class="hapus">Hapus</button>
@@ -323,49 +298,34 @@ $conn->close();
     </table>
 
     <h3>Absensi Mahasiswa</h3>
-    <form action="kelola_pertemuan_dosen.php?id=<?php echo $pertemuan_id; ?>" method="POST">
-        <label for="mahasiswa_id">Mahasiswa:</label>
-        <select name="mahasiswa_id" id="mahasiswa_id" required>
-            <?php foreach ($mahasiswa_list as $mahasiswa): ?>
-                <option value="<?php echo $mahasiswa['id']; ?>"><?php echo $mahasiswa['nama']; ?></option>
-            <?php endforeach; ?>
-        </select>
-        <label for="status">Status:</label>
-        <select name="status" id="status" required>
-            <option value="Hadir">Hadir</option>
-            <option value="Izin">Izin</option>
-            <option value="Tanpa Keterangan">Tanpa Keterangan</option>
-            <option value="Sakit">Sakit</option>
-        </select>
-        <button type="submit" name="absensi">Simpan Absensi</button>
-    </form>
-    <h3>Daftar Absensi</h3>
-    <table class="data-table">
-        <thead>
-            <tr>
-                <th>Nama Mahasiswa</th>
-                <th>Status</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($absensi_list as $absensi): ?>
+    <form action="kelola_pertemuan.php?id=<?php echo $pertemuan_id; ?>" method="POST">
+        <table class="data-table">
+            <thead>
                 <tr>
-                    <td><?php echo $absensi['nama']; ?></td>
-                    <td><?php echo $absensi['status']; ?></td>
-                    <td>
-                        <form action="kelola_pertemuan_dosen.php?id=<?php echo $pertemuan_id; ?>" method="POST" style="display:inline;">
-                            <input type="hidden" name="absensi_id" value="<?php echo $absensi['id']; ?>">
-                            <button type="submit" name="hapus_absensi" class="hapus">Hapus</button>
-                        </form>
-                    </td>
+                    <th>Nama Mahasiswa</th>
+                    <th>Hadir</th>
+                    <th>Izin</th>
+                    <th>Tanpa Keterangan</th>
+                    <th>Sakit</th>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php foreach ($mahasiswa_list as $mahasiswa): ?>
+                    <tr>
+                        <td><?php echo $mahasiswa['nama']; ?></td>
+                        <td><input type="radio" name="absensi[<?php echo $mahasiswa['id']; ?>]" value="Hadir" <?php echo (isset($absensi_list[$mahasiswa['id']]) && $absensi_list[$mahasiswa['id']]['status'] == 'Hadir') ? 'checked' : ''; ?>></td>
+                        <td><input type="radio" name="absensi[<?php echo $mahasiswa['id']; ?>]" value="Izin" <?php echo (isset($absensi_list[$mahasiswa['id']]) && $absensi_list[$mahasiswa['id']]['status'] == 'Izin') ? 'checked' : ''; ?>></td>
+                        <td><input type="radio" name="absensi[<?php echo $mahasiswa['id']; ?>]" value="Tanpa Keterangan" <?php echo (isset($absensi_list[$mahasiswa['id']]) && $absensi_list[$mahasiswa['id']]['status'] == 'Tanpa Keterangan') ? 'checked' : ''; ?>></td>
+                        <td><input type="radio" name="absensi[<?php echo $mahasiswa['id']; ?>]" value="Sakit" <?php echo (isset($absensi_list[$mahasiswa['id']]) && $absensi_list[$mahasiswa['id']]['status'] == 'Sakit') ? 'checked' : ''; ?>></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <button type="submit" name="submit_absensi">Simpan Absensi</button>
+    </form>
 
     <h3>Forum Diskusi</h3>
-    <form action="kelola_pertemuan_dosen.php?id=<?php echo $pertemuan_id; ?>" method="POST">
+    <form action="kelola_pertemuan.php?id=<?php echo $pertemuan_id; ?>" method="POST">
         <label for="pesan">Pesan:</label>
         <textarea name="pesan" id="pesan" rows="4" required></textarea>
         <button type="submit" name="kirim_pesan">Kirim Pesan</button>

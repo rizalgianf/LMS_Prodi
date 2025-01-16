@@ -1,4 +1,5 @@
 <?php
+// filepath: /E:/GITHUB REPOSITORY/SIAKAD/views/dosen/kelola_kelas_dosen.php
 // Mulai session dan pastikan pengguna telah login sebagai dosen
 session_start();
 if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'dosen') {
@@ -59,14 +60,28 @@ $conn->close();
     <meta charset="UTF-8">
     <title><?php echo $page_title; ?></title>
     <link rel="stylesheet" href="../../css/style_kbm.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
 <main class="main-content">
     <h2 class="page-title">Kelola Kelas: <?php echo $kelas['nama_cohort']; ?></h2>
-    <h2>Mata Kuliah: <?php echo $kelas['mata_kuliah']; ?></h2>
-    <p>SKS: <?php echo $kelas['jumlah_sks']; ?></p>
-    <p>Dosen: <?php echo $kelas['dosen']; ?></p>
-    <p>Hubungi admin untuk perubahan jadwal</p>
+    <table class="data-table">
+        <tr>
+            <th>Mata Kuliah</th>
+            <td><?php echo $kelas['mata_kuliah']; ?></td>
+        </tr>
+        <tr>
+            <th>SKS</th>
+            <td><?php echo $kelas['jumlah_sks']; ?></td>
+        </tr>
+        <tr>
+            <th>Dosen</th>
+            <td><?php echo $kelas['dosen']; ?></td>
+        </tr>
+    </table>
+    <div class="warning">
+        <p>Hubungi admin untuk perubahan jadwal <i class="fas fa-exclamation-triangle"></i></p>
+    </div>
 
     <table class="data-table">
         <thead>

@@ -1,4 +1,5 @@
 <?php
+// filepath: /E:/GITHUB REPOSITORY/SIAKAD/views/admin/kelola_kelas.php
 // Mulai session dan pastikan pengguna telah login sebagai admin
 session_start();
 if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
@@ -84,9 +85,20 @@ $conn->close();
 <body>
 <main class="main-content">
     <h2 class="page-title">Kelola Kelas: <?php echo $kelas['nama_cohort']; ?></h2>
-    <h2>Mata Kuliah: <?php echo $kelas['mata_kuliah']; ?></h2>
-    <p>SKS: <?php echo $kelas['jumlah_sks']; ?></p>
-    <p>Dosen: <?php echo $kelas['dosen']; ?></p>
+    <table class="data-table">
+        <tr>
+            <th>Mata Kuliah</th>
+            <td><?php echo $kelas['mata_kuliah']; ?></td>
+        </tr>
+        <tr>
+            <th>SKS</th>
+            <td><?php echo $kelas['jumlah_sks']; ?></td>
+        </tr>
+        <tr>
+            <th>Dosen</th>
+            <td><?php echo $kelas['dosen']; ?></td>
+        </tr>
+    </table>
     <form action="kelola_kelas.php?id=<?php echo $kelas_id; ?>" method="POST">
         <label for="tanggal">Tanggal:</label>
         <input type="date" name="tanggal" id="tanggal" required onchange="updateHari()">
