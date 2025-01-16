@@ -12,13 +12,24 @@ include '../../config/database.php'; // Koneksi database
 $page_title = "Daftar Cohort";
 include '../../includes/header.php'; // Menggunakan header khusus untuk admin
 
+// Cek apakah kolom jumlah_mahasiswa sudah ada
+$result = $conn->query("SHOW COLUMNS FROM cohort LIKE 'jumlah_mahasiswa'");
+$exists = ($result->num_rows > 0) ? true : false;
+
+if (!$exists) {
+    // Tambahkan kolom jumlah_mahasiswa jika belum ada
+    $conn->query("ALTER TABLE cohort ADD COLUMN jumlah_mahasiswa INT DEFAULT 0");
+}
+
+// Proses form untuk menambah cohort baru
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['daftar_cohort'])) {
     $nama_cohort = $_POST['nama_cohort'];
     $tahun_masuk = $_POST['tahun_masuk'];
+    $jumlah_mahasiswa = $_POST['jumlah_mahasiswa'];
 
-    $sql = "INSERT INTO cohort (nama_cohort, tahun_masuk) VALUES (?, ?)";
+    $sql = "INSERT INTO cohort (nama_cohort, tahun_masuk, jumlah_mahasiswa) VALUES (?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("si", $nama_cohort, $tahun_masuk);
+    $stmt->bind_param("sii", $nama_cohort, $tahun_masuk, $jumlah_mahasiswa);
 
     if ($stmt->execute()) {
         echo "Cohort berhasil ditambahkan!";
@@ -71,6 +82,8 @@ $conn->close();
                 <option value="<?php echo $year; ?>"><?php echo $year; ?></option>
             <?php endfor; ?>
         </select>
+        <label for="jumlah_mahasiswa">Jumlah Mahasiswa:</label>
+        <input type="number" name="jumlah_mahasiswa" id="jumlah_mahasiswa" required>
         <button type="submit" name="daftar_cohort">Tambah Cohort</button>
     </form>
 
@@ -80,6 +93,7 @@ $conn->close();
             <tr>
                 <th>Nama Cohort</th>
                 <th>Tahun Masuk</th>
+                <th>Jumlah Mahasiswa</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -88,6 +102,7 @@ $conn->close();
                 <tr>
                     <td><?php echo $cohort['nama_cohort']; ?></td>
                     <td><?php echo $cohort['tahun_masuk']; ?></td>
+                    <td><?php echo $cohort['jumlah_mahasiswa']; ?></td>
                     <td>
                         <a href="edit_cohort.php?id=<?php echo $cohort['id']; ?>" class="edit">Edit</a>
                         <a href="hapus_cohort.php?id=<?php echo $cohort['id']; ?>" class="delete" onclick="return confirm('Apakah Anda yakin ingin menghapus cohort ini?')">Delete</a>

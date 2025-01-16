@@ -25,6 +25,7 @@
                     </li>
                     <li><a href="jadwal_kuliah.php">Jadwal Kuliah</a></li>
                     <li><a href="kbm.php">KBM</a></li>
+                    <li><a href="rekap_absen.php">Rekapitulasi</a></li>
                     <li><a href="../../logout.php">Logout</a></li>
                 </ul>
             </nav>

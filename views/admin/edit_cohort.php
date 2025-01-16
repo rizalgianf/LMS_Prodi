@@ -31,10 +31,11 @@ if (!$cohort) {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_cohort'])) {
     $nama_cohort = $_POST['nama_cohort'];
     $tahun_masuk = $_POST['tahun_masuk'];
+    $jumlah_mahasiswa = $_POST['jumlah_mahasiswa'];
 
-    $sql = "UPDATE cohort SET nama_cohort = ?, tahun_masuk = ? WHERE id = ?";
+    $sql = "UPDATE cohort SET nama_cohort = ?, tahun_masuk = ?, jumlah_mahasiswa = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sii", $nama_cohort, $tahun_masuk, $id);
+    $stmt->bind_param("siii", $nama_cohort, $tahun_masuk, $jumlah_mahasiswa, $id);
 
     if ($stmt->execute()) {
         header("Location: daftar_cohort.php");
@@ -71,6 +72,8 @@ $conn->close();
                 <option value="<?php echo $year; ?>" <?php echo ($cohort['tahun_masuk'] == $year) ? 'selected' : ''; ?>><?php echo $year; ?></option>
             <?php endfor; ?>
         </select>
+        <label for="jumlah_mahasiswa">Jumlah Mahasiswa:</label>
+        <input type="number" name="jumlah_mahasiswa" id="jumlah_mahasiswa" value="<?php echo $cohort['jumlah_mahasiswa']; ?>" required>
         <button type="submit" name="update_cohort">Update Cohort</button>
     </form>
     <a href="daftar_cohort.php" class="button kembali">Kembali</a>
