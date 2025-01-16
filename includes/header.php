@@ -21,11 +21,11 @@
                             <a href="daftar_dosen.php">Daftar Dosen</a>
                             <a href="daftar_matkul.php">Daftar Mata Kuliah</a>
                             <a href="daftar_cohort.php">Daftar Cohort</a>
+                            <a href="rekap_absen.php">Daftar Rekapitulasi</a>
                         </div>
                     </li>
                     <li><a href="jadwal_kuliah.php">Jadwal Kuliah</a></li>
                     <li><a href="kbm.php">KBM</a></li>
-                    <li><a href="rekap_absen.php">Rekapitulasi</a></li>
                     <li><a href="../../logout.php">Logout</a></li>
                 </ul>
             </nav>
