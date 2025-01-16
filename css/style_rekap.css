@@ -1,0 +1,335 @@
+/* Reset default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f0f8ff;
+    color: #333;
+    line-height: 1.6;
+}
+
+.main-content {
+    max-width: 90%; /* Increased width */
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.page-title {
+    text-align: center;
+    color: #1e90ff;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+form label {
+    font-weight: bold;
+    color: #1e90ff;
+}
+
+form input,
+form select,
+form button,
+form textarea {
+    padding: 10px;
+    border: 1px solid #1e90ff;
+    border-radius: 4px;
+}
+
+form button {
+    background-color: #1e90ff;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #1c86ee;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    overflow-x: auto; /* Membolehkan scroll horizontal pada tabel */
+}
+
+.data-table th,
+.data-table td {
+    padding: 10px;
+    border: 1px solid #1e90ff;
+    text-align: left;
+}
+
+.data-table th {
+    background-color: #1e90ff;
+    color: #fff;
+}
+
+.data-table tr:nth-child(even) {
+    background-color: #f0f8ff;
+}
+
+.data-table tr:hover {
+    background-color: #e0f7ff;
+}
+
+.data-table a,
+.data-table button {
+    padding: 1.5px 10px;
+    border: none;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.data-table a.kelola,
+.data-table button.kelola {
+    background-color: #4CAF50; /* Warna hijau untuk tombol Kelola */
+}
+
+.data-table a.kelola:hover,
+.data-table button.kelola:hover {
+    background-color: #45a049;
+}
+
+.data-table a.hapus,
+.data-table button.hapus {
+    background-color: #f44336; /* Warna merah untuk tombol Hapus */
+}
+
+.data-table a.hapus:hover,
+.data-table button.hapus:hover {
+    background-color: #e53935;
+}
+
+.data-table a.download,
+.data-table button.download {
+    background-color: #4CAF50; /* Warna hijau untuk tombol Download */
+}
+
+.data-table a.download:hover,
+.data-table button.download:hover {
+    background-color: #45a049;
+}
+
+.forum-diskusi {
+    margin-top: 20px;
+}
+
+/* Responsif untuk .pesan */
+.pesan {
+    padding: 10px;
+    border: 1px solid #1e90ff;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    background-color: #f0f8ff;
+    font-size: 12px; /* Menurunkan ukuran font default untuk teks yang lebih kecil */
+}
+
+.pesan p {
+    margin: 5px 0;
+}
+
+.pesan small {
+    color: #666;
+}
+
+a.edit {
+    background-color: #FFD700; /* Yellow color */
+    color: #000; /* Black text */
+    padding: px 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+a.edit:hover {
+    background-color: #FFC107; /* Darker yellow on hover */
+}
+
+/* Media Queries untuk Responsif */
+@media (max-width: 1200px) {
+    .main-content {
+        padding: 25px;
+    }
+
+    .page-title {
+        font-size: 24px;
+    }
+
+    form input,
+    form select,
+    form button,
+    form textarea {
+        font-size: 16px;
+    }
+
+    .pesan {
+        padding: 12px;
+        font-size: 14px; /* Lebih kecil untuk layar lebih besar */
+    }
+}
+
+@media (max-width: 992px) {
+    .main-content {
+        padding: 20px;
+    }
+
+    .page-title {
+        font-size: 22px;
+    }
+
+    form input,
+    form select,
+    form button,
+    form textarea {
+        font-size: 15px;
+    }
+
+    .data-table th,
+    .data-table td {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .data-table button {
+        font-size: 14px;
+    }
+
+    .forum-diskusi {
+        margin-top: 15px;
+    }
+
+    .pesan {
+        padding: 10px;
+        font-size: 13px; /* Sedikit lebih kecil pada layar lebih kecil */
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        padding: 15px;
+    }
+
+    .page-title {
+        font-size: 20px;
+    }
+
+    form input,
+    form select,
+    form button,
+    form textarea {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .data-table th,
+    .data-table td {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .data-table button {
+        font-size: 12px;
+        padding: 6px 8px;
+    }
+
+    .forum-diskusi {
+        margin-top: 15px;
+    }
+
+    .pesan {
+        padding: 8px;
+        font-size: 12px; /* Ukuran font lebih kecil */
+    }
+}
+
+@media (max-width: 576px) {
+    .main-content {
+        padding: 10px;
+    }
+
+    .page-title {
+        font-size: 18px;
+    }
+
+    form input,
+    form select,
+    form button,
+    form textarea {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .data-table th,
+    .data-table td {
+        font-size: 10px;
+        padding: 6px;
+    }
+
+    .data-table button {
+        font-size: 10px;
+        padding: 4px 6px;
+    }
+
+    .forum-diskusi {
+        margin-top: 10px;
+    }
+
+    .pesan {
+        padding: 6px;
+        font-size: 11px; /* Ukuran font lebih kecil pada layar lebih kecil */
+    }
+}
+
+@media (max-width: 360px) {
+    .main-content {
+        padding: 5px;
+    }
+
+    .page-title {
+        font-size: 16px;
+    }
+
+    form input,
+    form select,
+    form button,
+    form textarea {
+        font-size: 12px;
+        padding: 5px;
+    }
+
+    .data-table th,
+    .data-table td {
+        font-size: 10px;
+        padding: 5px;
+    }
+
+    .data-table button {
+        font-size: 10px;
+        padding: 4px 5px;
+    }
+
+    .forum-diskusi {
+        margin-top: 10px;
+    }
+
+    .pesan {
+        padding: 5px;
+        font-size: 10px; /* Ukuran font lebih kecil untuk layar lebih kecil */
+    }
+}
