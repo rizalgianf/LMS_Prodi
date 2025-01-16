@@ -258,11 +258,11 @@ html, body {
     }
 
     .main-header {
-        font-size: 0.8vw; /* Adjust font size for tablets */
+        font-size: 1.3vw; /* Adjust font size for tablets */
     }
 
     .site-title {
-        font-size: 1.1vw; /* Adjust title size for tablets */
+        font-size: 2.1vw; /* Adjust title size for tablets */
     }
 
     .page-title {

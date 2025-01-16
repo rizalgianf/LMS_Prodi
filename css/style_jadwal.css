@@ -13,7 +13,7 @@ body {
 }
 
 .main-content {
-    max-width: 1900px;
+    max-width: 90%;
     margin: 20px auto;
     padding: 20px;
     background-color: #fff;
@@ -25,6 +25,7 @@ body {
     text-align: center;
     color: #1e90ff;
     margin-bottom: 20px;
+    font-size: 1.5rem;
 }
 
 form {
@@ -45,6 +46,7 @@ form button {
     padding: 10px;
     border: 1px solid #1e90ff;
     border-radius: 4px;
+    font-size: 1rem;
 }
 
 form button {
@@ -62,6 +64,7 @@ form button:hover {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    font-size: 1rem;
 }
 
 .data-table th,
@@ -110,4 +113,87 @@ form button:hover {
 
 .data-table a:hover {
     background-color: #ff6347;
+}
+
+/* Responsiveness */
+@media (max-width: 1200px) {
+    .main-content {
+        max-width: 95%;
+    }
+
+    .page-title {
+        font-size: 1.4rem;
+    }
+
+    form input,
+    form select,
+    form button {
+        font-size: 0.9rem;
+    }
+
+    .data-table th,
+    .data-table td {
+        font-size: 0.9rem;
+    }
+
+    .data-table button,
+    .data-table a {
+        padding: 5px 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 1.3rem;
+    }
+
+    form {
+        flex-direction: column;
+    }
+
+    form input,
+    form select,
+    form button {
+        font-size: 0.85rem;
+    }
+
+    .data-table th,
+    .data-table td {
+        font-size: 0.85rem;
+    }
+
+    .data-table button,
+    .data-table a {
+        padding: 4px 7px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        padding: 15px;
+    }
+
+    .page-title {
+        font-size: 1.2rem;
+    }
+
+    form {
+        flex-direction: column;
+    }
+
+    form input,
+    form select,
+    form button {
+        font-size: 0.8rem;
+    }
+
+    .data-table th,
+    .data-table td {
+        font-size: 0.8rem;
+    }
+
+    .data-table button,
+    .data-table a {
+        padding: 3px 5px;
+    }
 }
