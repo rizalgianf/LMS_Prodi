@@ -78,7 +78,7 @@ $conn->close();
 <body>
     <?php include '../../includes/header_dosen.php'; ?>
     <main class="main-content">
-        <h2 class="page-title">Daftar Jadwal Kuliah</h2>
+    <h2 class="page-title">Daftar Jadwal Kuliah</h2>
         <form action="lihat_jadwal_dosen.php" method="GET" class="search-form">
             <label for="sort_cohort" class="sr-only">Urutkan berdasarkan Cohort:</label>
             <div class="search-container">
