@@ -1,122 +1,145 @@
 <?php
-// Mulai session dan pastikan pengguna telah login sebagai admin
+// filepath: /E:/GITHUB REPOSITORY/SIAKAD/views/admin/home.php
 session_start();
 if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'mahasiswa') {
     header("Location: ../../login.php");
     exit();
 }
 
-// Mengatur judul halaman
-$page_title = "Mahasiswa Dashboard";
+include '../../config/database.php'; // Koneksi database
+
+$page_title = "Admin Dashboard";
 include '../../includes/header_mahasiswa.php'; // Menggunakan header khusus untuk admin
+
+// Ambil data dari database
+$sql_dosen = "SELECT COUNT(*) AS jumlah_dosen FROM users WHERE role = 'dosen'";
+$result_dosen = $conn->query($sql_dosen);
+$jumlah_dosen = $result_dosen->fetch_assoc()['jumlah_dosen'];
+
+$sql_mahasiswa = "SELECT COUNT(*) AS jumlah_mahasiswa FROM users WHERE role = 'mahasiswa'";
+$result_mahasiswa = $conn->query($sql_mahasiswa);
+$jumlah_mahasiswa = $result_mahasiswa->fetch_assoc()['jumlah_mahasiswa'];
+
+$sql_cohort = "SELECT COUNT(*) AS jumlah_cohort FROM cohort";
+$result_cohort = $conn->query($sql_cohort);
+$jumlah_cohort = $result_cohort->fetch_assoc()['jumlah_cohort'];
+
+$sql_mata_kuliah = "SELECT COUNT(*) AS jumlah_mata_kuliah FROM mata_kuliah";
+$result_mata_kuliah = $conn->query($sql_mata_kuliah);
+$jumlah_mata_kuliah = $result_mata_kuliah->fetch_assoc()['jumlah_mata_kuliah'];
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    
-    <!-- Title Tag -->
-    <title>Learning Management System Informatika Unhan RI</title>
-<!--
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title><?php echo $page_title; ?></title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
 
-November Template
+  <!-- Favicons -->
+  <link href="../../assets/img/favicon.png" rel="icon">
+  <link href="../../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-http://www.templatemo.com/tm-473-november
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
--->
-    <!-- <<Mobile Viewport Code>> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-            
-    <!-- <<Attched Stylesheets>> -->
-    <link rel="stylesheet" href="../../landing_page/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="../../landing_page/css/media.css" type="text/css" />
-    <link rel="stylesheet" href="../../landing_page/css/font-awesome.min.css" type="text/css" />
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,600italic,400italic,800,700' rel='stylesheet' type='text/css'>    
-    <link href='https://fonts.googleapis.com/css?family=Oswald:400,700,300' rel='stylesheet' type='text/css'>
+  <!-- Vendor CSS Files -->
+  <link href="../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../../assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="../../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="../../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
+  <!-- Main CSS File -->
+  <link href="../../assets/css/main.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: iLanding
+  * Template URL: https://bootstrapmade.com/ilanding-bootstrap-landing-page-template/
+  * Updated: Nov 12 2024 with Bootstrap v5.3.3
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
 </head>
-<body>
 
-<!-- \\ Begin Holder \\ -->
-<div class="DesignHolder">
-	<!-- \\ Begin Frame \\ -->
-	<div class="LayoutFrame">
-        <!-- \\ Begin Header \\ -->
-       
-        <!-- // End Header // -->
-        <!-- \\ Begin Banner Section \\ -->
-        <div class="Banner_sec" id="home">
-            <!--  \\ Begin banner Side -->
-            <div class="bannerside">
-	            <div class="Center">
-                    <!--  \\ Begin Left Side -->
-                    <div class="leftside">
-                        <h3>Selamat Datang <span>Class Plus</span></h3>
-                        <p>Learning Management System Informatika Unhan RI </p>
-                        <a href="#about">MORE DETAILS</a>
-                    </div>                        								
-                    <!--  // End Left Side // -->
-                  <!--  \\ Begin Right Side -->
-                  <div class="rightside">
-                    	<ul id="slider">	
-                    		<li>
-                                <div class="Slider">
-                                    <figure><img src="../../images/home.JPG" alt="image"></figure>
-                                    <div class="text">           								
-                                        <div class="Lorem">
-                                            <p>Fakultas Sains dan Teknologi Pertahanan<span>Prodi Informatika</span></p>
-                                        </div>
-                                    </div>
-                                </div>
-							</li>
-						</ul>                                                                                                                  
-                    </div>
-                    <!--  // End Right Side // -->
-                 
-	            </div>
-            </div>
-            <!--  // End banner Side // -->
-            <div class="clear"></div>
-        </div>
-        <!-- // End Banner Section // -->
-         <div class="bgcolor"></div>
-        <!-- \\ Begin Container \\ -->
-        <div id="Container">
-            <!-- \\ Begin About Section \\ -->
-            <div class="About_sec" id="about">
-                <div class="Center">            	
-                    <h2>about us</h2>            		
-                    <p>Program Studi Informatika adalah Program Studi yang mengembangkan disiplin Ilmu Komputer (Computer Science) sebagai ilmu teknik agar para Kadet Mahasiswa lulusannya memiliki keahlian dan kemampuan untuk mengaplikasikan tiga bidang konsentrasi ilmu Informatika</p>
-                    <div class="Line"></div>	
-                    <!-- \\ Begin Tab side \\ -->
-                    <div class="Tabside">
-                        
-                      <div class="clear"></div>
-                        <div class="tabcontent" id="cont-1-1">
-                            <div class="TabImage">
-                                <div class="img1">
-                                    <figure><img src="../../images/about1.JPG" alt="image"></figure>	
-                                </div>
-                                <div class="img2">
-                                    <figure><img src="../../images/about2.JPG" alt="image"></figure>
-                                </div>
-                            </div>
-                            <div class="Description">
-                                <h3>Fakultas Sains dan Teknologi Pertahanan<span>Program Studi Informatika</span></h3>
-                                <p>Ketiga konsentrasi ilmu Informatika tersebut difokuskan untuk mendukung Kepentingan Militer / Pertahanan sebagai ciri khas Universitas Pertahanan RI. Diharapkan para lulusan Prodi Informatika dapat segera terserap bekerja mengisi kebutuhan TNI / Kemhan / Kementerian Lembaga dan stakeholders terkait (link & match) akan kebutuhan Sumber Daya Manusia bidang TIK (Teknologi Informasi & Komunikasi), Artificilal Intelligence, Cyber Security dan Cyber Defense. Sistem SKS dalam Kurikulum Program Studi Informatika memiliki bobot 20% dari total 144 SKS yang konten mata kuliahnya didisain untuk mendukung kepentingan Militer / Pertahanan.</p>
-                                <p>Di dalam melaksanakan sistim perkuliahannya, Program Studi Informatika mengadopsi konsep Belajar Merdeka (Kampus Merdeka) dengan komposisi 3 Semester (60 SKS) perkuliahan bisa dilakukan diluar Program Studi atau diluar Kampus Unhan RI termasuk melakukan OJT (On the Job Training), dan KKN (Kuliah Kerja Nyata). Para Kadet Mahasiswa lulusan Program Studi Informatika merupakan Kader Intelektual Bela Negara yang nantinya siap ditempatkan di seluruh penjuru Nusantara dalam rangka mengemban misi Pertahanan Negara.</p>
-                            </div>
-                        </div>
-                        </div>
-	                    <div class="clear"></div>	
-                    </div>                    
-                    <!-- // End Tab Side // -->
+<body class="index-page">
+
+  <main class="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section">
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row align-items-center">
+          <div class="col-lg-6">
+            <div class="hero-content" data-aos="fade-up" data-aos-delay="200">
+                <div class="date-badge mb-4">
+                <i class="bi bi-calendar-event-fill me-2"></i>
+                <span id="current-date"></span>
                 </div>
-            </div>
-            <!-- // End About Section // -->
+                <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                  const today = new Date().toLocaleDateString('en-US', options);
+                  document.getElementById('current-date').textContent = today;
+                });
+                </script>
 
-<?php include '../../includes/footer.php'; ?>
+              <h1 class="mb-4">
+                Selamat Datang <br>
+                Learning Management System <br>
+                <span class="accent-text">ClassTIcs</span>
+              </h1>
+
+              <p class="mb-4 mb-md-5">
+              Program Studi Informatika adalah Program Studi yang mengembangkan disiplin Ilmu Komputer (Computer Science) sebagai ilmu teknik agar para 
+              Kadet Mahasiswa lulusannya memiliki keahlian dan kemampuan untuk mengaplikasikan tiga bidang konsentrasi ilmu Informatika
+              </p>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="hero-image" data-aos="zoom-out" data-aos-delay="300">
+              <img src="../../assets/img/illustration-1.webp" alt="Hero Image" class="img-fluid">
+            </div>
+          </div>
+        </div>
+
+        <div class="row stats-row gy-4 mt-5" data-aos="fade-up" data-aos-delay="500">
+          <div class="col-lg-3 col-md-6">
+           
+          </div>
+        </div>
+
+      </div>
+    </section><!-- /About Section -->
+
+  </main>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../../assets/vendor/php-email-form/validate.js"></script>
+  <script src="../../assets/vendor/aos/aos.js"></script>
+  <script src="../../assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="../../assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="../../assets/vendor/purecounter/purecounter_vanilla.js"></script>
+
+  <!-- Main JS File -->
+  <script src="../../assets/js/main.js"></script>
+
+
 </body>
 </html>
+
+<?php include '../../includes/footer.php'; ?>
