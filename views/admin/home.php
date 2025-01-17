@@ -10,188 +10,163 @@ include '../../config/database.php'; // Koneksi database
 $page_title = "Admin Dashboard";
 include '../../includes/header.php'; // Menggunakan header khusus untuk admin
 
-// Ambil data dari database
-$sql_dosen = "SELECT COUNT(*) AS jumlah_dosen FROM users WHERE role = 'dosen'";
-$result_dosen = $conn->query($sql_dosen);
-$jumlah_dosen = $result_dosen->fetch_assoc()['jumlah_dosen'];
-
-$sql_mahasiswa = "SELECT COUNT(*) AS jumlah_mahasiswa FROM users WHERE role = 'mahasiswa'";
-$result_mahasiswa = $conn->query($sql_mahasiswa);
-$jumlah_mahasiswa = $result_mahasiswa->fetch_assoc()['jumlah_mahasiswa'];
-
-$sql_cohort = "SELECT COUNT(*) AS jumlah_cohort FROM cohort";
-$result_cohort = $conn->query($sql_cohort);
-$jumlah_cohort = $result_cohort->fetch_assoc()['jumlah_cohort'];
-
-$sql_mata_kuliah = "SELECT COUNT(*) AS jumlah_mata_kuliah FROM mata_kuliah";
-$result_mata_kuliah = $conn->query($sql_mata_kuliah);
-$jumlah_mata_kuliah = $result_mata_kuliah->fetch_assoc()['jumlah_mata_kuliah'];
-
-$sql_pertemuan = "SELECT COUNT(*) AS jumlah_pertemuan FROM pertemuan";
-$result_pertemuan = $conn->query($sql_pertemuan);
-$jumlah_pertemuan = $result_pertemuan->fetch_assoc()['jumlah_pertemuan'];
 
 $conn->close();
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $page_title; ?></title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Roboto', sans-serif;
-        }
-        .carousel-item {
-            height: 400px;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-        }
-        .carousel-item::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-        }
-        .carousel-caption {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            color: #fff;
-        }
-        .card {
-            margin: 10px;
-            border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        }
-        .card-header {
-            font-size: 1.4rem;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-        .card-title {
-            font-size: 2.5rem;
-            font-weight: bold;
-        }
-        .dashboard-header {
-            margin: 50px 0;
-            color: #007bff;
-            font-size: 2.5rem;
-            font-weight: bold;
-            text-align: center;
-        }
-        .icon {
-            font-size: 3rem;
-            margin-right: 15px;
-        }
-        footer {
-            margin-top: 50px;
-            text-align: center;
-            font-size: 0.9rem;
-            color: #6c757d;
-        }
-        .card-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-        }
-        main.container {
-            max-width: 1200px;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Index - iLanding Bootstrap Template</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="../../assets/img/favicon.png" rel="icon">
+  <link href="../../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="../../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="../../assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="../../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="../../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="../../assets/css/main.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: iLanding
+  * Template URL: https://bootstrapmade.com/ilanding-bootstrap-landing-page-template/
+  * Updated: Nov 12 2024 with Bootstrap v5.3.3
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
 </head>
-<body>
 
-<main class="container">
-    <!-- Slider -->
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active" style="background-image: url('../../images/about2.JPG');">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Selamat Datang di Dashboard Admin</h5>
-                    <p>Kelola semua data dengan mudah dan cepat.</p>
+<body class="index-page">
+
+ 
+  <main class="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section">
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row align-items-center">
+          <div class="col-lg-6">
+            <div class="hero-content" data-aos="fade-up" data-aos-delay="200">
+                <div class="date-badge mb-4">
+                <i class="bi bi-calendar-event-fill me-2"></i>
+                <span id="current-date"></span>
                 </div>
-            </div>
-            <div class="carousel-item" style="background-image: url('../../images/about1.JPG');">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Data Terintegrasi</h5>
-                    <p>Semua data terintegrasi dalam satu platform.</p>
-                </div>
-            </div>
-            <div class="carousel-item" style="background-image: url('https://source.unsplash.com/1600x400/?data,analytics');">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Analisis Data yang Mudah</h5>
-                    <p>Analisis data dengan cepat dan efisien.</p>
-                </div>
-            </div>
-        </div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
+                <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                  const today = new Date().toLocaleDateString('en-US', options);
+                  document.getElementById('current-date').textContent = today;
+                });
+                </script>
 
-    
-    <div class="card-container">
-        <div class="card text-white bg-primary">
-            <div class="card-header"><i class="fas fa-chalkboard-teacher icon"></i>Jumlah Dosen</div>
-            <div class="card-body">
-                <h5 class="card-title text-center"><?php echo $jumlah_dosen; ?></h5>
-            </div>
-        </div>
-        <div class="card text-white bg-success">
-            <div class="card-header"><i class="fas fa-user-graduate icon"></i>Jumlah Mahasiswa</div>
-            <div class="card-body">
-                <h5 class="card-title text-center"><?php echo $jumlah_mahasiswa; ?></h5>
-            </div>
-        </div>
-        <div class="card text-white bg-info">
-            <div class="card-header"><i class="fas fa-users icon"></i>Jumlah Cohort</div>
-            <div class="card-body">
-                <h5 class="card-title text-center"><?php echo $jumlah_cohort; ?></h5>
-            </div>
-        </div>
-        <div class="card text-white bg-warning">
-            <div class="card-header"><i class="fas fa-book icon"></i>Jumlah Mata Kuliah</div>
-            <div class="card-body">
-                <h5 class="card-title text-center"><?php echo $jumlah_mata_kuliah; ?></h5>
-            </div>
-        </div>
-        <div class="card text-white bg-danger">
-            <div class="card-header"><i class="fas fa-calendar-alt icon"></i>Jumlah Pertemuan</div>
-            <div class="card-body">
-                <h5 class="card-title text-center"><?php echo $jumlah_pertemuan; ?></h5>
-            </div>
-        </div>
-    </div>
-</main>
+              <h1 class="mb-4">
+                Selamat Datang <br>
+                Learning Management System <br>
+                <span class="accent-text">ClassTIcs</span>
+              </h1>
 
-<footer>
-    &copy; 2025 Sistem Informasi Akademik. All rights reserved.
-</footer>
+              <p class="mb-4 mb-md-5">
+                Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt.
+                Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna.
+              </p>
+            </div>
+          </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+          <div class="col-lg-6">
+            <div class="hero-image" data-aos="zoom-out" data-aos-delay="300">
+              <img src="../../assets/img/illustration-1.webp" alt="Hero Image" class="img-fluid">
+
+            </div>
+          </div>
+        </div>
+
+        <div class="row stats-row gy-4 mt-5" data-aos="fade-up" data-aos-delay="500">
+          <div class="col-lg-3 col-md-6">
+            <div class="stat-item">
+              <div class="stat-icon">
+                <i class="bi bi-trophy"></i>
+              </div>
+              <div class="stat-content">
+                <h4>3x Won Awards</h4>
+                <p class="mb-0">Vestibulum ante ipsum</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="stat-item">
+              <div class="stat-icon">
+                <i class="bi bi-briefcase"></i>
+              </div>
+              <div class="stat-content">
+                <h4>6.5k Faucibus</h4>
+                <p class="mb-0">Nullam quis ante</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="stat-item">
+              <div class="stat-icon">
+                <i class="bi bi-graph-up"></i>
+              </div>
+              <div class="stat-content">
+                <h4>80k Mauris</h4>
+                <p class="mb-0">Etiam sit amet orci</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="stat-item">
+              <div class="stat-icon">
+                <i class="bi bi-award"></i>
+              </div>
+              <div class="stat-content">
+                <h4>6x Phasellus</h4>
+                <p class="mb-0">Vestibulum ante ipsum</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- /About Section -->
+
+
+  </main>
+
+ 
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../../assets/vendor/php-email-form/validate.js"></script>
+  <script src="../../assets/vendor/aos/aos.js"></script>
+  <script src="../../assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="../../assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="../../assets/vendor/purecounter/purecounter_vanilla.js"></script>
+
+  <!-- Main JS File -->
+  <script src="../../assets/js/main.js"></script>
+
+  <?php include '../../includes/footer.php'; ?>
 </body>
 </html>
