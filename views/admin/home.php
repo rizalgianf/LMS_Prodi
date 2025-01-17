@@ -1,4 +1,5 @@
 <?php
+// filepath: /E:/GITHUB REPOSITORY/SIAKAD/views/admin/home.php
 session_start();
 if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
     header("Location: ../../login.php");
@@ -10,6 +11,22 @@ include '../../config/database.php'; // Koneksi database
 $page_title = "Admin Dashboard";
 include '../../includes/header.php'; // Menggunakan header khusus untuk admin
 
+// Ambil data dari database
+$sql_dosen = "SELECT COUNT(*) AS jumlah_dosen FROM users WHERE role = 'dosen'";
+$result_dosen = $conn->query($sql_dosen);
+$jumlah_dosen = $result_dosen->fetch_assoc()['jumlah_dosen'];
+
+$sql_mahasiswa = "SELECT COUNT(*) AS jumlah_mahasiswa FROM users WHERE role = 'mahasiswa'";
+$result_mahasiswa = $conn->query($sql_mahasiswa);
+$jumlah_mahasiswa = $result_mahasiswa->fetch_assoc()['jumlah_mahasiswa'];
+
+$sql_cohort = "SELECT COUNT(*) AS jumlah_cohort FROM cohort";
+$result_cohort = $conn->query($sql_cohort);
+$jumlah_cohort = $result_cohort->fetch_assoc()['jumlah_cohort'];
+
+$sql_mata_kuliah = "SELECT COUNT(*) AS jumlah_mata_kuliah FROM mata_kuliah";
+$result_mata_kuliah = $conn->query($sql_mata_kuliah);
+$jumlah_mata_kuliah = $result_mata_kuliah->fetch_assoc()['jumlah_mata_kuliah'];
 
 $conn->close();
 ?>
@@ -20,7 +37,7 @@ $conn->close();
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Index - iLanding Bootstrap Template</title>
+  <title><?php echo $page_title; ?></title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
@@ -54,7 +71,6 @@ $conn->close();
 
 <body class="index-page">
 
- 
   <main class="main">
 
     <!-- Hero Section -->
@@ -84,8 +100,8 @@ $conn->close();
               </h1>
 
               <p class="mb-4 mb-md-5">
-                Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt.
-                Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna.
+              Program Studi Informatika adalah Program Studi yang mengembangkan disiplin Ilmu Komputer (Computer Science) sebagai ilmu teknik agar para 
+              Kadet Mahasiswa lulusannya memiliki keahlian dan kemampuan untuk mengaplikasikan tiga bidang konsentrasi ilmu Informatika
               </p>
             </div>
           </div>
@@ -93,7 +109,6 @@ $conn->close();
           <div class="col-lg-6">
             <div class="hero-image" data-aos="zoom-out" data-aos-delay="300">
               <img src="../../assets/img/illustration-1.webp" alt="Hero Image" class="img-fluid">
-
             </div>
           </div>
         </div>
@@ -102,44 +117,44 @@ $conn->close();
           <div class="col-lg-3 col-md-6">
             <div class="stat-item">
               <div class="stat-icon">
-                <i class="bi bi-trophy"></i>
+              <i class="bi bi-person"></i>
               </div>
               <div class="stat-content">
-                <h4>3x Won Awards</h4>
-                <p class="mb-0">Vestibulum ante ipsum</p>
+                <h4><?php echo $jumlah_dosen; ?> Dosen</h4>
+                <p class="mb-0">Jumlah Dosen</p>
               </div>
             </div>
           </div>
           <div class="col-lg-3 col-md-6">
             <div class="stat-item">
               <div class="stat-icon">
-                <i class="bi bi-briefcase"></i>
+                <i class="bi bi-person"></i>
               </div>
               <div class="stat-content">
-                <h4>6.5k Faucibus</h4>
-                <p class="mb-0">Nullam quis ante</p>
+                <h4><?php echo $jumlah_mahasiswa; ?> Mahasiswa</h4>
+                <p class="mb-0">Jumlah Mahasiswa</p>
               </div>
             </div>
           </div>
           <div class="col-lg-3 col-md-6">
             <div class="stat-item">
               <div class="stat-icon">
-                <i class="bi bi-graph-up"></i>
+                <i class="bi bi-people"></i>
               </div>
               <div class="stat-content">
-                <h4>80k Mauris</h4>
-                <p class="mb-0">Etiam sit amet orci</p>
+                <h4><?php echo $jumlah_cohort; ?> Cohort</h4>
+                <p class="mb-0">Jumlah Cohort</p>
               </div>
             </div>
           </div>
           <div class="col-lg-3 col-md-6">
             <div class="stat-item">
               <div class="stat-icon">
-                <i class="bi bi-award"></i>
+                <i class="bi bi-book"></i>
               </div>
               <div class="stat-content">
-                <h4>6x Phasellus</h4>
-                <p class="mb-0">Vestibulum ante ipsum</p>
+                <h4><?php echo $jumlah_mata_kuliah; ?> Mata Kuliah</h4>
+                <p class="mb-0">Jumlah Mata Kuliah</p>
               </div>
             </div>
           </div>
@@ -148,10 +163,7 @@ $conn->close();
       </div>
     </section><!-- /About Section -->
 
-
   </main>
-
- 
 
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
