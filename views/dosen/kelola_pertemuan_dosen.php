@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_metode'])) {
 
     if ($stmt->execute()) {
         // Refresh the page to reflect the updated method
-        header("Location: kelola_pertemuan.php?id=$pertemuan_id");
+        header("Location: kelola_pertemuan_dosen.php?id=$pertemuan_id");
         exit();
     } else {
         echo "Error: " . $stmt->error;
@@ -254,7 +254,7 @@ $conn->close();
     </table>
 
     <h3>Metode Pembelajaran</h3>
-    <form action="kelola_pertemuan.php?id=<?php echo $pertemuan_id; ?>" method="POST">
+    <form action="kelola_pertemuan_dosen.php?id=<?php echo $pertemuan_id; ?>" method="POST">
         <label for="metode_pembelajaran">Metode Pembelajaran:</label>
         <select name="metode_pembelajaran" id="metode_pembelajaran" required>
             <?php foreach ($metode_list as $metode): ?>
@@ -267,7 +267,7 @@ $conn->close();
     </form>
 
     <h3>Upload File</h3>
-    <form action="kelola_pertemuan.php?id=<?php echo $pertemuan_id; ?>" method="POST" enctype="multipart/form-data">
+    <form action="kelola_pertemuan_dosen.php?id=<?php echo $pertemuan_id; ?>" method="POST" enctype="multipart/form-data">
         <label for="file">Pilih File:</label>
         <input type="file" name="file" id="file" required>
         <button type="submit" name="upload_file">Upload</button>
@@ -286,7 +286,7 @@ $conn->close();
                     <td><?php echo $file['nama_file']; ?></td>
                     <td>
                         <a href="<?php echo $file['path_file']; ?>" class="download" download>Download</a>
-                        <form action="kelola_pertemuan.php?id=<?php echo $pertemuan_id; ?>" method="POST" style="display:inline;">
+                        <form action="kelola_pertemuan_dosen.php?id=<?php echo $pertemuan_id; ?>" method="POST" style="display:inline;">
                             <input type="hidden" name="file_id" value="<?php echo $file['id']; ?>">
                             <input type="hidden" name="path_file" value="<?php echo $file['path_file']; ?>">
                             <button type="submit" name="hapus_file" class="hapus">Hapus</button>
@@ -298,15 +298,15 @@ $conn->close();
     </table>
 
     <h3>Absensi Mahasiswa</h3>
-    <form action="kelola_pertemuan.php?id=<?php echo $pertemuan_id; ?>" method="POST">
+    <form action="kelola_pertemuan_dosen.php?id=<?php echo $pertemuan_id; ?>" method="POST">
         <table class="data-table">
             <thead>
                 <tr>
                     <th>Nama Mahasiswa</th>
                     <th>Hadir</th>
                     <th>Izin</th>
-                    <th>Tanpa Keterangan</th>
                     <th>Sakit</th>
+                    <th>Tanpa Keterangan</th>
                 </tr>
             </thead>
             <tbody>
@@ -315,8 +315,8 @@ $conn->close();
                         <td><?php echo $mahasiswa['nama']; ?></td>
                         <td><input type="radio" name="absensi[<?php echo $mahasiswa['id']; ?>]" value="Hadir" <?php echo (isset($absensi_list[$mahasiswa['id']]) && $absensi_list[$mahasiswa['id']]['status'] == 'Hadir') ? 'checked' : ''; ?>></td>
                         <td><input type="radio" name="absensi[<?php echo $mahasiswa['id']; ?>]" value="Izin" <?php echo (isset($absensi_list[$mahasiswa['id']]) && $absensi_list[$mahasiswa['id']]['status'] == 'Izin') ? 'checked' : ''; ?>></td>
-                        <td><input type="radio" name="absensi[<?php echo $mahasiswa['id']; ?>]" value="Tanpa Keterangan" <?php echo (isset($absensi_list[$mahasiswa['id']]) && $absensi_list[$mahasiswa['id']]['status'] == 'Tanpa Keterangan') ? 'checked' : ''; ?>></td>
                         <td><input type="radio" name="absensi[<?php echo $mahasiswa['id']; ?>]" value="Sakit" <?php echo (isset($absensi_list[$mahasiswa['id']]) && $absensi_list[$mahasiswa['id']]['status'] == 'Sakit') ? 'checked' : ''; ?>></td>
+                        <td><input type="radio" name="absensi[<?php echo $mahasiswa['id']; ?>]" value="Tanpa Keterangan" <?php echo (isset($absensi_list[$mahasiswa['id']]) && $absensi_list[$mahasiswa['id']]['status'] == 'Tanpa Keterangan') ? 'checked' : ''; ?>></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -325,7 +325,7 @@ $conn->close();
     </form>
 
     <h3>Forum Diskusi</h3>
-    <form action="kelola_pertemuan.php?id=<?php echo $pertemuan_id; ?>" method="POST">
+    <form action="kelola_pertemuan_dosen.php?id=<?php echo $pertemuan_id; ?>" method="POST">
         <label for="pesan">Pesan:</label>
         <textarea name="pesan" id="pesan" rows="4" required></textarea>
         <button type="submit" name="kirim_pesan">Kirim Pesan</button>
