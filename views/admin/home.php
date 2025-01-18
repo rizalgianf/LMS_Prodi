@@ -10,6 +10,20 @@ include '../../config/database.php'; // Koneksi database
 $page_title = "Admin Dashboard";
 include '../../includes/header.php'; // Menggunakan header khusus untuk admin
 
+// Ambil data Nama database
+$username = $_SESSION['username'];
+$sql_name = "SELECT nama FROM users WHERE username = '$username'";
+$result_name = $conn->query($sql_name);
+$name = '';
+if ($result_name->num_rows > 0) {
+    $name = $result_name->fetch_assoc()['nama'];
+    // Batasi nama maksimal 5 kata
+    $name_words = explode(' ', $name);
+    if (count($name_words) > 5) {
+        $name = implode(' ', array_slice($name_words, 0, 5));
+    }
+}
+
 // Ambil data dari database
 $sql_dosen = "SELECT COUNT(*) AS jumlah_dosen FROM users WHERE role = 'dosen'";
 $result_dosen = $conn->query($sql_dosen);
@@ -93,8 +107,9 @@ $conn->close();
                 </script>
 
               <h1 class="mb-4">
-                Selamat Datang <br>
-                Learning Management System <br>
+                Selamat Datang,<br>
+                <?php echo htmlspecialchars($name); ?><br>
+                LMS 
                 <span class="accent-text">ClassTIcs</span>
               </h1>
 

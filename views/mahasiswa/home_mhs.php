@@ -12,6 +12,20 @@ $page_title = "Admin Dashboard";
 include '../../includes/header_mahasiswa.php'; // Menggunakan header khusus untuk admin
 
 // Ambil data dari database
+$username = $_SESSION['username'];
+$sql_name = "SELECT nama FROM users WHERE username = '$username'";
+$result_name = $conn->query($sql_name);
+$name = '';
+if ($result_name->num_rows > 0) {
+    $name = $result_name->fetch_assoc()['nama'];
+    // Batasi nama maksimal 5 kata
+    $name_words = explode(' ', $name);
+    if (count($name_words) > 5) {
+        $name = implode(' ', array_slice($name_words, 0, 5));
+    }
+}
+
+
 $sql_dosen = "SELECT COUNT(*) AS jumlah_dosen FROM users WHERE role = 'dosen'";
 $result_dosen = $conn->query($sql_dosen);
 $jumlah_dosen = $result_dosen->fetch_assoc()['jumlah_dosen'];
@@ -60,13 +74,7 @@ $conn->close();
   <!-- Main CSS File -->
   <link href="../../assets/css/main.css" rel="stylesheet">
 
-  <!-- =======================================================
-  * Template Name: iLanding
-  * Template URL: https://bootstrapmade.com/ilanding-bootstrap-landing-page-template/
-  * Updated: Nov 12 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+
 </head>
 
 <body class="index-page">
@@ -94,8 +102,9 @@ $conn->close();
                 </script>
 
               <h1 class="mb-4">
-                Selamat Datang <br>
-                Learning Management System <br>
+                Selamat Datang,<br>
+                <?php echo htmlspecialchars($name); ?><br>
+                LMS 
                 <span class="accent-text">ClassTIcs</span>
               </h1>
 
