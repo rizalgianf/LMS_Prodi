@@ -306,8 +306,8 @@ $conn->close();
                     <th>Nama Mahasiswa</th>
                     <th>Hadir</th>
                     <th>Izin</th>
-                    <th>Tanpa Keterangan</th>
                     <th>Sakit</th>
+                    <th>Tanpa Keterangan</th>
                 </tr>
             </thead>
             <tbody>
@@ -316,8 +316,8 @@ $conn->close();
                         <td><?php echo $mahasiswa['nama']; ?></td>
                         <td><input type="radio" name="absensi[<?php echo $mahasiswa['id']; ?>]" value="Hadir" <?php echo (isset($absensi_list[$mahasiswa['id']]) && $absensi_list[$mahasiswa['id']]['status'] == 'Hadir') ? 'checked' : ''; ?>></td>
                         <td><input type="radio" name="absensi[<?php echo $mahasiswa['id']; ?>]" value="Izin" <?php echo (isset($absensi_list[$mahasiswa['id']]) && $absensi_list[$mahasiswa['id']]['status'] == 'Izin') ? 'checked' : ''; ?>></td>
-                        <td><input type="radio" name="absensi[<?php echo $mahasiswa['id']; ?>]" value="Tanpa Keterangan" <?php echo (isset($absensi_list[$mahasiswa['id']]) && $absensi_list[$mahasiswa['id']]['status'] == 'Tanpa Keterangan') ? 'checked' : ''; ?>></td>
                         <td><input type="radio" name="absensi[<?php echo $mahasiswa['id']; ?>]" value="Sakit" <?php echo (isset($absensi_list[$mahasiswa['id']]) && $absensi_list[$mahasiswa['id']]['status'] == 'Sakit') ? 'checked' : ''; ?>></td>
+                        <td><input type="radio" name="absensi[<?php echo $mahasiswa['id']; ?>]" value="Tanpa Keterangan" <?php echo (isset($absensi_list[$mahasiswa['id']]) && $absensi_list[$mahasiswa['id']]['status'] == 'Tanpa Keterangan') ? 'checked' : ''; ?>></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
