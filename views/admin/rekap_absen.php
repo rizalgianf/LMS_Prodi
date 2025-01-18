@@ -1,6 +1,5 @@
 <?php
 // filepath: /E:/GITHUB REPOSITORY/SIAKAD/views/admin/rekap_absen.php
-// Mulai session dan pastikan pengguna telah login sebagai admin
 session_start();
 if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
     header("Location: ../../login.php");
@@ -34,6 +33,7 @@ if ($result_semester->num_rows > 0) {
 // Ambil data rekap absensi dari database
 $sort_cohort = $_GET['sort_cohort'] ?? '';
 $sort_semester = $_GET['sort_semester'] ?? '';
+$sort_mata_kuliah = $_GET['sort_mata_kuliah'] ?? '';
 
 $sql_rekap = "SELECT pertemuan.id, pertemuan.tanggal, pertemuan.topik, cohort.nama_cohort, mata_kuliah.nama AS mata_kuliah, users.nama AS dosen, semester.nama_semester,
               COUNT(absensi.id) AS total_mahasiswa,
@@ -63,12 +63,18 @@ if ($sort_semester) {
     $types .= 'i';
 }
 
+if ($sort_mata_kuliah) {
+    $conditions[] = "mata_kuliah.id = ?";
+    $params[] = $sort_mata_kuliah;
+    $types .= 'i';
+}
+
 if ($conditions) {
     $sql_rekap .= " WHERE " . implode(" AND ", $conditions);
 }
 
 $sql_rekap .= " GROUP BY pertemuan.id, pertemuan.tanggal, pertemuan.topik, cohort.nama_cohort, mata_kuliah.nama, users.nama, semester.nama_semester
-                ORDER BY pertemuan.tanggal ASC";
+                ORDER BY cohort.nama_cohort ASC, semester.nama_semester ASC, mata_kuliah.nama ASC, pertemuan.tanggal ASC";
 
 $stmt_rekap = $conn->prepare($sql_rekap);
 if ($params) {
@@ -162,13 +168,17 @@ $conn->close();
                     </option>
                 <?php endforeach; ?>
             </select>
-            <select name="sort_semester" id="sort_semester" onchange="this.form.submit()">
+            <select name="sort_semester" id="sort_semester" onchange="updateMataKuliahOptions(); this.form.submit();">
                 <option value="">Pilih Semester</option>
                 <?php foreach ($semester_list as $semester): ?>
                     <option value="<?php echo $semester['id']; ?>" <?php if ($sort_semester == $semester['id']) echo 'selected'; ?>>
                         <?php echo $semester['nama_semester']; ?>
                     </option>
                 <?php endforeach; ?>
+            </select>
+            <select name="sort_mata_kuliah" id="sort_mata_kuliah" onchange="this.form.submit()">
+                <option value="">Pilih Mata Kuliah</option>
+                <!-- Mata kuliah options will be populated by JavaScript -->
             </select>
             <button type="submit"><i class="fas fa-search"></i></button>
         </div>
@@ -256,6 +266,33 @@ $conn->close();
                     modal.style.display = "block";
                 });
         }
+    }
+
+    // Function to update Mata Kuliah options based on selected Semester
+    function updateMataKuliahOptions() {
+        var semesterId = document.getElementById("sort_semester").value;
+        var mataKuliahSelect = document.getElementById("sort_mata_kuliah");
+
+        // Clear existing options
+        mataKuliahSelect.innerHTML = '<option value="">Pilih Mata Kuliah</option>';
+
+        if (semesterId) {
+            fetch('get_mata_kuliah.php?semester_id=' + semesterId)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(function(mataKuliah) {
+                        var option = document.createElement("option");
+                        option.value = mataKuliah.id;
+                        option.text = mataKuliah.nama;
+                        mataKuliahSelect.add(option);
+                    });
+                });
+        }
+    }
+
+    // Initialize Mata Kuliah options if a Semester is already selected
+    if (document.getElementById("sort_semester").value) {
+        updateMataKuliahOptions();
     }
 </script>
 </body>

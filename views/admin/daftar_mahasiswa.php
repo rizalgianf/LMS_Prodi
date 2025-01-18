@@ -1,5 +1,5 @@
 <?php
-// Mulai session dan pastikan pengguna telah login sebagai admin
+// filepath: /E:/GITHUB REPOSITORY/SIAKAD/views/admin/daftar_mahasiswa.php
 session_start();
 if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
     header("Location: ../../login.php");
@@ -40,6 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['daftar_mahasiswa'])) {
 // Ambil data mahasiswa dari database
 $search = $_GET['search'] ?? '';
 $sort_semester = $_GET['sort_semester'] ?? '';
+$sort_cohort = $_GET['sort_cohort'] ?? '';
 $sql_mahasiswa = "SELECT users.id, users.nama, users.username, users.nim, semester.nama_semester, cohort.nama_cohort 
                   FROM users 
                   LEFT JOIN semester ON users.semester_id = semester.id 
@@ -48,11 +49,18 @@ $sql_mahasiswa = "SELECT users.id, users.nama, users.username, users.nim, semest
 if ($sort_semester) {
     $sql_mahasiswa .= " AND semester.nama_semester = ?";
 }
-$sql_mahasiswa .= " ORDER BY semester.nama_semester ASC";
+if ($sort_cohort) {
+    $sql_mahasiswa .= " AND cohort.nama_cohort = ?";
+}
+$sql_mahasiswa .= " ORDER BY semester.nama_semester ASC, cohort.nama_cohort ASC";
 $stmt = $conn->prepare($sql_mahasiswa);
 $search_param = "%$search%";
-if ($sort_semester) {
+if ($sort_semester && $sort_cohort) {
+    $stmt->bind_param("sss", $search_param, $sort_semester, $sort_cohort);
+} elseif ($sort_semester) {
     $stmt->bind_param("ss", $search_param, $sort_semester);
+} elseif ($sort_cohort) {
+    $stmt->bind_param("ss", $search_param, $sort_cohort);
 } else {
     $stmt->bind_param("s", $search_param);
 }
@@ -137,6 +145,18 @@ $conn->close();
                 <?php foreach ($semester_list as $semester): ?>
                     <option value="<?php echo $semester['nama_semester']; ?>" <?php if ($sort_semester == $semester['nama_semester']) echo 'selected'; ?>>
                         <?php echo $semester['nama_semester']; ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            <button type="submit"><i class="fas fa-sort"></i></button>
+        </div>
+        <label for="sort_cohort" class="sr-only">Urutkan berdasarkan Cohort:</label>
+        <div class="search-container">
+            <select name="sort_cohort" id="sort_cohort" onchange="this.form.submit()">
+                <option value="">Pilih Cohort</option>
+                <?php foreach ($cohort_list as $cohort): ?>
+                    <option value="<?php echo $cohort['nama_cohort']; ?>" <?php if ($sort_cohort == $cohort['nama_cohort']) echo 'selected'; ?>>
+                        <?php echo $cohort['nama_cohort']; ?>
                     </option>
                 <?php endforeach; ?>
             </select>
