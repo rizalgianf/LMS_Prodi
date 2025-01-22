@@ -77,8 +77,36 @@ $conn->close();
         <button type="submit" name="update_cohort">Update Cohort</button>
     </form>
     <a href="daftar_cohort.php" class="button kembali">Kembali</a>
+    <?php include '../../includes/footer.php'; ?>
+<style>
+    .button {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        text-align: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+        background-color: #0056b3;
+    }
+
+    .button.kembali {
+        background-color: #6c757d;
+    }
+
+    .button.kembali:hover {
+        background-color: #5a6268;
+    }
+</style>
 </main>
 
-<?php include '../../includes/footer.php'; ?>
+
 </body>
 </html>
