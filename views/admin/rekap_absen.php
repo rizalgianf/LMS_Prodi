@@ -201,6 +201,7 @@ $conn->close();
         </thead>
         <tbody>
             <?php foreach ($rekap_list as $rekap): ?>
+                <?php $persentase_kehadiran = $rekap['total_mahasiswa'] > 0 ? round(($rekap['jumlah_hadir'] / $rekap['total_mahasiswa']) * 100, 2) : 0; ?>
                 <tr>
                     <td><?php echo $rekap['nama_cohort']; ?></td>
                     <td><?php echo $rekap['mata_kuliah']; ?></td>
@@ -208,11 +209,11 @@ $conn->close();
                     <td><?php echo $rekap['nama_semester']; ?></td>
                     <td><?php echo $rekap['tanggal']; ?></td>
                     <td><?php echo $rekap['topik']; ?></td>
-                    <td><?php echo $rekap['total_mahasiswa']; ?></td>
-                    <td><?php echo $rekap['jumlah_hadir']; ?></td>
-                    <td><?php echo $rekap['jumlah_tidak_hadir']; ?></td>
-                    <td><?php echo $rekap['total_mahasiswa'] > 0 ? round(($rekap['jumlah_hadir'] / $rekap['total_mahasiswa']) * 100, 2) . '%' : '0%'; ?></td>
-                    <td><button class="detail-btn" data-id="<?php echo $rekap['id']; ?>">Detail</button></td>
+                    <td><?php echo $persentase_kehadiran > 0 ? $rekap['total_mahasiswa'] : '-'; ?></td>
+                    <td><?php echo $persentase_kehadiran > 0 ? $rekap['jumlah_hadir'] : '-'; ?></td>
+                    <td><?php echo $persentase_kehadiran > 0 ? $rekap['jumlah_tidak_hadir'] : '-'; ?></td>
+                    <td><?php echo $persentase_kehadiran > 0 ? $persentase_kehadiran . '%' : '0%'; ?></td>
+                    <td><?php echo $persentase_kehadiran > 0 ? '<button class="detail-btn" data-id="' . $rekap['id'] . '">Detail</button>' : '-'; ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
