@@ -1,5 +1,4 @@
 <?php
-// filepath: /e:/GITHUB REPOSITORY/SIAKAD/views/admin/kelola_pertemuan.php
 // Check if a session is already started
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
@@ -299,7 +298,7 @@ $conn->close();
     </table>
 
     <h3>Absensi Mahasiswa</h3>
-    <form action="kelola_pertemuan.php?id=<?php echo $pertemuan_id; ?>" method="POST">
+    <form id="absensi-form" action="kelola_pertemuan.php?id=<?php echo $pertemuan_id; ?>" method="POST" onsubmit="return validateAbsensiForm()">
         <table class="data-table">
             <thead>
                 <tr>
@@ -343,5 +342,25 @@ $conn->close();
 </main>
 
 <?php include '../../includes/footer.php'; ?>
+
+<script>
+function validateAbsensiForm() {
+    const radios = document.querySelectorAll('input[type="radio"]');
+    const mahasiswaIds = new Set();
+    radios.forEach(radio => {
+        if (radio.checked) {
+            mahasiswaIds.add(radio.name);
+        }
+    });
+
+    const totalMahasiswa = document.querySelectorAll('input[type="radio"][name^="absensi"]').length / 4;
+    if (mahasiswaIds.size !== totalMahasiswa) {
+        alert("Semua status kehadiran harus diisi sebelum menyimpan absensi.");
+        return false;
+    }
+    return true;
+}
+</script>
+
 </body>
 </html>
