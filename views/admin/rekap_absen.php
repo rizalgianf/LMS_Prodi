@@ -297,4 +297,10 @@ $conn->close();
     }
 </script>
 </body>
+<form action="export_csv.php" method="POST">
+    <input type="hidden" name="sort_cohort" value="<?php echo $sort_cohort; ?>">
+    <input type="hidden" name="sort_semester" value="<?php echo $sort_semester; ?>">
+    <input type="hidden" name="sort_mata_kuliah" value="<?php echo $sort_mata_kuliah; ?>">
+    <button type="submit" name="export_csv">Export to CSV</button>
+</form>
 </html>
