@@ -169,6 +169,12 @@ function updateWaktuSelesai() {
     const waktuSelesai = waktuSelesaiDate.toTimeString().split(' ')[0].substring(0, 5);
     document.getElementById('waktu_selesai').value = waktuSelesai;
 }
+
+// Set minimum date to today
+document.addEventListener('DOMContentLoaded', function() {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('tanggal').setAttribute('min', today);
+});
 </script>
 
 <?php include '../../includes/footer.php'; ?>
